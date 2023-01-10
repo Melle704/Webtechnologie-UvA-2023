@@ -13,4 +13,4 @@ elif command -v /root/.local/bin/vpn-slice; then
     vpn_slice="~/.local/bin/vpn-slice"
 fi
 
-sudo openconnect --protocol=nc vpn.uva.nl -s "$vpn_slice 83.96.0.0/16 85.10.0.0/16"
+openconnect --protocol=nc vpn.uva.nl -s "$vpn_slice 83.96.0.0/16 85.10.0.0/16"
