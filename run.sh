@@ -7,9 +7,7 @@ if ! docker image ls webtech | grep -q webtech; then
     cat <<EOF | docker build -t webtech -
     FROM mattrayner/lamp:latest-2004-php8
 
-    # future commands go here :)
-
-    CMD ["/run.sh"]
+    # ..future `RUN` commands go here :)
 EOF
 fi
 
