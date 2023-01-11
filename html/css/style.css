@@ -1,17 +1,19 @@
+* {
+    color: #DDDDDD;
+}
+
 body {
-	background-color: #151515;
-    color: #FFFFFF;
+	background-color: #141617;
     margin: 0 auto;
     padding: 0.8rem 1.3rem 0.8rem 1.3rem;
+    line-height: normal;
 }
 
 div {
-    line-height: normal;
     font-family: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 
 a {
-    color: #DDDDDD;
     text-decoration: none;
 }
 
@@ -26,15 +28,31 @@ ul {
     display: inline;
 }
 
-.header {
-    margin-bottom: 0.75rem;
+.box {
+    background-color: #282828;
+
+    border-radius: 0.25rem;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #353535;
+
+    margin-bottom: 0.65rem;
 }
 
-.box {
+.box-title {
+    color: white;
+}
+
+.box-head {
+    border-top: 4px solid #CC241D;
+}
+
+.box-light {
+    background-color: #3d3c3b;
 }
 
 .box-row {
-    padding: 0.375px 0.75rem 0.25rem;
+    padding: 0.5rem 0.75rem 0.5rem;
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -44,7 +62,7 @@ ul {
 }
 
 .box-row span {
-    color: Tomato;
+    color: #fb4934;
 }
 
 .box-left {
