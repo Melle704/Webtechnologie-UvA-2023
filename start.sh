@@ -11,4 +11,4 @@ if ! docker image ls webtech | grep -q webtech; then
 EOF
 fi
 
-docker run -p 80:80 -p 3306:3306 -v ${PWD}/www/html:/app webtech
+docker run -p 80:80 -p 3306:3306 -v ${PWD}/html:/app webtech

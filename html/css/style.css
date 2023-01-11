@@ -1,0 +1,42 @@
+body {
+	background-color: #151515;
+    color: #FFFFFF;
+    margin: 0 auto;
+    padding: 0.8rem 1.3rem 0.8rem 1.3rem;
+}
+
+div {
+    line-height: normal;
+    font-family: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+}
+
+a {
+    color: #DDDDDD;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    margin: 0;
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+}
+
+.header {
+    margin-bottom: 0.75rem;
+}
+
+.box {
+}
+
+.box-row {
+    padding: 0.375px 0.75rem;
+}
+
+.box-row li {
+    display: inline;
+    margin-right: 0.75rem;
+}
