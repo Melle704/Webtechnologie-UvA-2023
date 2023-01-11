@@ -40,3 +40,7 @@ ul {
     display: inline;
     margin-right: 0.75rem;
 }
+
+.box-row span {
+    color: Tomato;
+}

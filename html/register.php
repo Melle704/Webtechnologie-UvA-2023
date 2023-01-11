@@ -16,7 +16,7 @@
     <div class="header">
         <div class="box">
             <div class="box-row">
-                <span style="color: Tomato;">MAGIC</span> THE GATHERING
+                <span>MAGIC</span> THE GATHERING
             </div>
             <div class="box-row">
                 <ul>
