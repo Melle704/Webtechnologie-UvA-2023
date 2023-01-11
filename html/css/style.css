@@ -23,6 +23,7 @@ ul {
     margin: 0;
     padding: 0.3rem 0;
     font-size: 0.9rem;
+    display: inline;
 }
 
 .header {
@@ -33,14 +34,31 @@ ul {
 }
 
 .box-row {
-    padding: 0.375px 0.75rem;
+    padding: 0.375px 0.75rem 0.25rem;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .box-row li {
     display: inline;
-    margin-right: 0.75rem;
 }
 
 .box-row span {
     color: Tomato;
+}
+
+.box-left {
+  float: left;
+}
+
+.box-left li {
+  margin-right: 0.75rem;
+}
+
+.box-right {
+  float: right;
+}
+
+.box-right li {
+  margin-left: 0.75rem;
 }
