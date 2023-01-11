@@ -8,9 +8,9 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 if command -v vpn-slice; then
-    vpn_slice="vpn-slice"
-elif command -v /root/.local/bin/vpn-slice; then
-    vpn_slice="~/.local/bin/vpn-slice"
+    openconnect --protocol=nc vpn.uva.nl -s "vpn-slice 83.96.0.0/16 85.10.0.0/16"
+elif command -v ~/.local/bin/vpn-slice; then
+    openconnect --protocol=nc vpn.uva.nl -s "~/.local/bin/vpn-slice 83.96.0.0/16 85.10.0.0/16"
+else
+    openconnect --protocol=nc vpn.uva.nl
 fi
-
-openconnect --protocol=nc vpn.uva.nl -s "$vpn_slice 83.96.0.0/16 85.10.0.0/16"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # NOTE: have to be part of the `docker` group (relog on adding yourself to the group)
 
