@@ -24,15 +24,28 @@
         .box-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 16px;
+        }
+
+        #product-image {
+            flex-grow: 1;
+        }
+
+        #product-info {
+            flex-grow: 8;
         }
 
         .box-item {
             padding: 16px;
         }
 
-        .box-item h2 {
-            margin-top: 0;
+        h1 {
+            margin-top: 8px;
+        }
+
+        img {
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -60,20 +73,16 @@
         </div>
     </div>
     <div class="box box-row box-container">
-        <?php
-        $cards = ["Test", "Test", "Test", "Test", "Test", "Test", "Test"];
-        foreach($cards as $card):
-        ?>
-            <div class="box box-item">
-                <h2>
-                    <a href="product.php"><?php echo $card; ?></a>
-                    <span class="box-right">
-                        €3,-
-                    </span>
-                    </h2>
-                <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
-            </div>
-        <?php endforeach; ?>
+        <div id="product-image">
+            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
+        </div>
+        <div id="product-info">
+            <h1>
+                Test product
+                <span>€3,-</span>
+            </h1>
+            <a href="">Example user</a> on 01/01/2023
+        </div>
     </div>
 
 </body>
