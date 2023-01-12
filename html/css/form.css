@@ -37,7 +37,15 @@
     outline: none;
 }
 
+.form input[type="checkbox"] {
+    accent-color: #FE8019;
+}
+
 .form select {
     border: 2px solid #373737;
     background-color: #202020;
+}
+
+.form-after {
+    clear: both;
 }

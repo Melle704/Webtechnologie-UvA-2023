@@ -144,8 +144,7 @@
         <a href="https://cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/IFAKFZOGE5GXRBOPSAXN334SOY.jpg" target="_blank">credits to the CCP</a>
     </div>
 
+    <script>document.getElementById('uname').focus()</script>
 </body>
-
-<script>document.getElementById('uname').focus()</script>
 
 </html>
