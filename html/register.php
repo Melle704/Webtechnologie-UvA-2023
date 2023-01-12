@@ -8,6 +8,7 @@
     <title>MTG | Registration</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
 </head>
