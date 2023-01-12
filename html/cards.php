@@ -15,8 +15,10 @@
 <body>
     <div class="box">
         <div class="box-head">
-            <div class="box-row box-title">
-                <span>MAGIC</span> THE GATHERING
+            <div class="box-row">
+                <div class="box-title">
+                    <span>MAGIC</span> THE GATHERING
+                </div>
             </div>
             <div class="box-row box-light">
                 <div class="box-left">
