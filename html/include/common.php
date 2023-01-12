@@ -1,31 +1,30 @@
 <?php
 
-function return_home($err = "") {
-    $redirect = "Location: /index.php";
-
-    if ($err != "") {
-        $redirect = "$redirect?\"$err\"";
-    }
-
-    header($redirect);
-    exit();
+function home() {
+    header("Location: /index.php");
+    exit;
 }
 
-function return_alert($err = "") {
-    $redirect = "Location: /index.php";
+function reload() {
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit;
+}
+
+function reload_err($err = "") {
+    $redirect = "Location: " . $_SERVER["PHP_SELF"];
 
     if ($err != "") {
-        $redirect = "$redirect?\"$err\"";
+        $redirect = "$redirect?error=\"$err\"";
     }
 
     header($redirect);
-    exit();
+    exit;
 }
 
 function validate_not_empty(...$variables) {
     foreach ($variables as [$name, $var]) {
         if (empty($var)) {
-            return_home("form field '$name' is not set");
+            reload_err("Form field '$name' is not set");
         }
     }
 }
@@ -33,7 +32,7 @@ function validate_not_empty(...$variables) {
 function validate_predicates(...$variables) {
     foreach ($variables as [$msg, $predicate]) {
         if (!$predicate) {
-            return_home($msg);
+            reload_err($msg);
         }
     }
 }

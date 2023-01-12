@@ -1,5 +1,6 @@
 <?php
 
+// verbose error reporting (remove in live version)
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
@@ -35,19 +36,19 @@ if ($_GET["action"] == "register") {
     );
 
     validate_predicates(
-        ["passwords don't match", $passwd1 == $passwd2],
-        ["password is too long", strlen($passwd1) < 500],
-        ["confirmation password is too long", strlen($passwd2) < 500],
-        ["name is too long", strlen($username) < 25],
-        ["name must be alphanumeric", ctype_alnum($username)],
-        ["date format is incorrect", checkdate($month, $day, $year)],
-        ["email is too long", strlen($email) < 30],
-        ["email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
+        ["Passwords don't match", $passwd1 == $passwd2],
+        ["Password is too long", strlen($passwd1) < 500],
+        ["Confirmation password is too long", strlen($passwd2) < 500],
+        ["Name is too long", strlen($username) < 25],
+        ["Name must be alphanumeric", ctype_alnum($username)],
+        ["Date format is incorrect", checkdate($month, $day, $year)],
+        ["Email is too long", strlen($email) < 30],
+        ["Email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
         ["user '$username' already exists", !user_exists($db, $username)]
     );
 
     user_create($db, $username, $email, "$year-$month-$day", $passwd1);
-    return_home();
+    home();
 }
 
 // handle login button submit from `login.php`
@@ -69,5 +70,5 @@ if ($_GET["action"] == "login") {
         ["checkbox must be checked or unchecked", $stay_logged == "0" || $stay_logged == "1"]
     );
 
-    return_home();
+    home();
 }

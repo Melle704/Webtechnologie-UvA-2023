@@ -15,12 +15,16 @@
 </head>
 
 <body>
+
 <?php include_once "header.php";?>
+
+<?php include_once "include/errors.php";?>
 
 <div class="box">
     <div class="box-row box-light">
         <b>Register</b>
     </div>
+
     <div class="box-row form">
         <form action="/register.php?action=register" method="post" onsubmit="validate_form()">
             <fieldset>
