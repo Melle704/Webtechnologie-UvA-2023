@@ -28,6 +28,36 @@ ul {
     display: inline;
 }
 
+.form {
+    margin: 0.5rem;
+}
+
+.form fieldset {
+    border-color: #4F5459;
+    margin-bottom: 1rem;
+}
+
+.form legend {
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+    color: #FE8019 /* #60A0DC; */
+}
+
+.form b {
+    display: block;
+    font-size: 0.75rem;
+}
+
+.form span {
+    display: block;
+}
+
+.form label {
+    float: left;
+    margin: 3px 0.75rem 3px 0;
+    display: block;
+}
+
 .box {
     background-color: #282828;
 
@@ -42,6 +72,10 @@ ul {
 .box-title {
     font-size: 1rem;
     color: white;
+}
+
+.box-title span {
+    color: #fb4934;
 }
 
 .box-head {
@@ -61,10 +95,6 @@ ul {
 
 .box-row li {
     display: inline;
-}
-
-.box-row span {
-    color: #fb4934;
 }
 
 .box-left {
