@@ -132,7 +132,7 @@
                         </select>
                     </label>
                     <label>
-                        <input name="year" placeholder="Year" size="4" maxlength="4">
+                        <input name="year" placeholder="year" size="4" maxlength="4">
                     </label>
                 </fieldset>
             </form>

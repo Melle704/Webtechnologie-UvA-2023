@@ -29,4 +29,15 @@
 }
 
 .form input {
+    border: 2px solid #373737;
+    background-color: #202020;
+}
+
+.form input:focus {
+    outline: none;
+}
+
+.form select {
+    border: 2px solid #373737;
+    background-color: #202020;
 }
