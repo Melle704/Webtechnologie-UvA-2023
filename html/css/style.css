@@ -15,6 +15,7 @@ div {
 
 a {
     text-decoration: none;
+    color: #60A0DC;
 }
 
 a:hover {
@@ -79,4 +80,12 @@ ul {
 
 .box-right li {
   margin-left: 0.75rem;
+}
+
+.box-left a {
+    color: #DDDDDD;
+}
+
+.box-right a {
+    color: #DDDDDD;
 }
