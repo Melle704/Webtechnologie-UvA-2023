@@ -26,7 +26,7 @@
     </div>
 
     <div class="box-row form">
-        <form action="/register.php?action=register" method="post" onsubmit="validate_form()">
+        <form action="/register.php?action=register" method="post">
             <fieldset>
                 <legend>
                     A username between 1 and 25 characters (with no embedded sql code)

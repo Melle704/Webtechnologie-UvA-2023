@@ -38,7 +38,9 @@ if ($_GET["action"] == "register") {
     validate_predicates(
         ["Passwords don't match", $passwd1 == $passwd2],
         ["Password is too long", strlen($passwd1) < 500],
+        ["Password contains invalid characters", alphanumeric_plus_plus($passwd1)],
         ["Confirmation password is too long", strlen($passwd2) < 500],
+        ["Confirmation Password contains invalid characters", alphanumeric_plus_plus($passwd2)],
         ["Name is too long", strlen($username) < 25],
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Date format is incorrect", checkdate($month, $day, $year)],
@@ -67,6 +69,7 @@ if ($_GET["action"] == "login") {
         ["Name is too long", strlen($username) < 25],
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Password is too long", strlen($passwd) < 500],
+        ["Password contains invalid characters", alphanumeric_plus_plus($passwd)],
     );
 
     $user = find_user($db, $username);

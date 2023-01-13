@@ -37,6 +37,10 @@ function validate_predicates(...$predicates) {
     }
 }
 
+function alphanumeric_plus_plus($s) {
+    return !preg_match("/^[A-Za-z0-9_@.\/#!%^$?*&+-`~]*$/", $s);
+}
+
 function find_user($db, $username) {
     $sql = "SELECT * FROM users WHERE uname = ?";
     $stmt = mysqli_stmt_init($db);
