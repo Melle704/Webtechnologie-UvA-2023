@@ -67,6 +67,10 @@ ul {
     border-color: #353535;
 
     margin-bottom: 0.65rem;
+
+    max-width: 75rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .box-title {
