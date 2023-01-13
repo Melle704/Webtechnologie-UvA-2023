@@ -4,11 +4,16 @@
 
 # NOTE: you have to rebuild the docker image on changing this dockerfile
 if ! docker image ls webtech | grep -q webtech; then
-    cat <<EOF | docker build -t webtech -
-    FROM mattrayner/lamp:latest-2004-php8
-
-    # ..future `RUN` commands go here :)
-EOF
+    docker build -t webtech .
 fi
 
-docker run -p 80:80 -p 3306:3306 -v ${PWD}/html:/app webtech
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
+docker run \
+    -p 80:80 \
+    -p 3306:3306 \
+    -v ${PWD}/html:/app \
+    --name webtech \
+    webtech

@@ -1,5 +1,6 @@
 <?php
 
+// credentials of test database
 $hostname = "localhost";
 $user_name = "admin";
 $passwd = "mLqXRHVJ7B2c";
