@@ -1,9 +1,5 @@
 <?php
 
-// verbose error reporting (remove in live version)
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
 include_once "common.php";
 
 // FIXME: check if user is already logged in, returning early
@@ -44,6 +40,7 @@ if ($_GET["action"] == "register") {
         ["Name is too long", strlen($username) < 25],
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Date format is incorrect", checkdate($month, $day, $year)],
+        ["I don't believe you", $year < 120],
         ["Email is too long", strlen($email) < 30],
         ["Email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
         ["User '$username' already exists", !find_user($db, $username)]
@@ -82,5 +79,7 @@ if ($_GET["action"] == "login") {
         reload_err("Incorrect username and/or password");
     }
 
+    session_start();
+    $_SESSION["id"] = $user["id"];
     home();
 }

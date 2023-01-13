@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <div class="box">
     <div class="box-head">
         <div class="box-row">
@@ -14,8 +16,13 @@
             </div>
             <div class="box-right">
                 <ul>
+                <?php if (isset($_SESSION["id"])): ?>
+                    <li><a href="profile.php?id=<?php echo $_SESSION["id"];?>">Profile</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                <?php else: ?>
                     <li><a href="login.php">Login</a></li>
                     <li><a href="register.php">Register</a></li>
+                <?php endif; ?>
                 </ul>
             </div>
         </div>

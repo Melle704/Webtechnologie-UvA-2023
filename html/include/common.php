@@ -38,7 +38,7 @@ function validate_predicates(...$predicates) {
 }
 
 function alphanumeric_plus_plus($s) {
-    return !preg_match("/^[A-Za-z0-9_@.\/#!%^$?*&+-`~]*$/", $s);
+    return preg_match("/^[\w_@.\/#!%^$?*&+-`~]*$/", $s);
 }
 
 function find_user($db, $username) {
