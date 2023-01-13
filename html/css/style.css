@@ -107,6 +107,10 @@ ul {
     display: inline;
 }
 
+.box-row br {
+    margin-bottom: 3px;
+}
+
 .box-left {
   float: left;
 }

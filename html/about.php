@@ -13,41 +13,24 @@
 </head>
 
 <body>
-    <div class="box">
-        <div class="box-head">
-            <div class="box-row">
-                <div class="box-title">
-                    <span>MAGIC</span> THE GATHERING
-                </div>
-            </div>
-            <div class="box-row box-light">
-                <div class="box-left">
-                    <ul>
-                        <li><a href="index.php">Index</a></li>
-                        <li><a href="cards.php">Cards</a></li>
-                    </ul>
-                </div>
-                <div class="box-right">
-                    <ul>
-                        <li><a href="login.php">Login</a></li>
-                        <li><a href="register.php">Register</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+<?php include_once "header.php";?>
 
-    <div class="box box-row">
-        <form action="/register.php?register/register" method="post" onsubmit="this.register.disabled=true;if(process_form(this)){return true;}else{this.register.disabled=false;return false;}">
-        </form>
-        <p>
-		Fakka Gangsters!
-        </p>
-    </div>
+<div class="box box-row">
+    <p>
+    Fakka Gangsters!
+    </p>
+</div>
 
-    <div class="box box-row">
-        <a href="https://cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/IFAKFZOGE5GXRBOPSAXN334SOY.jpg" target="_blank">credits to the chinese government</a>
-    </div>
+<div class="box box-row">
+    Credits to
+    <b>Nicolas Mazzon</b>,
+    <b>Sebastian Gielens</b>,
+    <b>Ceylan Siegertsz</b> and
+    <b>Kas Visser</b>
+    <br>
+    <a href="/about.php">About us</a></li>
+    <br>
+</div>
 
 </body>
 

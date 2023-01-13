@@ -45,7 +45,7 @@
                 </label>
                 <label class="form-after">
                     <input type="checkbox" name="stay_logged" value="1" tabindex="3">
-                    Remain logged in till the session expires
+                    Remain logged in for the remainder of the session
                 </label>
             </fieldset>
             <input type="submit" name="submit" value="Login">
@@ -54,7 +54,14 @@
 </div>
 
 <div class="box box-row">
-    <a href="https://cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/IFAKFZOGE5GXRBOPSAXN334SOY.jpg" target="_blank">credits to the CCP</a>
+    Credits to
+    <b>Nicolas Mazzon</b>,
+    <b>Sebastian Gielens</b>,
+    <b>Ceylan Siegertsz</b> and
+    <b>Kas Visser</b>
+    <br>
+    <a href="/about.php">About us</a></li>
+    <br>
 </div>
 
 <script>document.getElementById('uname').focus()</script>

@@ -124,7 +124,14 @@
 </div>
 
 <div class="box box-row">
-    <a href="https://cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/IFAKFZOGE5GXRBOPSAXN334SOY.jpg" target="_blank">credits to the CCP</a>
+    Credits to
+    <b>Nicolas Mazzon</b>,
+    <b>Sebastian Gielens</b>,
+    <b>Ceylan Siegertsz</b> and
+    <b>Kas Visser</b>
+    <br>
+    <a href="/about.php">About us</a></li>
+    <br>
 </div>
 
 <script>document.getElementById('uname').focus()</script>

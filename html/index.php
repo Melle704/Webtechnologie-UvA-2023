@@ -24,14 +24,15 @@
 </div>
 
 <div class="box box-row">
-    <a href="https://cloudfront-us-east-1.images.arcpublishing.com/metroworldnews/IFAKFZOGE5GXRBOPSAXN334SOY.jpg" target="_blank">credits to the chinese government</a>
+    Credits to
+    <b>Nicolas Mazzon</b>,
+    <b>Sebastian Gielens</b>,
+    <b>Ceylan Siegertsz</b> and
+    <b>Kas Visser</b>
+    <br>
+    <a href="/about.php">About us</a></li>
+    <br>
 </div>
-
-    <div class="box box-row">
-        <ul>
-            <li><a href="about.php" style="color: #b5b5b5">About us</a></li>
-        </ul>
-    </div>
 
 </body>
 
