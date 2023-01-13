@@ -1,11 +1,14 @@
 #!/bin/bash
 
+set -m
 /run.sh &
 
-echo "=> Waiting for mysql"
+echo "=> Waiting for MySQL ..."
 until mysql -uroot &> /dev/null; do
   sleep 1
 done
+
+passwd='$2y$10$zlU3A1foU9tBmOIL9K7fJ.OJwo7unIBJve/KI2WkrpRedE3ote15K'
 
 cat <<EOF | mysql -uroot
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -36,7 +39,7 @@ CREATE TABLE users (
 --
 
 INSERT INTO users (id, uname, email, dob, passwd) VALUES
-(1, "admin", "email@address.com", "1996-08-01", "$2y$10$zlU3A1foU9tBmOIL9K7fJ.OJwo7unIBJve/KI2WkrpRedE3ote15K");
+(1, "admin", "email@address.com", "1996-08-01", "$passwd");
 
 --
 -- Indexes for table `users`
@@ -50,5 +53,5 @@ ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 EOF
 
-echo "=> Database generated"
-wait
+echo "=> Database generated!"
+fg
