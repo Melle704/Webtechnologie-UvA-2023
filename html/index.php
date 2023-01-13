@@ -52,7 +52,9 @@
     </div>
 
     <div class="box box-row">
-        <li><a href="about.php" style="color: #b5b5b5">About us</a></li>
+        <ul>
+            <li><a href="about.php" style="color: #b5b5b5">About us</a></li>
+        </ul>
     </div>
 
 </body>
