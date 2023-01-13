@@ -57,17 +57,17 @@ if ($_GET["action"] == "login") {
     $passwd = trim($_POST["passwd"]);
     $stay_logged = $_POST["stay_logged"];
 
+    require_once "db.php";
+
     validate_not_empty(
-        ["name", $username],
-        ["passwd", $passwd],
-        ["stay_logged", $stay_logged]
+        ["username", $username],
+        ["password", $passwd],
     );
 
     validate_predicates(
         ["name is too long", strlen($username) < 25],
         ["name must be alphanumeric", ctype_alnum($username)],
-        ["password is too long", strlen($passwd1) < 25],
-        ["checkbox must be checked or unchecked", $stay_logged == "0" || $stay_logged == "1"]
+        ["password is too long", strlen($passwd) < 500],
     );
 
     home();

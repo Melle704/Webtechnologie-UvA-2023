@@ -29,8 +29,8 @@ function validate_not_empty(...$variables) {
     }
 }
 
-function validate_predicates(...$variables) {
-    foreach ($variables as [$msg, $predicate]) {
+function validate_predicates(...$predicates) {
+    foreach ($predicates as [$msg, $predicate]) {
         if (!$predicate) {
             reload_err($msg);
         }
