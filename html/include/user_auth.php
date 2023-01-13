@@ -80,6 +80,9 @@ if ($_GET["action"] == "login") {
     }
 
     session_start();
+
     $_SESSION["id"] = $user["id"];
+    $_SESSION["uname"] = $user["uname"];
+
     home();
 }

@@ -26,5 +26,15 @@
                 </ul>
             </div>
         </div>
+        <?php if (isset($_SESSION["uname"])): ?>
+        <div class="box-row">
+            <div class="box-left">
+                Logged in as <b><?php echo $_SESSION["uname"];?></b>
+            </div>
+            <div class="box-right">
+                <?php echo date("d M Y") . " at " . date("g:i:s a");?>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
