@@ -1,5 +1,5 @@
 * {
-    color: #DDDDDD;
+    color: #CECECE;
 }
 
 body {
@@ -67,6 +67,12 @@ ul {
     border-color: #353535;
 
     margin-bottom: 0.65rem;
+}
+
+.box-error {
+    color: #DBDBDB;
+    font-weight: 600;
+    font-size: 0.8rem;
 }
 
 .box-title {

@@ -44,7 +44,7 @@ if ($_GET["action"] == "register") {
         ["Date format is incorrect", checkdate($month, $day, $year)],
         ["Email is too long", strlen($email) < 30],
         ["Email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
-        ["user '$username' already exists", !user_exists($db, $username)]
+        ["User '$username' already exists", !find_user($db, $username)]
     );
 
     user_create($db, $username, $email, "$year-$month-$day", $passwd1);
@@ -55,7 +55,6 @@ if ($_GET["action"] == "register") {
 if ($_GET["action"] == "login") {
     $username = trim($_POST["uname"]);
     $passwd = trim($_POST["passwd"]);
-    $stay_logged = $_POST["stay_logged"];
 
     require_once "db.php";
 
@@ -65,10 +64,20 @@ if ($_GET["action"] == "login") {
     );
 
     validate_predicates(
-        ["name is too long", strlen($username) < 25],
-        ["name must be alphanumeric", ctype_alnum($username)],
-        ["password is too long", strlen($passwd) < 500],
+        ["Name is too long", strlen($username) < 25],
+        ["Name must be alphanumeric", ctype_alnum($username)],
+        ["Password is too long", strlen($passwd) < 500],
     );
+
+    $user = find_user($db, $username);
+
+    if (!$user) {
+        reload_err("Incorrect username and/or password");
+    }
+
+    if (!password_verify($passwd, $user["passwd"])) {
+        reload_err("Incorrect username and/or password");
+    }
 
     home();
 }

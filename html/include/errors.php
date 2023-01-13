@@ -10,7 +10,9 @@ if (isset($_GET["error"])) {
         </div>
 
         <div class="box-row">
-            $err :(
+            <div class="box-error">
+                $err.
+            </div>
         </div>
     </div>
 
