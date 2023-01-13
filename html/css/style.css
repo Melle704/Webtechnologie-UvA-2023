@@ -1,5 +1,5 @@
 * {
-    color: #DDDDDD;
+    color: #CECECE;
 }
 
 body {
@@ -71,6 +71,12 @@ ul {
     max-width: 75rem;
     margin-left: auto;
     margin-right: auto;
+}
+
+.box-error {
+    color: #DBDBDB;
+    font-weight: 600;
+    font-size: 0.8rem;
 }
 
 .box-title {
