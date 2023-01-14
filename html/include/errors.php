@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET["error"])) {
-    $err = str_replace('"', "", $_GET["error"]);
+    $err = htmlspecialchars(str_replace('"', "", $_GET["error"]));
 
     $msg = <<<EOD
     <div class="box">

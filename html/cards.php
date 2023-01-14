@@ -13,6 +13,7 @@
 </head>
 
 <body>
+
 <?php include_once "header.php";?>
 
 <div class="box box-row">
@@ -33,6 +34,12 @@
     <a href="/about.php">About us</a></li>
     <br>
 </div>
+
+<?php if (isset($_SESSION["id"])): ?>
+<script>
+    document.getElementById("datetime").innerText = Date().split(' GMT')[0]
+</script>
+<?php endif; ?>
 
 </body>
 

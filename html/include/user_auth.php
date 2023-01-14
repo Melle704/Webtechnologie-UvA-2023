@@ -2,9 +2,14 @@
 
 include_once "common.php";
 
-// FIXME: check if user is already logged in, returning early
+session_start();
 
-// ensure you can only access `/include/user_auth.php` from a form POST request
+// ensure you can't reach the registration or login page if you're logged in
+if (isset($_SESSION["id"])) {
+    home();
+}
+
+// ensure it's form submissions
 if (!isset($_POST["submit"])) {
     return;
 }
