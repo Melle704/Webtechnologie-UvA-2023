@@ -15,16 +15,8 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
---
--- Database: `test`
---
-
 CREATE DATABASE test;
 USE test;
-
---
--- Table structure for table `users`
---
 
 CREATE TABLE users (
   id int NOT NULL,
@@ -34,21 +26,10 @@ CREATE TABLE users (
   passwd char(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Dumping data for table `users` (user: admin, password: admin)
---
-
 INSERT INTO users (id, uname, email, dob, passwd) VALUES
 (1, "admin", "email@address.com", "1996-08-01", "$passwd");
 
---
--- Indexes for table `users`
---
 ALTER TABLE users ADD PRIMARY KEY (id);
-
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 EOF

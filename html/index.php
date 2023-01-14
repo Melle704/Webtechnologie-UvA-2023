@@ -35,6 +35,14 @@
     <br>
 </div>
 
+<?php if (isset($_SESSION["id"])): ?>
+<script src="/js/common.js"></script>
+<script>
+    update_datetime();
+    window.setInterval(update_datetime, 1000);
+</script>
+<?php endif; ?>
+
 </body>
 
 </html>

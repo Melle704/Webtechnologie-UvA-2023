@@ -4,9 +4,12 @@
 
 body {
 	background-color: #141617;
+
+    line-height: normal;
+    font-size: 0.75rem;
+
     margin: 0 auto;
     padding: 0.8rem 1.3rem 0.8rem 1.3rem;
-    line-height: normal;
 }
 
 div {
@@ -38,14 +41,12 @@ ul {
 }
 
 .form legend {
-    font-size: 0.75rem;
     padding: 0 0.5rem;
     color: #FE8019 /* #60A0DC; */
 }
 
 .form b {
     display: block;
-    font-size: 0.75rem;
 }
 
 .form span {
@@ -76,7 +77,6 @@ ul {
 .box-error {
     color: #DBDBDB;
     font-weight: 600;
-    font-size: 0.8rem;
 }
 
 .box-title {
@@ -97,7 +97,6 @@ ul {
 }
 
 .box-row {
-    font-size: 0.9rem;
     padding: 0.5rem 0.75rem 0.5rem;
     overflow: hidden;
     box-sizing: border-box;

@@ -1,5 +1,4 @@
 <?php session_start();?>
-
 <div class="box">
     <div class="box-head">
         <div class="box-row">
@@ -31,9 +30,7 @@
             <div class="box-left">
                 Logged in as <b><?php echo $_SESSION["uname"];?></b>
             </div>
-            <div class="box-right">
-                <?php echo date("d M Y") . " at " . date("g:i:s a");?>
-            </div>
+            <div class="box-right" id="datetime"></div>
         </div>
         <?php endif; ?>
     </div>

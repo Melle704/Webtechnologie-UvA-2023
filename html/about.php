@@ -34,8 +34,10 @@
 </div>
 
 <?php if (isset($_SESSION["id"])): ?>
+<script src="/js/common.js"></script>
 <script>
-    document.getElementById("datetime").innerText = Date().split(' GMT')[0]
+    update_datetime();
+    window.setInterval(update_datetime, 1000);
 </script>
 <?php endif; ?>
 
