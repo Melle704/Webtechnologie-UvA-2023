@@ -1,4 +1,28 @@
-<?php session_start();?>
+<?php
+session_start();
+
+if (isset($_SESSION["id"])) {
+    require_once "include/db.php";
+    include_once "include/common.php";
+
+    $now = time();
+    $now = new DateTime("@$now");
+
+    $dt = $now->diff($_SESSION["last_activity"]);
+    $mins_logged_in = $dt->days * 24 * 60;
+    $mins_logged_in += $dt->h * 60;
+    $mins_logged_in += $dt->i;
+
+    // logout user after 10 minutes of inactivity
+    if ($mins_logged_in >= 10 && !$_SESSION["stay_logged"]) {
+        header("Location: /logout.php");
+        exit;
+    }
+
+    update_user_activity($db, $_SESSION["id"]);
+}
+?>
+
 <div class="box">
     <div class="box-head">
         <div class="box-row">

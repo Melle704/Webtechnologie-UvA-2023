@@ -24,6 +24,49 @@
     </p>
 </div>
 
+<?php if (isset($_SESSION["id"])): ?>
+<?php
+    require_once "include/db.php";
+
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    $query = mysqli_query($db, "SELECT * FROM users LIMIT 1000");
+    $tags = array();
+    $now = time();
+    $now = new DateTime("@$now");
+
+    while ($row = mysqli_fetch_array($query)) {
+        $tag = '<a href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . "</a>";
+
+        $last_activity = $row["last_activity"];
+        $last_activity = new DateTime("$last_activity");
+
+        $dt = $now->diff($last_activity);
+        $mins_logged_in = $dt->days * 24 * 60;
+        $mins_logged_in += $dt->h * 60;
+        $mins_logged_in += $dt->i;
+
+        if ($mins_logged_in < 10) {
+            array_push($tags, $tag);
+        }
+    }
+
+    $seperated_tags = implode(", ", $tags);
+?>
+<?php if (count($tags) > 1): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b>Users online</b>
+    </div>
+    <div class="box-row users-online">
+        <?php echo $seperated_tags; ?>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>
+
 <div class="box box-row">
     Credits to
     <b>Nicolas Mazzon</b>,
@@ -31,7 +74,7 @@
     <b>Ceylan Siegertsz</b> and
     <b>Kas Visser</b>
     <br>
-    <a href="/about.php">About us</a></li>
+    <a href="/about.php">About us</a>
     <br>
 </div>
 

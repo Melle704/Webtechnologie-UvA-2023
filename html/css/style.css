@@ -118,6 +118,10 @@ ul {
   margin-right: 0.75rem;
 }
 
+.box-left a {
+    color: #DDDDDD;
+}
+
 .box-right {
   float: right;
 }
@@ -126,10 +130,14 @@ ul {
   margin-left: 0.75rem;
 }
 
-.box-left a {
+.box-right a {
     color: #DDDDDD;
 }
 
-.box-right a {
-    color: #DDDDDD;
+.users-online li {
+    margin-right: 0.35rem;
+}
+
+.users-online a {
+    color: #fb4934;
 }

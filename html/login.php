@@ -60,7 +60,7 @@
     <b>Ceylan Siegertsz</b> and
     <b>Kas Visser</b>
     <br>
-    <a href="/about.php">About us</a></li>
+    <a href="/about.php">About us</a>
     <br>
 </div>
 

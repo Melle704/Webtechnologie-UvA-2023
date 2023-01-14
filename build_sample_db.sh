@@ -19,15 +19,16 @@ CREATE DATABASE test;
 USE test;
 
 CREATE TABLE users (
-  id int NOT NULL,
-  uname varchar(25) NOT NULL,
-  email varchar(30) NOT NULL,
-  dob date NOT NULL,
-  passwd char(60) NOT NULL
+  id INT NOT NULL,
+  uname VARCHAR(25) NOT NULL,
+  email VARCHAR(30) NOT NULL,
+  dob DATE NOT NULL,
+  passwd CHAR(60) NOT NULL,
+  last_activity TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO users (id, uname, email, dob, passwd) VALUES
-(1, "admin", "email@address.com", "1996-08-01", "$passwd");
+INSERT INTO users (id, uname, email, dob, passwd, last_activity) VALUES
+(1, "admin", "email@address.com", "1996-08-01", "$passwd", now());
 
 ALTER TABLE users ADD PRIMARY KEY (id);
 ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;

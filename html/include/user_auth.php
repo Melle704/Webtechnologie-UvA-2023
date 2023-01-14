@@ -45,7 +45,7 @@ if ($_GET["action"] == "register") {
         ["Name is too long", strlen($username) < 25],
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Date format is incorrect", checkdate($month, $day, $year)],
-        ["I don't believe you", $year < 120],
+        ["You can't be the oldest person alive", $year > 1900],
         ["Email is too long", strlen($email) < 30],
         ["Email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
         ["User '$username' already exists", !find_user($db, $username)]
@@ -84,10 +84,11 @@ if ($_GET["action"] == "login") {
         reload_err("Incorrect username and/or password");
     }
 
-    session_start();
-
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
+    $_SESSION["last_activity"] = new DateTime($user["last_activity"]);
+    $_SESSION["stay_logged"] = $_POST["stay_logged"] == "1";
 
+    update_user_activity($db, $user["id"]);
     home();
 }
