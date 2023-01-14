@@ -1,15 +1,5 @@
 <?php
 
-function home() {
-    header("Location: /index.php");
-    exit;
-}
-
-function reload() {
-    header("Location: " . $_SERVER["PHP_SELF"]);
-    exit;
-}
-
 function reload_err($err = "") {
     $redirect = "Location: " . $_SERVER["PHP_SELF"];
 

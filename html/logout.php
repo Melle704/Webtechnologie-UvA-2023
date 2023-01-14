@@ -1,9 +1,12 @@
 <?php
 
-// TODO: show a message for a second or two to indicate a logout is in process.
-
-include_once "include/common.php";
+$redirect_title="Logging out";
+$redirect_msg="You are being logged out..";
+include_once "include/redirect.php";
 
 session_start();
 session_destroy();
-home();
+
+// wait two seconds before refreshing
+header("Refresh: 2; url=/index.php");
+exit;

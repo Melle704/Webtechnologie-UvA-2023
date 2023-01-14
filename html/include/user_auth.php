@@ -6,7 +6,8 @@ session_start();
 
 // ensure you can't reach the registration or login page if you're logged in
 if (isset($_SESSION["id"])) {
-    home();
+    header("Location: /index.php");
+    exit;
 }
 
 // ensure it's form submissions
@@ -46,13 +47,21 @@ if ($_GET["action"] == "register") {
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Date format is incorrect", checkdate($month, $day, $year)],
         ["You can't be the oldest person alive", $year > 1900],
+        ["You can't be from the future", $year <= intval(date("Y"))],
         ["Email is too long", strlen($email) < 30],
         ["Email format is incorrect", filter_var($email, FILTER_VALIDATE_EMAIL)],
         ["User '$username' already exists", !find_user($db, $username)]
     );
 
     user_create($db, $username, $email, "$year-$month-$day", $passwd1);
-    home();
+
+    $redirect_title="Registering";
+    $redirect_msg="You are being registered.<br>Make sure to login after this process.";
+    include_once "redirect.php";
+
+    // wait two seconds before refreshing
+    header("Refresh: 2; url=/index.php");
+    exit;
 }
 
 // handle login button submit from `login.php`
@@ -90,5 +99,12 @@ if ($_GET["action"] == "login") {
     $_SESSION["stay_logged"] = $_POST["stay_logged"] == "1";
 
     update_user_activity($db, $user["id"]);
-    home();
+
+    $redirect_title="Logging in";
+    $redirect_msg="You are being logged in..";
+    include_once "redirect.php";
+
+    // wait two seconds before refreshing
+    header("Refresh: 2; url=/index.php");
+    exit;
 }
