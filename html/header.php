@@ -26,6 +26,13 @@ if (isset($_SESSION["id"])) {
 
     update_user_activity($db, $_SESSION["id"]);
 }
+
+$cart_size = 0;
+if (isset($_SESSION["cart"])) {
+    foreach($_SESSION["cart"] as $id => $amount) {
+        $cart_size += $amount;
+    }
+}
 ?>
 
 <div class="box">
@@ -40,10 +47,14 @@ if (isset($_SESSION["id"])) {
                 <ul>
                     <li><a href="index.php">Index</a></li>
                     <li><a href="cards.php">Cards</a></li>
+                    <li><a href="shop.php">Shop</a></li>
                 </ul>
             </div>
             <div class="box-right">
                 <ul>
+                <?php if (isset($_SESSION["cart"])): ?>
+                    <li><a href="cart.php">Cart (<?= $cart_size ?>)</a></li>
+                <?php endif; ?>
                 <?php if (isset($_SESSION["id"])): ?>
                     <li><a href="profile.php?id=<?php echo $_SESSION["id"];?>">Profile</a></li>
                     <li><a href="logout.php">Logout</a></li>
