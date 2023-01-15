@@ -138,6 +138,10 @@ ul {
     margin-right: 0.35rem;
 }
 
-.users-online a {
-    color: #fb4934;
+#user-online {
+    color: #FB4934;
+}
+
+#admin-online {
+    color: #CCAF0B;
 }

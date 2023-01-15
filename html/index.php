@@ -28,17 +28,20 @@
 <?php
     require_once "include/db.php";
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
     $query = mysqli_query($db, "SELECT * FROM users LIMIT 1000");
     $tags = array();
     $now = time();
     $now = new DateTime("@$now");
 
     while ($row = mysqli_fetch_array($query)) {
-        $tag = '<a href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . "</a>";
+        $tag = 'href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . '</a>';
+
+        // TODO: different display for admins
+        if ($row["uname"] == "admin") {
+            $tag = '<a id="admin-online" ' . $tag;
+        } else {
+            $tag = '<a id="user-online" ' . $tag;
+        }
 
         $last_activity = $row["last_activity"];
         $last_activity = new DateTime("$last_activity");
@@ -48,7 +51,8 @@
         $mins_logged_in += $dt->h * 60;
         $mins_logged_in += $dt->i;
 
-        if ($mins_logged_in < 10) {
+        // fake users online xdd
+        if ($mins_logged_in < 10 || $row["uname"] == "admin" || $row["uname"] == "nicolas") {
             array_push($tags, $tag);
         }
     }

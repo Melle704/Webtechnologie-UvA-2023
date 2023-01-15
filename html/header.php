@@ -18,7 +18,9 @@ if (isset($_SESSION["id"])) {
 
     // logout user after 10 minutes of inactivity
     if ($mins_logged_in >= 10 && !$_SESSION["stay_logged"]) {
-        header("Location: /logout.php");
+        session_start();
+        session_destroy();
+        header("Location: /index.php");
         exit;
     }
 

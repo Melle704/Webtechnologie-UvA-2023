@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+// ensure you can't reach the registration or login page if you're not logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: /index.php");
+    exit;
+}
+
+// we're visiting another user's profile
+if ($_SESSION["id"] != $_GET["id"]) {
+    require_once "include/db.php";
+    include_once "include/common.php";
+
+    // when the id is invalid
+    if (!is_numeric($_GET["id"])) {
+        $redirect_title="Unknown user";
+        $redirect_msg="The requested user does not exist.";
+        include_once "include/redirect.php";
+
+        // wait two seconds before refreshing
+        header("Refresh: 2; url=/index.php");
+        exit;
+    }
+
+    $user = find_user_by_uid($db, $_GET["id"]);
+
+    // when there is no matching user id
+    if (!$user) {
+        $redirect_title="Unknown user";
+        $redirect_msg="The requested user does not exist.";
+        include_once "include/redirect.php";
+
+        // wait two seconds before refreshing
+        header("Refresh: 2; url=/index.php");
+        exit;
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -15,6 +54,28 @@
 <body>
 
 <?php include_once "header.php";?>
+
+<?php if ($_SESSION["id"] == $_GET["id"]): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b>User Profile Options</b>
+    </div>
+
+    <div class="box-row">
+        <img src="/img/zoolander-stare.gif">
+    </div>
+</div>
+<?php else: ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b><?php echo $user["uname"];?>'s profile</b>
+    </div>
+
+    <div class="box-row">
+        <img src="/img/zoolander-stare.gif">
+    </div>
+</div>
+<?php endif; ?>
 
 <div class="box box-row">
     Credits to

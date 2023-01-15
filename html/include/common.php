@@ -44,6 +44,19 @@ function find_user($db, $username) {
     return $user;
 }
 
+function find_user_by_uid($db, $uid) {
+    $sql = "SELECT * FROM users WHERE id=?";
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_execute($stmt);
+    $query = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($query);
+    mysqli_stmt_close($stmt);
+    return $user;
+}
+
 function user_create($db, $username, $email, $dob, $passwd) {
     $sql = "INSERT INTO users (uname, email, dob, passwd, last_activity)
             VALUES (?, ?, ?, ?, now())";
