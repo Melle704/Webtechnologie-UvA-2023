@@ -32,7 +32,11 @@
         }
 
         #product-info {
-            flex-grow: 8;
+            flex-grow: 6;
+        }
+
+        #product-purchase {
+            flex-grow: 1;
         }
 
         .box-item {
@@ -81,7 +85,47 @@
                 Test product
                 <span>€3,-</span>
             </h1>
-            <a href="">Example user</a> on 01/01/2023
+        </div>
+        <div id="product-purchase">
+             <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form">
+                <fieldset>
+                    <legend>
+                        Add item(s) to cart
+                    </legend>
+                    <label for=count>Amount</label>
+                    <input id="amount" type="number" name="amount" value="1" min="1" max="50">
+                    <br/>
+                    <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>" />
+                    <input type="submit" value="Add to cart">
+                </fieldset>
+             </form>
+
+            <?php
+            session_start();
+
+            // Redirect to shop if page is reached without id
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                if(!isset($_GET["id"])) {
+                    header("Location: /shop.php");
+                }
+            }
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $amount = $_POST["amount"];
+                $product_id = $_POST["product_id"];
+
+                if (empty($amount) || empty($product_id)) {
+                    header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
+                    die;
+                }
+
+                $_SESSION["cart"][$product_id] += $amount;
+
+                header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
+                exit;
+            }
+            var_dump($_SESSION["cart"]);
+            ?>
         </div>
     </div>
 

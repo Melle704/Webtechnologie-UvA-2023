@@ -66,7 +66,7 @@
         ?>
             <div class="box box-item">
                 <h2>
-                    <a href="product.php"><?php echo $card; ?></a>
+                    <a href="product.php?id=1"><?php echo $card; ?></a>
                     <span class="box-right">
                         €3,-
                     </span>
