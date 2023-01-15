@@ -90,14 +90,3 @@ function update_user_activity($db, $uid) {
     $_SESSION["last_activity"] = new DateTime($query);
     mysqli_stmt_close($stmt);
 }
-
-function users_online($db) {
-    mysqli_query($db, "SELECT * FROM users", MYSQLI_USE_RESULT);
-
-    echo "<p>";
-    while ($row = mysqli_fetch_array($info)) {
-        $user = $row["uname"];
-        echo "$user ";
-    }
-    echo "/<p>";
-}

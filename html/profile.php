@@ -58,7 +58,7 @@ if ($_SESSION["id"] != $_GET["id"]) {
 <?php if ($_SESSION["id"] == $_GET["id"]): ?>
 <div class="box">
     <div class="box-row box-light">
-        <b>User Profile Options</b>
+        <b>User Profile</b>
     </div>
 
     <div class="box-row">
