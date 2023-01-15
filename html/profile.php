@@ -48,6 +48,7 @@ if ($_SESSION["id"] != $_GET["id"]) {
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/profile.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
 </head>
 
@@ -62,7 +63,9 @@ if ($_SESSION["id"] != $_GET["id"]) {
     </div>
 
     <div class="box-row">
-        <img src="/img/zoolander-stare.gif">
+        <div class="profile">
+            <img src="/img/zoolander-stare.gif">
+        </div>
     </div>
 </div>
 <?php else: ?>
@@ -72,7 +75,9 @@ if ($_SESSION["id"] != $_GET["id"]) {
     </div>
 
     <div class="box-row">
-        <img src="/img/zoolander-stare.gif">
+        <div class="profile">
+            <img src="/img/zoolander-stare.gif">
+        </div>
     </div>
 </div>
 <?php endif; ?>

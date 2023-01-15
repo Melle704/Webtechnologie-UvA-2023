@@ -1,0 +1,6 @@
+.profile img {
+    aspect-ratio: 9 / 11;
+    object-fit: cover;
+    width: 20%;
+    border: 3px solid #202020;
+}
