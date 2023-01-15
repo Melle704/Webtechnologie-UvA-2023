@@ -8,15 +8,17 @@ function datetime() {
     let second = String(date.getSeconds()).padStart(2, '0');
     let suffix = "am";
 
+    if (hour == 12) {
+        hour = 12;
+        suffix = "pm";
+    }
+
     if (hour > 12) {
         hour -= 12;
         suffix = "pm";
     }
 
-    let fmt = `${day}/${month}/${year} ${hour}:${minute}:${second} ${suffix}`;
-
-
-    return fmt;
+    return `${day}/${month}/${year} ${hour}:${minute}:${second} ${suffix}`;
 }
 
 function update_datetime() {
