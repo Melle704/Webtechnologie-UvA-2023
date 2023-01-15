@@ -96,7 +96,7 @@ if ($_GET["action"] == "login") {
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
     $_SESSION["last_activity"] = new DateTime($user["last_activity"]);
-    $_SESSION["stay_logged"] = $_POST["stay_logged"] == "1";
+    $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
 
     update_user_activity($db, $user["id"]);
 
