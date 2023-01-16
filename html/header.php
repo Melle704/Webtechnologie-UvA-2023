@@ -47,7 +47,9 @@ if (isset($_SESSION["cart"])) {
                 <ul>
                     <li><a href="index.php">Index</a></li>
                     <li><a href="cards.php">Cards</a></li>
+                <?php if (isset($_SESSION["id"])): ?>
                     <li><a href="shop.php">Shop</a></li>
+                <?php endif; ?>
                 </ul>
             </div>
             <div class="box-right">

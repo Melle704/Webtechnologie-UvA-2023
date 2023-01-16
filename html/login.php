@@ -11,7 +11,6 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
 </head>
 
 <body>
@@ -53,18 +52,9 @@
     </div>
 </div>
 
-<div class="box box-row">
-    Credits to
-    <b>Nicolas Mazzon</b>,
-    <b>Sebastian Gielens</b>,
-    <b>Ceylan Siegertsz</b> and
-    <b>Kas Visser</b>
-    <br>
-    <a href="/about.php">About us</a>
-    <br>
-</div>
-
+<?php include_once "footer.php"; ?>
 <script>document.getElementById('uname').focus()</script>
+
 </body>
 
 </html>

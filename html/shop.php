@@ -38,34 +38,37 @@
 </head>
 
 <body>
-    <?php include_once "header.php"; ?>
 
-    <div class="box box-row box-container">
-        <?php
-        include_once "include/db.php";
+<?php include_once "header.php"; ?>
 
-        $sql = "SELECT * FROM products";
-        $stmt = mysqli_stmt_init($db);
+<div class="box box-row box-container">
+    <?php
+    include_once "include/db.php";
 
-        mysqli_stmt_prepare($stmt, $sql);
-        mysqli_stmt_execute($stmt);
-        $query = mysqli_stmt_get_result($stmt);
-        while($product = mysqli_fetch_assoc($query)):
-        ?>
-            <div class="box box-item">
-                <h2>
-                    <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
-                    <span class="box-right">
-                        €<?= $product["price"] ?>
-                    </span>
-                    </h2>
-                    <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
-            </div>
-        <?php
-        endwhile;
-        mysqli_stmt_close($stmt);
-        ?>
-    </div>
+    $sql = "SELECT * FROM products";
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
+    $query = mysqli_stmt_get_result($stmt);
+    while($product = mysqli_fetch_assoc($query)):
+    ?>
+        <div class="box box-item">
+            <h2>
+                <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
+                <span class="box-right">
+                    €<?= $product["price"] ?>
+                </span>
+                </h2>
+                <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
+        </div>
+    <?php
+    endwhile;
+    mysqli_stmt_close($stmt);
+    ?>
+</div>
+
+<?php include_once "footer.php"; ?>
 
 </body>
 

@@ -41,6 +41,10 @@
     accent-color: #FE8019;
 }
 
+.form input[type="file"] {
+    display: none;
+}
+
 .form select {
     border: 2px solid #373737;
     background-color: #202020;
@@ -48,4 +52,15 @@
 
 .form-after {
     clear: both;
+}
+
+.file-upload {
+    background-color: #202020;
+}
+
+.file-upload span {
+    padding: 1px 4px 1px 4px;
+    border: 2px solid #373737;
+    min-width: 10rem;
+    height: 1rem;
 }

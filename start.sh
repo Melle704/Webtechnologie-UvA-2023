@@ -2,10 +2,7 @@
 
 # NOTE: have to be part of the `docker` group (relog on adding yourself to the group)
 
-# NOTE: you have to rebuild the docker image on changing this dockerfile
-if ! docker image ls webtech | grep -q webtech; then
-    docker build -t webtech .
-fi
+docker build -t webtech .
 
 if [ $? -ne 0 ]; then
     exit 1
