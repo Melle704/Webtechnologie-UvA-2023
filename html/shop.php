@@ -42,19 +42,29 @@
 
     <div class="box box-row box-container">
         <?php
-        $cards = ["Test", "Test", "Test", "Test", "Test", "Test", "Test"];
-        foreach($cards as $card):
+        include_once "include/db.php";
+
+        $sql = "SELECT * FROM products";
+        $stmt = mysqli_stmt_init($db);
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_execute($stmt);
+        $query = mysqli_stmt_get_result($stmt);
+        while($product = mysqli_fetch_assoc($query)):
         ?>
             <div class="box box-item">
                 <h2>
-                    <a href="product.php?id=1"><?php echo $card; ?></a>
+                    <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
                     <span class="box-right">
-                        €3,-
+                        €<?= $product["price"] ?>
                     </span>
                     </h2>
-                <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
+                    <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
             </div>
-        <?php endforeach; ?>
+        <?php
+        endwhile;
+        mysqli_stmt_close($stmt);
+        ?>
     </div>
 
 </body>

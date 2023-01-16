@@ -58,14 +58,52 @@
 <body>
     <?php include_once "header.php"; ?>
 
+    <?php
+    include_once "include/db.php";
+
+    $sql = "SELECT * FROM products WHERE id=?";
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+    mysqli_stmt_execute($stmt);
+    $query = mysqli_stmt_get_result($stmt);
+    $product = mysqli_fetch_assoc($query);
+    mysqli_stmt_close($stmt);
+
+    session_start();
+
+    // Redirect to shop if page is reached without id
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if(!isset($_GET["id"])) {
+            header("Location: /shop.php");
+        }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $amount = $_POST["amount"];
+        $product_id = $_POST["product_id"];
+
+        if (empty($amount) || empty($product_id)) {
+            header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
+            die;
+        }
+
+        $_SESSION["cart"][$product_id] += $amount;
+
+        header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
+        exit;
+    }
+    ?>
+
     <div class="box box-row box-container">
         <div id="product-image">
-            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
+            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
         </div>
         <div id="product-info">
             <h1>
-                Test product
-                <span>€3,-</span>
+                <?= $product["name"] ?>
+                <span>€<?= $product["price"] ?></span>
             </h1>
         </div>
         <div id="product-purchase">
@@ -81,32 +119,6 @@
                     <input type="submit" value="Add to cart">
                 </fieldset>
              </form>
-
-            <?php
-            session_start();
-
-            // Redirect to shop if page is reached without id
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                if(!isset($_GET["id"])) {
-                    header("Location: /shop.php");
-                }
-            }
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $amount = $_POST["amount"];
-                $product_id = $_POST["product_id"];
-
-                if (empty($amount) || empty($product_id)) {
-                    header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-                    die;
-                }
-
-                $_SESSION["cart"][$product_id] += $amount;
-
-                header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-                exit;
-            }
-            ?>
         </div>
     </div>
 

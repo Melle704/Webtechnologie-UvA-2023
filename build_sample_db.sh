@@ -32,8 +32,29 @@ INSERT INTO users (id, uname, email, dob, passwd, last_activity) VALUES
 
 ALTER TABLE users ADD PRIMARY KEY (id);
 ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+CREATE TABLE products (
+  id INT NOT NULL,
+  card_id INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  amount INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE products ADD PRIMARY KEY (id);
+
 COMMIT;
 EOF
+
+# Generate many test products
+str="USE test;"
+str+="INSERT INTO products (id, card_id, name, price, amount) VALUES "
+for i in {1..199}; do
+    str+="($i, $i, \"Test product $i\", 2.56, 64), "
+done
+i=200
+str+="($i, $i, \"Test product $i\", 2.56, 64); "
+echo $str | mysql -uroot
 
 echo "=> Database generated!"
 fg
