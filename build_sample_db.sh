@@ -24,6 +24,7 @@ CREATE TABLE users (
   email VARCHAR(30) NOT NULL,
   dob DATE NOT NULL,
   passwd CHAR(60) NOT NULL,
+  profile_pic MEDIUMBLOB,
   last_activity TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
