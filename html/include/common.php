@@ -90,3 +90,10 @@ function update_user_activity($db, $uid) {
     $_SESSION["last_activity"] = new DateTime($query);
     mysqli_stmt_close($stmt);
 }
+
+function file_type($file) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_buffer($finfo, $file);
+    $mime = substr($mime, 0, strlen("image"));
+    return $mime;
+}

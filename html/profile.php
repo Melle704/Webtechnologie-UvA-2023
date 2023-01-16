@@ -1,42 +1,4 @@
-<?php
-session_start();
-
-// ensure you can't reach the registration or login page if you're not logged in
-if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
-    exit;
-}
-
-// we're visiting another user's profile
-if ($_SESSION["id"] != $_GET["id"]) {
-    require_once "include/db.php";
-    include_once "include/common.php";
-
-    // when the id is invalid
-    if (!is_numeric($_GET["id"])) {
-        $redirect_title="Unknown user";
-        $redirect_msg="The requested user does not exist.";
-        include_once "include/redirect.php";
-
-        // wait two seconds before refreshing
-        header("Refresh: 2; url=/index.php");
-        exit;
-    }
-
-    $user = find_user_by_uid($db, $_GET["id"]);
-
-    // when there is no matching user id
-    if (!$user) {
-        $redirect_title="Unknown user";
-        $redirect_msg="The requested user does not exist.";
-        include_once "include/redirect.php";
-
-        // wait two seconds before refreshing
-        header("Refresh: 2; url=/index.php");
-        exit;
-    }
-}
-?>
+<?php include_once "include/user_mods.php";?>
 <!doctype html>
 <html lang="en">
 
@@ -47,14 +9,15 @@ if ($_SESSION["id"] != $_GET["id"]) {
     <title>MTG | Deck building</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/profile.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
 
 <?php include_once "header.php";?>
+<?php $pic_submit = $_SERVER["PHP_SELF"] . "?id=" . $_GET["id"] . "&action=picture"; ?>
 
 <?php if ($_SESSION["id"] == $_GET["id"]): ?>
 <div class="box">
@@ -62,10 +25,21 @@ if ($_SESSION["id"] != $_GET["id"]) {
         <b>User Profile</b>
     </div>
 
-    <div class="box-row">
-        <div class="profile">
-            <img src="/img/zoolander-stare.gif">
-        </div>
+    <div class="box-row form">
+        <form action=<?php echo $pic_submit; ?> method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>
+                    Personal profile picture
+                </legend>
+                <label class="file-upload">
+                    <input id="file-input" type="file" name="img" accept="image/*">
+                    <span id="file-name"></span>
+                </label>
+                <label>
+                    <input type="submit" name="submit" value="submit">
+                </label>
+            </fieldset>
+        </form>
     </div>
 </div>
 <?php else: ?>
@@ -89,6 +63,14 @@ if ($_SESSION["id"] != $_GET["id"]) {
 <script>
     update_datetime();
     window.setInterval(update_datetime, 1000);
+
+    let file_input = document.getElementById("file-input");
+    let file_name = document.getElementById("file-name");
+
+    file_input.addEventListener("change", function() {
+        let file = file_input.files[0];
+        file_name.innerText = file.name;
+    });
 </script>
 <?php endif; ?>
 
