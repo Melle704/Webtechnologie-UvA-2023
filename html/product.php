@@ -55,81 +55,62 @@
 </head>
 
 <body>
-    <div class="box">
-        <div class="box-head">
-            <div class="box-row box-title">
-                <span>MAGIC</span> THE GATHERING
-            </div>
-            <div class="box-row box-light">
-                <div class="box-left">
-                    <ul>
-                        <li><a href="index.php">Index</a></li>
-                        <li><a href="cards.php">Cards</a></li>
-                    </ul>
-                </div>
-                <div class="box-right">
-                    <ul>
-                        <li><a href="login.php">Login</a></li>
-                        <li><a href="register.php">Register</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+
+<?php include_once "header.php"; ?>
+
+<div class="box box-row box-container">
+    <div id="product-image">
+        <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
     </div>
-    <div class="box box-row box-container">
-        <div id="product-image">
-            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
-        </div>
-        <div id="product-info">
-            <h1>
-                Test product
-                <span>€3,-</span>
-            </h1>
-        </div>
-        <div id="product-purchase">
-             <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form">
-                <fieldset>
-                    <legend>
-                        Add item(s) to cart
-                    </legend>
-                    <label for=count>Amount</label>
-                    <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                    <br/>
-                    <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>" />
-                    <input type="submit" value="Add to cart">
-                </fieldset>
-             </form>
+    <div id="product-info">
+        <h1>
+            Test product
+            <span>€3,-</span>
+        </h1>
+    </div>
+    <div id="product-purchase">
+         <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form">
+            <fieldset>
+                <legend>
+                    Add item(s) to cart
+                </legend>
+                <label for=count>Amount</label>
+                <input id="amount" type="number" name="amount" value="1" min="1" max="50">
+                <br/>
+                <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>" />
+                <input type="submit" value="Add to cart">
+            </fieldset>
+         </form>
 
-            <?php
-            session_start();
-
-            // Redirect to shop if page is reached without id
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                if(!isset($_GET["id"])) {
-                    header("Location: /shop.php");
-                }
+        <?php
+        // Redirect to shop if page is reached without id
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if(!isset($_GET["id"])) {
+                header("Location: /shop.php");
             }
+        }
 
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $amount = $_POST["amount"];
-                $product_id = $_POST["product_id"];
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $amount = $_POST["amount"];
+            $product_id = $_POST["product_id"];
 
-                if (empty($amount) || empty($product_id)) {
-                    header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-                    die;
-                }
-
-                $_SESSION["cart"][$product_id] += $amount;
-
+            if (empty($amount) || empty($product_id)) {
                 header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-                exit;
+                die;
             }
-            var_dump($_SESSION["cart"]);
-            ?>
-        </div>
-    </div>
 
-    <?php include_once "footer.php"; ?>
+            $_SESSION["cart"][$product_id] += $amount;
+
+            header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
+            exit;
+        }
+        var_dump($_SESSION["cart"]);
+        ?>
+    </div>
+</div>
+
+<?php include_once "footer.php"; ?>
+
 </body>
 
 </html>

@@ -123,7 +123,6 @@
 </div>
 
 <?php include_once "footer.php"; ?>
-
 <script>document.getElementById('uname').focus()</script>
 </body>
 

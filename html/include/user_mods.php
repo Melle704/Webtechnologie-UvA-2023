@@ -4,8 +4,6 @@ include_once "common.php";
 
 session_start();
 
-echo var_dump($_FILES);
-
 // ensure you can't reach the profile page if you're not logged in
 if (!isset($_SESSION["id"])) {
     header("Location: /index.php");

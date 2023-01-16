@@ -57,13 +57,8 @@
 <?php endif; ?>
 
 <?php include_once "footer.php"; ?>
-
 <?php if (isset($_SESSION["id"])): ?>
-<script src="/js/common.js"></script>
 <script>
-    update_datetime();
-    window.setInterval(update_datetime, 1000);
-
     let file_input = document.getElementById("file-input");
     let file_name = document.getElementById("file-name");
 
