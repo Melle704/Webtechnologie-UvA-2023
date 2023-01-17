@@ -7,9 +7,8 @@
     <b>Kas Visser</b>
     <br>
     <a href="/about.php">About us</a>
-    &nbsp;&nbsp;
+    /
     <a href="/cookies.php">Cookie policy</a>
-    &nbsp;&nbsp;
     <br>
 </div>
 
