@@ -31,8 +31,10 @@
             <div class="img-showcase">
                 <img src="<?php echo "data:$profile_pic_type;base64,$profile_pic"; ?>">
             </div>
-            <div class="text-showcase">
-                <?php echo $profile_desc; ?>
+            <div class="text-showcase box-light">
+                <div class="box-row">
+                    <?php echo $profile_desc; ?>
+                </div>
             </div>
         </div>
         <div class="form">
@@ -78,8 +80,10 @@
             <div class="img-showcase">
                 <img src="<?php echo "data:$profile_pic_type;base64,$profile_pic"; ?>">
             </div>
-            <div class="text-showcase">
-                <?php echo $profile_desc; ?>
+            <div class="text-showcase box-light">
+                <div class="box-row">
+                    <?php echo $profile_desc; ?>
+                </div>
             </div>
         </div>
     </div>

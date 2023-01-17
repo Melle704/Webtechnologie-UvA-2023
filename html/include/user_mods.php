@@ -27,19 +27,25 @@ if ($_SESSION["id"] != $_GET["id"]) {
         header("Refresh: 2; url=/index.php");
         exit;
     }
+}
 
-    $user = find_user_by_uid($db, $_GET["id"]);
+$user = find_user_by_uid($db, $_GET["id"]);
 
-    // when there is no matching user id
-    if (!$user) {
-        $redirect_title="Unknown user";
-        $redirect_msg="The requested user does not exist.";
-        include_once "redirect.php";
+// when there is no matching user id
+if (!$user) {
+    $redirect_title="Unknown user";
+    $redirect_msg="The requested user does not exist.";
+    include_once "redirect.php";
 
-        // wait two seconds before refreshing
-        header("Refresh: 2; url=/index.php");
-        exit;
-    }
+    // wait two seconds before refreshing
+    header("Refresh: 2; url=/index.php");
+    exit;
+}
+
+$profile_desc = $user["profile_desc"];
+
+if ($profile_desc == "") {
+    $profile_desc = "This user has yet to have set a profile description.";
 }
 
 // get profile picture of user
@@ -47,11 +53,9 @@ $profile_pic = @file_get_contents("./img/user" . $_GET["id"] . ".raw");
 $profile_pic_type = @file_get_contents("./img/user" . $_GET["id"] . ".info");
 
 if (!$profile_pic) {
-    $profile_pic = file_get_contents("./img/zoolander-stare.raw");
+    $profile_pic = file_get_contents("./img/sample.raw");
     $profile_pic_type = "image/gif";
 }
-
-$profile_desc = "sample text";
 
 // continue if it's form submissions
 if (!isset($_POST["submit"])) {
@@ -117,8 +121,6 @@ if ($_GET["action"] == "picture") {
 
 // store profile description and display it
 if ($_GET["action"] == "desc") {
-    // $profile_desc = "&#x2022 oh who is she";
-
     if (!isset($_POST["desc"]) || $_POST["desc"] == "") {
         $profile_desc = "";
     } else {
