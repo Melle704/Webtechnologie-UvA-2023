@@ -118,6 +118,8 @@
                 </label>
             </fieldset>
             <input type="submit" name="submit" value="Register">
+            &nbsp;&nbsp;
+            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a> 
         </form>
     </div>
 </div>
