@@ -79,7 +79,7 @@ function update_user_activity($db, $uid) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    $sql = "SELECT last_activity FROM users WHERE ID=?";
+    $sql = "SELECT last_activity FROM users WHERE id=?";
     $stmt = mysqli_stmt_init($db);
 
     mysqli_stmt_prepare($stmt, $sql);
@@ -91,9 +91,12 @@ function update_user_activity($db, $uid) {
     mysqli_stmt_close($stmt);
 }
 
-function file_type($file) {
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime = finfo_buffer($finfo, $file);
-    $mime = substr($mime, 0, strlen("image"));
-    return $mime;
+function update_user_desc($db, $uid, $desc) {
+    $sql = "UPDATE users SET profile_desc=? WHERE id=?";
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "si", $desc, $uid);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 }
