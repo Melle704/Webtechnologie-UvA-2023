@@ -19,6 +19,8 @@
         img {
             display: block;
             max-width: 100%;
+            width: 265px;
+            height: 370px;
         }
 
         .box-container {
