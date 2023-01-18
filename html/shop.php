@@ -10,33 +10,6 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-            width: 265px;
-            height: 370px;
-        }
-
-        .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .box-item {
-            padding: 16px;
-        }
-
-        .box-item h2 {
-            margin-top: 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -61,8 +34,8 @@
                 <span class="box-right">
                     €<?= $product["price"] ?>
                 </span>
-                </h2>
-                <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
+            </h2>
+            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
         </div>
     <?php
     endwhile;

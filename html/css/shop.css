@@ -1,0 +1,33 @@
+h1 {
+    margin-top: 0.5rem;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    background-color: #3d3c3b;
+}
+
+.remove-form {
+    margin: 0 !important;
+    display: inline;
+}
+
+#product-image {
+    flex-grow: 1;
+}
+
+#product-image img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#product-info {
+    flex-grow: 6;
+}
+
+#product-purchase {
+    flex-grow: 1;
+}
