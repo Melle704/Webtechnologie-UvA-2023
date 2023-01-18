@@ -94,7 +94,8 @@ ul {
 }
 
 .box-head {
-    border-top: 4px solid #CC241D;
+    border-top: 4px solid;
+    border-image: linear-gradient(-45deg, #CC401D, #CC241D, #CF0606) 1 0 0 0;
 }
 
 .box-light {

@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="form">
-            <form action=<?php echo $pic_submit; ?> method="post">
+            <form action=<?php echo $pic_submit; ?> method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend>
                         Personal profile picture
