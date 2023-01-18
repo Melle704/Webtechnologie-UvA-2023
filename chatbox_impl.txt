@@ -1,0 +1,34 @@
+# Chatbox implementation
+
+TABLE sessions [
+    INT uid,
+    CHAR(11) session_id,
+    TIMESTAMP creation_date
+]
+
+TABLE messages [
+    INT id,
+    INT uid,
+    TINYTEXT msg, message of up to 255 characters
+    TIMESTAMP date
+]
+
+LOGIN:
+1. upload `PHPSESSID` to `sessions` table.
+2. remove previous session ID from `sessions` table.
+3. add session ID to `sessions` table.
+4. load message log from `msgs` table.
+
+ON MESSAGE SEND (client):
+1. send POST request to `broadcast_message.php` containing the session ID and message using AJAX.
+
+ON MESSAGE SEND (server):
+1. determine whether session ID is in the `sessions` table.
+2. determine whether session ID is less than 24hrs old (delete from db if session ID is too old).
+3. record date and add message to `messages` table.
+
+CLIENT LOOP:
+1. send POST request to `broadcast_message.php` containing the session ID using AJAX.
+2. append new messages to message log.
+2. sleep for 0.5 seconds.
+3. repeat.
