@@ -15,6 +15,43 @@
 
 <?php include_once "header.php";?>
 
+<?php if (isset($_SESSION["id"])): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b>Chatbox</b>
+    </div>
+    <div class="box-row" style="height: 10rem;">
+        <div class="chatbox-msgs">
+            <b>admin</b>: I <3 u
+            <br>
+            <b>nicolas</b>: no u
+            <br>
+            <b>admin</b>: I <3 u
+            <br>
+            <b>nicolas</b>: no u
+            <br>
+            <b>admin</b>: I <3 u
+            <br>
+            <b>nicolas</b>: no u
+            <br>
+            <b>admin</b>: I <3 u
+            <br>
+            <b>nicolas</b>: no u
+            <br>
+            <b>admin</b>: I <3 u
+            <br>
+            <b>nicolas</b>: no u
+            <br>
+        </div>
+    </div>
+    <div class="box-row">
+        <div class="chatbox">
+            <input id="chatbox-message" type="text" name="msg" maxlength="200">
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <div class="box box-row">
     <p>
     取本顔外舞切記区還入氷浦。礎田典著住掲必門財裏栖督暮掲遠売短部。能階採災豆結占恐極覧洲掛験引護理上質。党仰滝手能葉予半道請安統浜中以経。載検将逆家経選効身愕述明吹候毒藤察行電設。後断供界字宅軽証田止衝能界時軍求基務裁根。急野真重万供局国天手暮動見。会更多泳禁更秋労相宮埼致員優大。放没継開要総妻励供空亡職幅密裁対条。
@@ -69,6 +106,26 @@
 </div>
 <?php endif; ?>
 <?php endif; ?>
+
+<script>
+let message_box = document.getElementById("chatbox-message");
+
+message_box.addEventListener("keydown", function(keypress) {
+    if (keypress.code == "Enter") {
+        let request = fetch("/broadcast_message.php?action=send", {
+            method: "POST",
+            body: message_box.value,
+            headers: { "Content-Type": "text/plain; charset=UTF-8" }
+        })
+
+        request
+            .then((response) => response.text())
+            .then((body) => console.log(body));
+
+        message_box.value = "";
+    }
+})
+</script>
 
 <?php include_once "footer.php"; ?>
 

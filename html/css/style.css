@@ -146,6 +146,7 @@ ul {
     flex-wrap: wrap;
 }
 
+<<<<<<< HEAD
 .box-container {
     display: flex;
     flex-wrap: wrap;
@@ -168,6 +169,30 @@ ul {
 
 .users-online li {
     margin-right: 0.35rem;
+=======
+.chatbox-msgs {
+    padding: 0.4rem;
+    height: 100%;
+    border: 2px solid #373737;
+    background-color: #202020;
+    overflow: scroll;
+}
+
+.chatbox span {
+    border: 2px solid #373737;
+    background-color: #202020;
+}
+
+.chatbox input {
+    padding: 0.3rem;
+    border: 2px solid #373737;
+    background-color: #202020;
+    width: 98%;
+}
+
+.chatbox input:focus {
+    outline: none;
+>>>>>>> 19d9be9 (Ability to send message to database.)
 }
 
 #user-online {

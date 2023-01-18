@@ -119,3 +119,25 @@ function update_user_desc($db, $uid, $desc) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+function update_session_id($db, $uid, $session_id) {
+    $sql = "INSERT INTO sessions (uid, session_id, creation_date) VALUES(?, ?, now())
+            ON DUPLICATE KEY UPDATE session_id=VALUES(session_id), creation_date=VALUES(creation_date)";
+
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "is", $uid, $session_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function send_message($db, $uid, $message) {
+    $sql = "INSERT INTO messages (uid, msg, date) VALUES (?, ?, now())";
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "is", $uid, $message);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
