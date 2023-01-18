@@ -24,7 +24,7 @@ CREATE TABLE users (
   email VARCHAR(30) NOT NULL,
   dob DATE NOT NULL,
   passwd CHAR(60) NOT NULL,
-  profile_pic MEDIUMBLOB,
+  profile_desc VARCHAR(300),
   last_activity TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -36,5 +36,12 @@ ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 EOF
 
+
+if [ $? -ne 0 ]; then
+    echo "=> Database failed to generate."
+    exit 1
+fi
+
 echo "=> Database generated!"
+
 fg

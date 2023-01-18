@@ -32,7 +32,7 @@ if (isset($_SESSION["id"])) {
     <div class="box-head">
         <div class="box-row">
             <div class="box-title">
-                <span>MAGIC</span> THE GATHERING
+                <a href="/index.php"><span>MAGIC</span> THE GATHERING</a>
             </div>
         </div>
         <div class="box-row box-light">

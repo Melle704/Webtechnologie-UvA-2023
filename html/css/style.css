@@ -84,6 +84,11 @@ ul {
     color: white;
 }
 
+.box-title a {
+    text-decoration: none;
+    color: white;
+}
+
 .box-title span {
     color: #fb4934;
 }
@@ -132,6 +137,11 @@ ul {
 
 .box-right a {
     color: #DDDDDD;
+}
+
+.box-flex {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .users-online li {
