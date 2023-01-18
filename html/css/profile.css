@@ -30,13 +30,6 @@
     background-size: cover;
 }
 
-.text-showcase {
-    flex: 2;
-    flex-direction: column;
-
-    border: 3px solid #202020;
-}
-
 .img-showcase, .text-showcase {
     margin: 0.5rem;
 }
@@ -45,6 +38,14 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
+    border: 3px solid #202020;
+    background-color: #202020;
+}
+
+.text-showcase {
+    flex: 2;
+    flex-direction: column;
+
     border: 3px solid #202020;
 }
 
