@@ -32,8 +32,9 @@
 
 .text-showcase {
     flex: 2;
-    flex-shrink: 2;
     flex-direction: column;
+
+    border: 3px solid #202020;
 }
 
 .img-showcase, .text-showcase {
