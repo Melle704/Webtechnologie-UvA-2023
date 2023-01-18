@@ -54,9 +54,15 @@ if ($_GET["action"] == "register") {
     );
 
     user_create($db, $username, $email, "$year-$month-$day", $passwd1);
+    $user = find_user($db, $username);
+
+    $_SESSION["id"] = $user["id"];
+    $_SESSION["uname"] = $user["uname"];
+    $_SESSION["last_activity"] = new DateTime($user["last_activity"]);
+    $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
 
     $redirect_title="Registering";
-    $redirect_msg="You are being registered.<br>Make sure to login after this process.";
+    $redirect_msg="You are being registered.";
     include_once "redirect.php";
 
     // wait two seconds before refreshing
