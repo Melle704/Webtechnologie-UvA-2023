@@ -141,3 +141,15 @@ function send_message($db, $uid, $message) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+function messagebox_messages($db) {
+    $sql = "SELECT * from messages";
+    $query = mysqli_query($db, $sql);
+    $entries = array();
+
+    while ($row = mysqli_fetch_array($query)) {
+        array_push($entries, $row);
+    }
+
+    return $entries;
+}

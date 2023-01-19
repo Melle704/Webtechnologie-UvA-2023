@@ -107,6 +107,7 @@
 <?php endif; ?>
 <?php endif; ?>
 
+<?php if (isset($_SESSION["id"])): ?>
 <script>
 let message_box = document.getElementById("chatbox-message");
 
@@ -118,14 +119,24 @@ message_box.addEventListener("keydown", function(keypress) {
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
         })
 
-        request
-            .then((response) => response.text())
-            .then((body) => console.log(body));
-
         message_box.value = "";
     }
 })
+
+function request_messages() {
+    var request = fetch("/broadcast_message.php?action=receive");
+    var request = request.then((response) => response.text());
+
+    request.then((body) => {
+        if (body != "") {
+            console.log(body);
+        }
+    });
+}
+
+window.setInterval(request_messages, 500);
 </script>
+<?php endif; ?>
 
 <?php include_once "footer.php"; ?>
 
