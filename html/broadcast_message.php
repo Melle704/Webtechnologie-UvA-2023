@@ -10,6 +10,7 @@ if (!isset($_SESSION["id"])) {
 
 require_once "include/db.php";
 include_once "include/common.php";
+include_once "include/messaging.php";
 
 logout_user_on_inactivity($db);
 
@@ -18,69 +19,45 @@ if (!isset($_SESSION["messages_consumed"])) {
 }
 
 if ($_GET["action"] == "send") {
-    $message = file_get_contents("php://input");
-    $message = htmlspecialchars(trim($message));
+    $text = file_get_contents("php://input");
+    $text = htmlspecialchars(trim($text));
 
     // message is empty
-    if (strlen($message) == 0) {
+    if (strlen($text) == 0) {
         exit;
     }
 
     // message too long
-    if (strlen($message) > 255) {
+    if (strlen($text) > 255) {
         http_response_code(300);
         exit;
     }
 
-    send_message($db, $_SESSION["id"], $message);
+    send_message($db, $_SESSION["id"], $text);
     exit;
 }
 
 if ($_GET["action"] == "receive") {
-    $entries = messagebox_messages($db);
-    $entry_count = count($entries);
+    $messages = retrieve_messages($db);
+    $msg_count = count($messages);
 
     // chat is cleared / message is deleted
-    if ($_SESSION["messages_consumed"] > $entry_count) {
+    if ($_SESSION["messages_consumed"] > $msg_count) {
         // probably refresh the message log here
         http_response_code(300);
         exit;
     }
 
-    $new_entries = array_slice($entries, $_SESSION["messages_consumed"]);
+    $new_messages = array_slice($messages, $_SESSION["messages_consumed"]);
 
-    foreach ($new_entries as $entry) {
-        $user = find_user_by_uid($db, $entry["uid"]);
-
-        $s .= "\n            <span class=\"message\">";
-
-        // add a link to the profile's of other users
-        if ($_SESSION["id"] != $entry["uid"]) {
-            $s .= '<a target="_blank" href="/profile.php?id=' . $entry["uid"]. '">';
-        }
-
-        $s .= '<b class="message-content">'
-            . $user["uname"]
-            . "</b>";
-
-        // add a link to the profile's of other users
-        if ($_SESSION["id"] != $entry["uid"]) {
-            $s .= "</a>";
-        }
-
-        $s .= '<div class="message-content">'
-            . ": "
-            . $entry["msg"]
-            . "</div>"
-            . "</span>"
-            . "\n";
-
-        $s .= "            \n";
+    $concatenated_msgs = "";
+    foreach ($new_messages as $message) {
+        $concatenated_msgs .= format_message($db, $message);
     }
 
-    $_SESSION["messages_consumed"] = $entry_count;
+    $_SESSION["messages_consumed"] = $msg_count;
 
-    echo $s;
+    echo $concatenated_msgs;
     exit;
 }
 
@@ -91,7 +68,7 @@ if ($_GET["action"] == "receive_log") {
     $query = mysqli_query($db, $sql);
 
     while ($row = mysqli_fetch_array($query)) {
-        $s .= $row["msg"] . "\n";
+        $s .= $row["text"] . "\n";
     }
 
     $now = time() - 1;

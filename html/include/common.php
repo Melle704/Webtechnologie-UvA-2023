@@ -134,25 +134,3 @@ function update_user_desc($db, $uid, $desc) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
-
-function send_message($db, $uid, $message) {
-    $sql = "INSERT INTO messages (uid, msg, date) VALUES (?, ?, now())";
-    $stmt = mysqli_stmt_init($db);
-
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "is", $uid, $message);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-}
-
-function messagebox_messages($db) {
-    $sql = "SELECT * FROM messages";
-    $query = mysqli_query($db, $sql);
-    $entries = array();
-
-    while ($row = mysqli_fetch_array($query)) {
-        array_push($entries, $row);
-    }
-
-    return $entries;
-}

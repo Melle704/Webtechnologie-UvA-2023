@@ -39,7 +39,7 @@ INSERT INTO users (uname, email, dob, passwd, last_activity) VALUES
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
   uid INT NOT NULL,
-  msg TINYTEXT NOT NULL,
+  text TINYTEXT NOT NULL,
   date TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
