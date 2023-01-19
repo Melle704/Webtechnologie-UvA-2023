@@ -92,6 +92,10 @@ let message_box = document.getElementById("chatbox-message");
 let chatbox = document.getElementById("chatbox");
 let message_requester = window.setInterval(request_messages, 500);
 
+// reset queue of new messages and request message log
+fetch("/broadcast_message.php?action=reset");
+request_messages();
+
 message_box.addEventListener("keydown", function(keypress) {
     if (keypress.code == "Enter" && message_box.value != "") {
         // disable message listener
@@ -105,18 +109,13 @@ message_box.addEventListener("keydown", function(keypress) {
         });
 
         // get local user data
-        let uid = <?php echo $_SESSION["id"]; ?>;
         let username = "<?php echo $_SESSION["uname"]; ?>";
 
         // generate message html layout
         let message = `\n\t\t`
                     + `<span class="message">`
-                    + `<a target="_blank" href="/profile.php?id=${uid}">`
                     + `<b class="message-content">${username}</b>`
-                    + `</a>`
-                    + `<div class="message-content">`
-                    + `: ${message_box.value}`
-                    + `</div>`
+                    + `<div class="message-content">: ${message_box.value}</div>`
                     + `</span>`;
 
         // add message to chatbox
@@ -134,7 +133,7 @@ message_box.addEventListener("keydown", function(keypress) {
         // re-enable message listener
         message_request = window.setInterval(request_messages, 500);
     }
-})
+});
 
 function request_messages() {
     let request = fetch("/broadcast_message.php?action=receive");

@@ -14,7 +14,7 @@ include_once "include/messaging.php";
 
 logout_user_on_inactivity($db);
 
-if (!isset($_SESSION["messages_consumed"])) {
+if (!isset($_SESSION["messages_consumed"]) || $_GET["action"] == "reset") {
     $_SESSION["messages_consumed"] = 0;
 }
 
@@ -58,25 +58,6 @@ if ($_GET["action"] == "receive") {
     $_SESSION["messages_consumed"] = $msg_count;
 
     echo $concatenated_msgs;
-    exit;
-}
-
-if ($_GET["action"] == "receive_log") {
-    require_once "include/db.php";
-
-    $sql = "SELECT * from messages";
-    $query = mysqli_query($db, $sql);
-
-    while ($row = mysqli_fetch_array($query)) {
-        $s .= $row["text"] . "\n";
-    }
-
-    $now = time() - 1;
-    $now = new DateTime("@$now");
-    $now = $now->format("Y-m-d h:i:s");
-    $_SESSION["last_request"] = $now;
-
-    echo "$s";
     exit;
 }
 

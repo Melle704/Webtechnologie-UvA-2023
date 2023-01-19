@@ -7,15 +7,6 @@ TABLE messages [
     TIMESTAMP date
 ]
 
-LOGIN (client):
-1. send GET request to `broadcast_message.php` using AJAX.
-2. set chatbox element to message log.
-
-LOGIN (server):
-1. determine whether the `PHPSESSID` cookie is set on POST request.
-2. load message log from `msgs` table.
-2. format and send message log.
-
 ON MESSAGE SEND (client):
 1. send POST request to `broadcast_message.php` containing the message using AJAX.
 
@@ -32,5 +23,5 @@ CLIENT LOOP:
 SERVER LOOP:
 1. determine whether the `PHPSESSID` cookie is set on GET request.
 2. check what messages are new since the last request.
-2. load messages from `msgs` table.
-2. format and return new messages.
+3. load messages from `msgs` table.
+4. format and return new messages.
