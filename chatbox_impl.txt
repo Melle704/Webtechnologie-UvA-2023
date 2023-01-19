@@ -1,11 +1,5 @@
 # Chatbox implementation
 
-TABLE sessions [
-    INT uid,
-    CHAR(11) session_id,
-    TIMESTAMP creation_date
-]
-
 TABLE messages [
     INT id,
     INT uid,
@@ -13,11 +7,14 @@ TABLE messages [
     TIMESTAMP date
 ]
 
-LOGIN:
-1. upload `PHPSESSID` to `sessions` table.
-2. remove previous session ID from `sessions` table.
-3. add session ID to `sessions` table.
-4. load message log from `msgs` table.
+LOGIN (client):
+1. send GET request to `broadcast_message.php` using AJAX.
+2. set chatbox element to message log.
+
+LOGIN (server):
+1. determine whether the `PHPSESSID` cookie is set on POST request.
+2. load message log from `msgs` table.
+2. format and send message log.
 
 ON MESSAGE SEND (client):
 1. send POST request to `broadcast_message.php` containing the message using AJAX.
@@ -28,7 +25,12 @@ ON MESSAGE SEND (server):
 
 CLIENT LOOP:
 1. send GET request to `broadcast_message.php` using AJAX.
-1. determine whether the `PHPSESSID` cookie is set on GET request.
 2. append new messages to message log.
 2. sleep for 0.5 seconds.
 3. repeat.
+
+SERVER LOOP:
+1. determine whether the `PHPSESSID` cookie is set on GET request.
+2. check what messages are new since the last request.
+2. load messages from `msgs` table.
+2. format and return new messages.

@@ -36,12 +36,6 @@ CREATE TABLE users (
 INSERT INTO users (uname, email, dob, passwd, last_activity) VALUES
 ("admin", "email@address.com", "1996-08-01", "$passwd", now());
 
-CREATE TABLE sessions (
-  uid INT PRIMARY KEY,
-  session_id CHAR(11) NOT NULL,
-  creation_date TIMESTAMP NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
   uid INT NOT NULL,
