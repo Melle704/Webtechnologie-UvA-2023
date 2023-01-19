@@ -52,14 +52,14 @@ if ($_GET["action"] == "receive") {
     foreach ($new_entries as $entry) {
         $user = find_user_by_uid($db, $entry["uid"]);
 
-        $s .= "\n            ";
+        $s .= "\n            <span class=\"message\">";
 
         // add a link to the profile's of other users
         if ($_SESSION["id"] != $entry["uid"]) {
             $s .= '<a target="_blank" href="/profile.php?id=' . $entry["uid"]. '">';
         }
 
-        $s .= "<b>"
+        $s .= '<b class="message-content">'
             . $user["uname"]
             . "</b>";
 
@@ -68,11 +68,14 @@ if ($_GET["action"] == "receive") {
             $s .= "</a>";
         }
 
-        $s .= ": "
+        $s .= '<div class="message-content">'
+            . ": "
             . $entry["msg"]
+            . "</div>"
+            . "</span>"
             . "\n";
 
-        $s .= "            <br>\n";
+        $s .= "            \n";
     }
 
     $_SESSION["messages_consumed"] = $entry_count;

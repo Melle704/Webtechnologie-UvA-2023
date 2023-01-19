@@ -195,6 +195,16 @@ ul {
 >>>>>>> 19d9be9 (Ability to send message to database.)
 }
 
+.message {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.message-content {
+    display: inline-block;
+}
+
 #user-online {
     color: #FB4934;
 }

@@ -20,15 +20,15 @@ LOGIN:
 4. load message log from `msgs` table.
 
 ON MESSAGE SEND (client):
-1. send POST request to `broadcast_message.php` containing the session ID and message using AJAX.
+1. send POST request to `broadcast_message.php` containing the message using AJAX.
 
 ON MESSAGE SEND (server):
-1. determine whether session ID is in the `sessions` table.
-2. determine whether session ID is less than 24hrs old (delete from db if session ID is too old).
-3. record date and add message to `messages` table.
+1. determine whether the `PHPSESSID` cookie is set on POST request.
+2. record date and add message to `messages` table.
 
 CLIENT LOOP:
-1. send POST request to `broadcast_message.php` containing the session ID using AJAX.
+1. send GET request to `broadcast_message.php` using AJAX.
+1. determine whether the `PHPSESSID` cookie is set on GET request.
 2. append new messages to message log.
 2. sleep for 0.5 seconds.
 3. repeat.
