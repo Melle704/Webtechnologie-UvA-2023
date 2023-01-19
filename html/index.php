@@ -21,28 +21,7 @@
         <b>Chatbox</b>
     </div>
     <div class="box-row" style="height: 10rem;">
-        <div class="chatbox-msgs">
-            <b>admin</b>: I <3 u
-            <br>
-            <b>nicolas</b>: no u
-            <br>
-            <b>admin</b>: I <3 u
-            <br>
-            <b>nicolas</b>: no u
-            <br>
-            <b>admin</b>: I <3 u
-            <br>
-            <b>nicolas</b>: no u
-            <br>
-            <b>admin</b>: I <3 u
-            <br>
-            <b>nicolas</b>: no u
-            <br>
-            <b>admin</b>: I <3 u
-            <br>
-            <b>nicolas</b>: no u
-            <br>
-        </div>
+        <div class="chatbox-msgs" id="chatbox"></div>
     </div>
     <div class="box-row">
         <div class="chatbox">
@@ -110,6 +89,7 @@
 <?php if (isset($_SESSION["id"])): ?>
 <script>
 let message_box = document.getElementById("chatbox-message");
+let chatbox = document.getElementById("chatbox");
 
 message_box.addEventListener("keydown", function(keypress) {
     if (keypress.code == "Enter") {
@@ -124,12 +104,15 @@ message_box.addEventListener("keydown", function(keypress) {
 })
 
 function request_messages() {
-    var request = fetch("/broadcast_message.php?action=receive");
-    var request = request.then((response) => response.text());
+    let request = fetch("/broadcast_message.php?action=receive");
 
-    request.then((body) => {
+    request.then((response) => response.text()).then((body) => {
         if (body != "") {
-            console.log(body);
+            // append message to chatbox
+            chatbox.innerHTML += body;
+
+            // scroll chatbox down
+            chatbox.scrollTop = chatbox.scrollHeight;
         }
     });
 }

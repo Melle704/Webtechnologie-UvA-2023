@@ -1,7 +1,5 @@
 <?php
 
-include_once "include/common.php";
-
 session_start();
 
 // ensure you can't try to send a message if you aren't logged in
@@ -10,15 +8,23 @@ if (!isset($_SESSION["id"])) {
     exit;
 }
 
+require_once "include/db.php";
+include_once "include/common.php";
+
+logout_user_on_inactivity($db);
+
 if (!isset($_SESSION["messages_consumed"])) {
     $_SESSION["messages_consumed"] = 0;
 }
 
 if ($_GET["action"] == "send") {
-    require_once "include/db.php";
-
     $message = file_get_contents("php://input");
     $message = htmlspecialchars(trim($message));
+
+    // message is empty
+    if (strlen($message) == 0) {
+        exit;
+    }
 
     // message too long
     if (strlen($message) > 255) {
@@ -31,8 +37,6 @@ if ($_GET["action"] == "send") {
 }
 
 if ($_GET["action"] == "receive") {
-    require_once "include/db.php";
-
     $entries = messagebox_messages($db);
     $entry_count = count($entries);
 
@@ -46,15 +50,29 @@ if ($_GET["action"] == "receive") {
     $new_entries = array_slice($entries, $_SESSION["messages_consumed"]);
 
     foreach ($new_entries as $entry) {
-        $s .= '<a href="/profile.php?id='
-            . $entry["uid"]
-            . '"'
-            . "><b>"
-            . "admin"
-            . "</b>"
-            . ": "
+        $user = find_user_by_uid($db, $entry["uid"]);
+
+        $s .= "\n            ";
+
+        // add a link to the profile's of other users
+        if ($_SESSION["id"] != $entry["uid"]) {
+            $s .= '<a target="_blank" href="/profile.php?id=' . $entry["uid"]. '">';
+        }
+
+        $s .= "<b>"
+            . $user["uname"]
+            . "</b>";
+
+        // add a link to the profile's of other users
+        if ($_SESSION["id"] != $entry["uid"]) {
+            $s .= "</a>";
+        }
+
+        $s .= ": "
             . $entry["msg"]
             . "\n";
+
+        $s .= "            <br>\n";
     }
 
     $_SESSION["messages_consumed"] = $entry_count;
