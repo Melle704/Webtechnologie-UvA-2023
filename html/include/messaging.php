@@ -27,7 +27,7 @@ function retrieve_messages($db) {
 function format_message($db, $message) {
     $user = find_user_by_uid($db, $message["uid"]);
 
-    $s = "\n            <span class=\"message\">";
+    $s = "\n\t\t<span class=\"message\">";
 
     // add a link to the profile's of other users
     if ($_SESSION["id"] != $message["uid"]) {
@@ -47,10 +47,7 @@ function format_message($db, $message) {
         . ": "
         . $message["text"]
         . "</div>"
-        . "</span>"
-        . "\n";
-
-    $s .= "            \n";
+        . "</span>";
 
     return $s;
 }

@@ -90,16 +90,49 @@
 <script>
 let message_box = document.getElementById("chatbox-message");
 let chatbox = document.getElementById("chatbox");
+let message_requester = window.setInterval(request_messages, 500);
 
 message_box.addEventListener("keydown", function(keypress) {
-    if (keypress.code == "Enter") {
-        let request = fetch("/broadcast_message.php?action=send", {
+    if (keypress.code == "Enter" && message_box.value != "") {
+        // disable message listener
+        window.clearInterval(message_requester);
+
+        // send message to server
+        fetch("/broadcast_message.php?action=send", {
             method: "POST",
             body: message_box.value,
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
-        })
+        });
 
+        // get local user data
+        let uid = <?php echo $_SESSION["id"]; ?>;
+        let username = "<?php echo $_SESSION["uname"]; ?>";
+
+        // generate message html layout
+        let message = `\n\t\t`
+                    + `<span class="message">`
+                    + `<a target="_blank" href="/profile.php?id=${uid}">`
+                    + `<b class="message-content">${username}</b>`
+                    + `</a>`
+                    + `<div class="message-content">`
+                    + `: ${message_box.value}`
+                    + `</div>`
+                    + `</span>`;
+
+        // add message to chatbox
+        chatbox.innerHTML += message;
+
+        // scroll chatbox down
+        chatbox.scrollTop = chatbox.scrollHeight;
+
+        // clear message box
         message_box.value = "";
+
+        // send request for new messages, clearing the unseen message log
+        fetch("/broadcast_message.php?action=receive");
+
+        // re-enable message listener
+        message_request = window.setInterval(request_messages, 500);
     }
 })
 
@@ -116,8 +149,6 @@ function request_messages() {
         }
     });
 }
-
-window.setInterval(request_messages, 500);
 </script>
 <?php endif; ?>
 
