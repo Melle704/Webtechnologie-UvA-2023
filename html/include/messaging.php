@@ -12,8 +12,9 @@ function send_message($db, $uid, $text) {
     mysqli_stmt_close($stmt);
 }
 
+// retrieve latest 150 messages
 function retrieve_messages($db) {
-    $sql = "SELECT * FROM messages";
+    $sql = "SELECT * FROM messages ORDER BY date LIMIT 150";
     $query = mysqli_query($db, $sql);
     $entries = array();
 
