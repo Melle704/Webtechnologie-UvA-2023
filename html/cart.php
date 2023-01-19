@@ -1,10 +1,18 @@
 <?php
+include_once "include/common.php";
+include_once "include/db.php";
+
 session_start();
 
 if ($_POST["action"] == "remove" && isset($_POST["id"])) {
     unset($_SESSION["cart"][$_POST["id"]]);
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
 }
+
+$keys_string = implode(',', array_keys($_SESSION["cart"]));
+
+$sql = "SELECT * FROM products WHERE id IN ($keys_string)";
+$products = query_execute($db, $sql);
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,15 +43,15 @@ if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         <th>Amount</th>
         <th width="30px"></th>
     </tr>
-    <?php foreach($_SESSION["cart"] as $id => $amount): ?>
+    <?php foreach($products as $product): ?>
     <tr>
-        <td>Example (<?= $id ?>)</td>
-        <td>€3,-</td>
-        <td><?= $amount ?></td>
+        <td><?= $product["name"] ?></td>
+        <td>€<?= $product["price"] ?></td>
+        <td><?= $_SESSION["cart"][$product["id"]] ?></td>
         <td>
             <form method="post" action="" class="form remove-form">
                 <input type="hidden" name="action" value="remove">
-                <input type="hidden" name="id" value="<?= $id ?>">
+                <input type="hidden" name="id" value="<?= $product["id"] ?>">
                 <input type="submit" value="&#x2716;">
             </form>
         </td>
