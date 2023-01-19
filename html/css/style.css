@@ -1,5 +1,6 @@
 * {
     color: #CECECE;
+    box-sizing: border-box;
 }
 
 body {
@@ -143,6 +144,26 @@ ul {
 .box-flex {
     display: flex;
     flex-wrap: wrap;
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.box-item {
+    padding: 16px;
+}
+
+.box-item img {
+    display: block;
+    width: 265px;
+    height: 370px;
+}
+
+.box-item h2 {
+    margin-top: 0;
 }
 
 .users-online li {

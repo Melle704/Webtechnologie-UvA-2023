@@ -1,3 +1,30 @@
+<?php
+include_once "include/common.php";
+include_once "include/db.php";
+
+session_start();
+
+$sql = "SELECT * FROM products WHERE id=?";
+$product = query_execute($db, $sql, "i", $_GET["id"])[0];
+
+// Redirect to shop if page is reached without id
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if(!isset($_GET["id"])) {
+        header("Location: /shop.php");
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $amount = $_POST["amount"];
+    $product_id = $_POST["product_id"];
+
+    if (isset($amount) && isset($product_id)) {
+        $_SESSION["cart"][$product_id] += $amount;
+    }
+
+    header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -9,49 +36,9 @@
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/form.css">
+	<link rel="stylesheet" type="text/css" href="/css/shop.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        #product-image {
-            flex-grow: 1;
-        }
-
-        #product-info {
-            flex-grow: 6;
-        }
-
-        #product-purchase {
-            flex-grow: 1;
-        }
-
-        .box-item {
-            padding: 16px;
-        }
-
-        h1 {
-            margin-top: 8px;
-        }
-
-        img {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
 </head>
 
 <body>
@@ -60,16 +47,16 @@
 
 <div class="box box-row box-container">
     <div id="product-image">
-        <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
+        <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
     </div>
     <div id="product-info">
         <h1>
-            Test product
-            <span>€3,-</span>
+            <?= $product["name"] ?>
+            <span>€<?= $product["price"] ?></span>
         </h1>
     </div>
     <div id="product-purchase">
-         <form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>" class="form">
+         <form method="post" action="<?php echo $_SERVER["REQUEST_URI"];?>" class="form">
             <fieldset>
                 <legend>
                     Add item(s) to cart
@@ -81,31 +68,6 @@
                 <input type="submit" value="Add to cart">
             </fieldset>
          </form>
-
-        <?php
-        // Redirect to shop if page is reached without id
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            if(!isset($_GET["id"])) {
-                header("Location: /shop.php");
-            }
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $amount = $_POST["amount"];
-            $product_id = $_POST["product_id"];
-
-            if (empty($amount) || empty($product_id)) {
-                header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-                die;
-            }
-
-            $_SESSION["cart"][$product_id] += $amount;
-
-            header("Location: " . $_SERVER["PHP_SELF"] . "?id=" . $product_id, true, 303);
-            exit;
-        }
-        var_dump($_SESSION["cart"]);
-        ?>
     </div>
 </div>
 

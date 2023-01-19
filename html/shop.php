@@ -10,50 +10,30 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .box-item {
-            padding: 16px;
-        }
-
-        .box-item h2 {
-            margin-top: 0;
-        }
-    </style>
 </head>
 
 <body>
 
-<?php include_once "header.php";?>
+<?php include_once "header.php"; ?>
 
 <div class="box box-row box-container">
     <?php
-    $cards = ["Test", "Test", "Test", "Test", "Test", "Test", "Test"];
-    foreach($cards as $card):
+    include_once "include/common.php";
+    include_once "include/db.php";
+
+    $sql = "SELECT * FROM products LIMIT 21";
+    $products = query_execute($db, $sql);
+
+    foreach ($products as $product):
     ?>
         <div class="box box-item">
             <h2>
-                <a href="product.php?id=1"><?php echo $card; ?></a>
+                <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
                 <span class="box-right">
-                    €3,-
+                    €<?= $product["price"] ?>
                 </span>
-                </h2>
-            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="Example image"/>
+            </h2>
+            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
         </div>
     <?php endforeach; ?>
 </div>
