@@ -18,15 +18,13 @@
 
 <div class="box box-row box-container">
     <?php
+    include_once "include/common.php";
     include_once "include/db.php";
 
-    $sql = "SELECT * FROM products";
-    $stmt = mysqli_stmt_init($db);
+    $sql = "SELECT * FROM products LIMIT 21";
+    $products = query_execute($db, $sql);
 
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_execute($stmt);
-    $query = mysqli_stmt_get_result($stmt);
-    while($product = mysqli_fetch_assoc($query)):
+    foreach ($products as $product):
     ?>
         <div class="box box-item">
             <h2>
@@ -37,10 +35,7 @@
             </h2>
             <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
         </div>
-    <?php
-    endwhile;
-    mysqli_stmt_close($stmt);
-    ?>
+    <?php endforeach; ?>
 </div>
 
 <?php include_once "footer.php"; ?>

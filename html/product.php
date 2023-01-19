@@ -1,16 +1,11 @@
 <?php
+include_once "include/common.php";
 include_once "include/db.php";
+
 session_start();
 
 $sql = "SELECT * FROM products WHERE id=?";
-$stmt = mysqli_stmt_init($db);
-
-mysqli_stmt_prepare($stmt, $sql);
-mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-mysqli_stmt_execute($stmt);
-$query = mysqli_stmt_get_result($stmt);
-$product = mysqli_fetch_assoc($query);
-mysqli_stmt_close($stmt);
+$product = query_execute($db, $sql, "i", $_GET["id"])[0];
 
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {

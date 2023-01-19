@@ -31,6 +31,25 @@ function alphanumeric_plus_plus($s) {
     return preg_match("/^[\w_@.\/#!%^$?*&+-`~]*$/", $s);
 }
 
+function query_execute($db, $sql, $types="", ...$vars) {
+    $stmt = mysqli_stmt_init($db);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    if ($types != "") {
+        mysqli_stmt_bind_param($stmt, $types, ...$vars);
+    }
+    mysqli_stmt_execute($stmt);
+    $query = mysqli_stmt_get_result($stmt);
+
+    $rows = [];
+    while ($row = mysqli_fetch_assoc($query)) {
+        array_push($rows, $row);
+    }
+
+    mysqli_stmt_close($stmt);
+    return $rows;
+}
+
 function find_user($db, $username) {
     $sql = "SELECT * FROM users WHERE uname=?";
     $stmt = mysqli_stmt_init($db);
