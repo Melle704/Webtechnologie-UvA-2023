@@ -44,25 +44,16 @@ CREATE TABLE messages (
   date TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
-<<<<<<< HEAD
-ALTER TABLE users ADD PRIMARY KEY (id);
-ALTER TABLE users MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 CREATE TABLE products (
-  id INT NOT NULL,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   card_id INT NOT NULL,
   name VARCHAR(30) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   amount INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
-ALTER TABLE products ADD PRIMARY KEY (id);
-
-=======
->>>>>>> 19d9be9 (Ability to send message to database.)
 COMMIT;
 EOF
-
 
 # Generate many test products
 str="USE test;"

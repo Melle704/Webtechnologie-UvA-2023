@@ -38,6 +38,11 @@ if ($_GET["action"] == "send") {
         exit;
     }
 
+    if ($text == "/clear" && $_SESSION["role"] == "admin") {
+        mysqli_query($db, "DELETE FROM messages");
+        exit;
+    }
+
     send_message($db, $_SESSION["id"], $text);
     exit;
 }

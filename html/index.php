@@ -155,8 +155,7 @@ async function request_messages() {
 async function checked_fetch(resource, options = {}) {
     var failed = false;
     let request = await fetch(resource, options)
-        .then(v => v, _ => { failed = true })
-        .catch(err => {});
+        .then(v => v, _ => { failed = true });
 
     if (failed) {
         return "";
