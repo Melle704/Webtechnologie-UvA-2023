@@ -16,6 +16,11 @@ button {
     color: black;
 }
 
+.preview-title {
+    font-size: 1rem;
+    color: white;
+}
+
 .post-title {
     font-size: 1.5rem;
     color: white;
@@ -23,6 +28,7 @@ button {
 
 .post-timestamp {
     margin-top: 5px;
+    padding-right: 10px;
 }
 
 .post-content {
@@ -30,12 +36,14 @@ button {
     font-size: 14px;
 }
 
-.comment {
+.comment, .preview-box {
     background-color: #323232;
     margin-top: 15px;
+    padding: 2px;
+    padding-left: 10px;
 }
 
-.comment-header {
+.comment-header, .bottom-text {
     display: flex;
 }
 

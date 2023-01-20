@@ -9,6 +9,7 @@
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/forum.css">
 </head>
 
 <body>
@@ -18,34 +19,38 @@
     <div class="box box-row">
         <ol>
             <li class="row">
-                <a href="forumpost.php">
-                    <h1 class="title"> 
-                        Hallo dit is de test titel.
-                    </h1>
-                    <div class="bottme-text">
-                        <p class="timestamp">
-                            1-1-1984
-                        </p>
-                        <p class="comment-count">
-                            3 comments
-                        </p>
-                    </div>
-                </a>
+                <div class="preview-box">
+                    <a href="forumpost.php">
+                        <h class="preview-title"> 
+                            Hallo dit is de test titel.
+                        </h>
+                        <div class="bottom-text">
+                            <p class="post-timestamp">
+                                1-1-1984
+                            </p>
+                            <p class="comment-count">
+                                3 comments
+                            </p>
+                        </div>
+                    </a>
+                </div>
             </li>
             <li class="row">
-                <a href="forumpost.php">
-                    <h1 class="title"> 
-                        Hallo dit is de test titel2.
-                    </h1>
-                    <div class="bottme-text">
-                        <p class="timestamp">
-                            2-1-1984
-                        </p>
-                        <p class="comment-count">
-                            2 comments
-                        </p>
-                    </div>
-                </a>
+                <div class="preview-box">
+                    <a href="forumpost.php">
+                        <h class="preview-title"> 
+                            En dit is dan de tweede post!
+                        </h>
+                        <div class="bottom-text">
+                            <p class="post-timestamp">
+                                1-1-1984
+                            </p>
+                            <p class="comment-count">
+                                2 comments
+                            </p>
+                        </div>
+                    </a>
+                </div>
             </li>
         </ol>
     </div>

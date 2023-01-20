@@ -19,9 +19,15 @@
         <h class="post-title"> 
             Hallo dit is de test titel.
         </h>
-        <p class="post-timestamp">
-            1-1-1984
-        </p>
+        <div class="bottom-text">
+            <p class="user">
+                John Doe
+            </p>
+            <p class="comment-timestamp">
+                1-1-1984
+            </p>
+        </div>
+        
         <p class="post-content">
             Wat da fuq is een magic?
         </p>
@@ -40,7 +46,7 @@
                     </p>
                 </div>
                 <p class="comment-content">
-                    First comment.
+                    Who is u?
                 </p>
             </div>
             <div class="comment">
@@ -53,7 +59,7 @@
                     </p>
                 </div>
                 <p class="comment-content">
-                    First comment.
+                    idk.
                 </p>
             </div>
         </div>
