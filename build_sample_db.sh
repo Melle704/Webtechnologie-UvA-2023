@@ -30,11 +30,12 @@ CREATE TABLE users (
   dob DATE NOT NULL,
   passwd VARCHAR(500) NOT NULL,
   profile_desc VARCHAR(300),
+  role VARCHAR(30),
   last_activity TIMESTAMP NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
-INSERT INTO users (uname, email, dob, passwd, last_activity) VALUES
-("admin", "email@address.com", "1996-08-01", "$passwd", now());
+INSERT INTO users (uname, email, dob, passwd, role, last_activity) VALUES
+("admin", "email@address.com", "1996-08-01", "$passwd", "admin", now());
 
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,

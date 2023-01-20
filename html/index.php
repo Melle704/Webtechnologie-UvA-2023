@@ -52,10 +52,10 @@
         $tag = 'href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . '</a>';
 
         // TODO: different display for admins
-        if ($row["uname"] == "admin") {
-            $tag = '<a id="admin-online" ' . $tag;
+        if (isset($row["role"]) && $row["role"] == "admin") {
+            $tag = '<a id="admin-user" ' . $tag;
         } else {
-            $tag = '<a id="user-online" ' . $tag;
+            $tag = '<a id="default-user" ' . $tag;
         }
 
         $last_activity = $row["last_activity"];
@@ -114,11 +114,12 @@ message_box.addEventListener("keydown", async function(keypress) {
 
         // get local user data
         let username = "<?php echo $_SESSION["uname"]; ?>";
+        let user_type = "<?php echo $_SESSION["role"]; ?>-user";
 
         // generate message html layout
         let message = `\n\t\t`
                     + `<span class="message">`
-                    + `<b class="message-content">${username}</b>`
+                    + `<b class="message-content" id="${user_type}">${username}</b>`
                     + `<div class="message-content">: ${message_box.value}</div>`
                     + `</span>`;
 

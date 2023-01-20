@@ -178,6 +178,13 @@ ul {
     overflow: scroll;
 }
 
+.chatbox-msgs:after {
+    content: "\a";
+    white-space: pre;
+    font-size: 5px;
+    display: block;
+}
+
 .chatbox span {
     border: 2px solid #373737;
     background-color: #202020;
@@ -205,10 +212,10 @@ ul {
     display: inline-block;
 }
 
-#user-online {
+#default-user {
     color: #FB4934;
 }
 
-#admin-online {
+#admin-user {
     color: #CCAF0B;
 }

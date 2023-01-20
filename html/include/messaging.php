@@ -27,6 +27,7 @@ function retrieve_messages($db) {
 
 function format_message($db, $message) {
     $user = find_user_by_uid($db, $message["uid"]);
+    $role = isset($user["role"]) ? $user["role"] : "default";
 
     $s = "\n\t\t<span class=\"message\">";
 
@@ -35,7 +36,11 @@ function format_message($db, $message) {
         $s .= '<a target="_blank" href="/profile.php?id=' . $message["uid"]. '">';
     }
 
-    $s .= '<b class="message-content">'
+    $s .= '<b class="message-content" id="'
+        . $_SESSION[""]
+        . $role
+        . "-user"
+        . '">'
         . $user["uname"]
         . "</b>";
 

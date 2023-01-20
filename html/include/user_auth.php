@@ -59,6 +59,7 @@ if ($_GET["action"] == "register") {
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
     $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
+    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
 
     $now = time();
     $_SESSION["last_activity"] = new DateTime("@$now");
@@ -106,6 +107,7 @@ if ($_GET["action"] == "login") {
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
     $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
+    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
 
     $now = time();
     $_SESSION["last_activity"] = new DateTime("@$now");
