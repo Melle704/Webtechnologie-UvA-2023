@@ -90,19 +90,23 @@
 <script>
 let message_box = document.getElementById("chatbox-message");
 let chatbox = document.getElementById("chatbox");
+
+// enable message listener that checks new messages every 0.5 seconds
 let message_requester = window.setInterval(request_messages, 500);
 
 // reset queue of new messages and request message log
-fetch("/broadcast_message.php?action=reset");
-request_messages();
+(async function() {
+    await checked_fetch("/broadcast_message.php?action=reset");
+    await request_messages();
+})();
 
-message_box.addEventListener("keydown", function(keypress) {
+message_box.addEventListener("keydown", async function(keypress) {
     if (keypress.code == "Enter" && message_box.value != "") {
         // disable message listener
         window.clearInterval(message_requester);
 
         // send message to server
-        fetch("/broadcast_message.php?action=send", {
+        await checked_fetch("/broadcast_message.php?action=send", {
             method: "POST",
             body: message_box.value,
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
@@ -128,25 +132,44 @@ message_box.addEventListener("keydown", function(keypress) {
         message_box.value = "";
 
         // send request for new messages, clearing the unseen message log
-        fetch("/broadcast_message.php?action=receive");
+        await checked_fetch("/broadcast_message.php?action=receive");
 
         // re-enable message listener
         message_request = window.setInterval(request_messages, 500);
     }
 });
 
-function request_messages() {
-    let request = fetch("/broadcast_message.php?action=receive");
+async function request_messages() {
+    let body = await checked_fetch("/broadcast_message.php?action=receive");
 
-    request.then((response) => response.text()).then((body) => {
-        if (body != "") {
-            // append message to chatbox
-            chatbox.innerHTML += body;
+    if (body != "") {
+        // append message to chatbox
+        chatbox.innerHTML += body;
 
-            // scroll chatbox down
-            chatbox.scrollTop = chatbox.scrollHeight;
-        }
-    });
+        // scroll chatbox down
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+}
+
+async function checked_fetch(resource, options = {}) {
+    var failed = false;
+    let request = await fetch(resource, options)
+        .then(v => v, _ => { failed = true })
+        .catch(err => {});
+
+    if (failed) {
+        return "";
+    }
+
+    if (request.status == 500) {
+        return ""
+    }
+
+    if (request.status == 200) {
+        return await request.text();
+    }
+
+    window.location.replace("/index.php");
 }
 </script>
 <?php endif; ?>
