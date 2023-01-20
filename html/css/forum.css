@@ -1,0 +1,48 @@
+p {
+    margin: 5px 0;
+}
+
+textarea {
+    width: 30%;
+    height: 80px;
+    background-color: lightgray;
+    color: black;
+    margin-top: 40px;
+}
+
+button {
+    display: block;
+    margin: 5px 0;
+    color: black;
+}
+
+.post-title {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.post-timestamp {
+    margin-top: 5px;
+}
+
+.post-content {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.comment {
+    background-color: #323232;
+    margin-top: 15px;
+}
+
+.comment-header {
+    display: flex;
+}
+
+.comment-timestamp {
+    margin-left: 5px;
+}
+
+.comment-content {
+    font-size: 16px;
+}
