@@ -30,7 +30,7 @@
             <h2>
                 <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
                 <span class="box-right">
-                    €<?= $product["price"] ?>
+                    <?= format_eur($product["price"]) ?>
                 </span>
             </h2>
             <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>

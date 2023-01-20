@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="product-info">
         <h1>
             <?= $product["name"] ?>
-            <span>€<?= $product["price"] ?></span>
+            <span><?= format_eur($product["price"]) ?></span>
         </h1>
     </div>
     <div id="product-purchase">

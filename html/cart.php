@@ -13,6 +13,12 @@ $keys_string = implode(',', array_keys($_SESSION["cart"]));
 
 $sql = "SELECT * FROM products WHERE id IN ($keys_string)";
 $products = query_execute($db, $sql);
+
+$subtotal = 0;
+foreach ($products as $product) {
+    $amount = $_SESSION["cart"][$product["id"]];
+    $subtotal += $product["price"] * $amount;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -46,7 +52,7 @@ $products = query_execute($db, $sql);
     <?php foreach($products as $product): ?>
     <tr>
         <td><?= $product["name"] ?></td>
-        <td>€<?= $product["price"] ?></td>
+        <td><?= format_eur($product["price"]) ?></td>
         <td><?= $_SESSION["cart"][$product["id"]] ?></td>
         <td>
             <form method="post" action="" class="form remove-form">
@@ -58,6 +64,11 @@ $products = query_execute($db, $sql);
     </tr>
     <?php endforeach; ?>
 </table>
+
+<h2>
+Subtotal <?= format_eur($subtotal) ?>
+</h2>
+
 <form class="form">
     <input type="submit" value="Purchase">
 </form>

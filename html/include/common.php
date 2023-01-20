@@ -116,3 +116,7 @@ function file_type($file) {
     $mime = substr($mime, 0, strlen("image"));
     return $mime;
 }
+
+function format_eur($price) {
+    return "€" . number_format($price, 2, ",", ".");
+}
