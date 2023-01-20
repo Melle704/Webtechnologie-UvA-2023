@@ -14,8 +14,13 @@ include_once "include/messaging.php";
 
 logout_user_on_inactivity($db);
 
-if (!isset($_SESSION["messages_consumed"]) || $_GET["action"] == "reset") {
+if (!isset($_SESSION["messages_consumed"])) {
     $_SESSION["messages_consumed"] = 0;
+}
+
+if ($_GET["action"] == "reset") {
+    $_SESSION["messages_consumed"] = 0;
+    exit;
 }
 
 if ($_GET["action"] == "send") {
