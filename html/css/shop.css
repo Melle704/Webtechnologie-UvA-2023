@@ -10,6 +10,14 @@ th {
     background-color: #3d3c3b;
 }
 
+td {
+    padding: 0 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #222222;
+}
+
 .remove-form {
     margin: 0 !important;
     display: inline;
@@ -30,4 +38,16 @@ th {
 
 #product-purchase {
     flex-grow: 1;
+}
+
+#cart-list {
+    flex-grow: 5;
+}
+
+#cart-details {
+    flex-grow: 1;
+}
+
+.col-num {
+    text-align: right;
 }

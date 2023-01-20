@@ -40,38 +40,50 @@ foreach ($products as $product) {
 
 <?php include_once "header.php"; ?>
 
-<div class="box box-row">
-<h1>Cart</h1>
-<table class="box">
-    <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Amount</th>
-        <th width="30px"></th>
-    </tr>
-    <?php foreach($products as $product): ?>
-    <tr>
-        <td><?= $product["name"] ?></td>
-        <td><?= format_eur($product["price"]) ?></td>
-        <td><?= $_SESSION["cart"][$product["id"]] ?></td>
-        <td>
-            <form method="post" action="" class="form remove-form">
-                <input type="hidden" name="action" value="remove">
-                <input type="hidden" name="id" value="<?= $product["id"] ?>">
-                <input type="submit" value="&#x2716;">
-            </form>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+<div class="box box-row box-container">
+    <div id="cart-list">
+        <h1>Cart</h1>
+        <table class="box">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Total Price</th>
+                <th width="30px"></th>
+            </tr>
+            <?php foreach($products as $product): ?>
+            <tr>
+                <td class="col-text">
+                    <a href="product.php?id=<?= $product["id"] ?>">
+                        <?= $product["name"] ?>
+                    </a>
+                </td>
+                <td class="col-num"><?= format_eur($product["price"]) ?></td>
+                <td class="col-num"><?= $_SESSION["cart"][$product["id"]] ?></td>
+                <td class="col-num">
+                    <?= format_eur($_SESSION["cart"][$product["id"]] * $product["price"]) ?>
+                </td>
+                <td>
+                    <form method="post" action="" class="form remove-form">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="id" value="<?= $product["id"] ?>">
+                        <input type="submit" value="&#x2716;">
+                    </form>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
 
-<h2>
-Subtotal <?= format_eur($subtotal) ?>
-</h2>
+    <div id="cart-details" class="box box-row ">
+        <h2>
+        Subtotal: <?= format_eur($subtotal) ?>
+        </h2>
 
-<form class="form">
-    <input type="submit" value="Purchase">
-</form>
+        <form class="form">
+            <input type="submit" value="Checkout">
+        </form>
+    </div>
 </div>
 
 <?php include_once "footer.php"; ?>
