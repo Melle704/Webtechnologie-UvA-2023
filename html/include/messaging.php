@@ -37,7 +37,6 @@ function format_message($db, $message) {
     }
 
     $s .= '<b class="message-content" id="'
-        . $_SESSION[""]
         . $role
         . "-user"
         . '">'
