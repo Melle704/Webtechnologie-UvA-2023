@@ -15,7 +15,7 @@ done
 
 passwd='$2y$10$zlU3A1foU9tBmOIL9K7fJ.OJwo7unIBJve/KI2WkrpRedE3ote15K'
 
-cat <<EOF | mysql -uroot || err()
+cat <<EOF | mysql -uroot || err
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -61,7 +61,7 @@ for i in {1..199}; do
 done
 i=200
 str+="($i, $i, \"Test product $i\", 2.56, 64); "
-echo $str | mysql -uroot || err()
+echo $str | mysql -uroot || err
 
 echo "=> Database generated!"
 
