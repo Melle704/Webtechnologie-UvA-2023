@@ -1,12 +1,23 @@
 <?php
 include_once "include/common.php";
+include_once "include/errors.php";
 include_once "include/db.php";
 
 session_start();
 
-if ($_POST["action"] == "remove" && isset($_POST["id"])) {
-    unset($_SESSION["cart"][$_POST["id"]]);
-    header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_POST["action"] == "remove" && isset($_POST["id"])) {
+        unset($_SESSION["cart"][$_POST["id"]]);
+        header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+    }
+
+    if ($_POST["action"] == "checkout") {
+        if (count($_SESSION["cart"]) > 0) {
+            header("Location: checkout.php");
+        } else {
+            reload_err("Cart is empty");
+        }
+    }
 }
 
 $keys_string = implode(',', array_keys($_SESSION["cart"]));
@@ -14,10 +25,10 @@ $keys_string = implode(',', array_keys($_SESSION["cart"]));
 $sql = "SELECT * FROM products WHERE id IN ($keys_string)";
 $products = query_execute($db, $sql);
 
-$subtotal = 0;
+$total = 0;
 foreach ($products as $product) {
     $amount = $_SESSION["cart"][$product["id"]];
-    $subtotal += $product["price"] * $amount;
+    $total += $product["price"] * $amount;
 }
 ?>
 <!doctype html>
@@ -39,6 +50,8 @@ foreach ($products as $product) {
 <body>
 
 <?php include_once "header.php"; ?>
+
+<?php include_once "include/errors.php"; ?>
 
 <div class="box box-row box-container">
     <div id="cart-list">
@@ -77,10 +90,11 @@ foreach ($products as $product) {
 
     <div id="cart-details" class="box box-row ">
         <h2>
-        Subtotal: <?= format_eur($subtotal) ?>
+        Total: <?= format_eur($total) ?>
         </h2>
 
-        <form class="form">
+        <form method="post" class="form">
+            <input type="hidden" name="action" value="checkout">
             <input type="submit" value="Checkout">
         </form>
     </div>

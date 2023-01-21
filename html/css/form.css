@@ -64,3 +64,9 @@
     min-width: 10rem;
     height: 1rem;
 }
+
+.address label {
+    display: block;
+    width: 100%;
+    margin: 0.25rem 0;
+}
