@@ -32,34 +32,6 @@ ul {
     display: inline;
 }
 
-.form {
-    margin: 0.5rem;
-}
-
-.form fieldset {
-    border-color: #4F5459;
-    margin-bottom: 1rem;
-}
-
-.form legend {
-    padding: 0 0.5rem;
-    color: #FE8019 /* #60A0DC; */
-}
-
-.form b {
-    display: block;
-}
-
-.form span {
-    display: block;
-}
-
-.form label {
-    float: left;
-    margin: 3px 0.75rem 3px 0;
-    display: block;
-}
-
 .box {
     background-color: #282828;
 
