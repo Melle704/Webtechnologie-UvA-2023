@@ -4,6 +4,10 @@ include_once "include/errors.php";
 include_once "include/db.php";
 
 session_start();
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+$empty = !isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
@@ -15,20 +19,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (count($_SESSION["cart"]) > 0) {
             header("Location: checkout.php");
         } else {
-            reload_err("Cart is empty");
+            header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
         }
     }
 }
 
-$keys_string = implode(',', array_keys($_SESSION["cart"]));
+if (count($_SESSION["cart"]) > 0) {
+    $keys_string = implode(',', array_keys($_SESSION["cart"]));
 
-$sql = "SELECT * FROM products WHERE id IN ($keys_string)";
-$products = query_execute($db, $sql);
+    $sql = "SELECT * FROM products WHERE id IN ($keys_string)";
+    $products = query_execute($db, $sql);
 
-$total = 0;
-foreach ($products as $product) {
-    $amount = $_SESSION["cart"][$product["id"]];
-    $total += $product["price"] * $amount;
+    $total = 0;
+    foreach ($products as $product) {
+        $amount = $_SESSION["cart"][$product["id"]];
+        $total += $product["price"] * $amount;
+    }
+} else {
+    $products = [];
+    $total = 0;
 }
 ?>
 <!doctype html>
@@ -85,6 +94,13 @@ foreach ($products as $product) {
                 </td>
             </tr>
             <?php endforeach; ?>
+            <?php if ($empty): ?>
+            <tr>
+                <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
+                    Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
+                </td>
+            </tr>
+            <?php endif; ?>
         </table>
     </div>
 
@@ -93,10 +109,12 @@ foreach ($products as $product) {
         Total: <?= format_eur($total) ?>
         </h2>
 
+        <?php if (!$empty): ?>
         <form method="post" class="form">
             <input type="hidden" name="action" value="checkout">
             <input type="submit" value="Checkout">
         </form>
+        <?php endif; ?>
     </div>
 </div>
 
