@@ -23,7 +23,7 @@
     <div class="box-row" style="height: 10rem;">
         <div class="chatbox-msgs" id="chatbox"></div>
     </div>
-    <div class="box-row">
+    <div class="box-row" style="padding-top: 0;">
         <div class="chatbox">
             <input id="chatbox-message" type="text" name="msg" maxlength="200">
         </div>

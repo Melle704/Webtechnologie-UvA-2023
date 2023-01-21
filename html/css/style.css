@@ -171,7 +171,8 @@ ul {
     height: 100%;
     border: 2px solid #373737;
     background-color: #202020;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .chatbox-msgs:after {
@@ -190,7 +191,7 @@ ul {
     padding: 0.3rem;
     border: 2px solid #373737;
     background-color: #202020;
-    width: 98%;
+    width: 100%;
 }
 
 .chatbox input:focus {
