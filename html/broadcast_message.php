@@ -27,13 +27,8 @@ if ($_GET["action"] == "send") {
     $text = file_get_contents("php://input");
     $text = htmlspecialchars(trim($text));
 
-    // message is empty
-    if (strlen($text) == 0) {
-        exit;
-    }
-
-    // message too long
-    if (strlen($text) > 255) {
+    // message too long or empty
+    if (strlen($text) > 255 || strlen($text) == 0) {
         http_response_code(300);
         exit;
     }
@@ -43,7 +38,7 @@ if ($_GET["action"] == "send") {
         exit;
     }
 
-    send_message($db, $_SESSION["id"], $text);
+    echo send_message($db, $_SESSION["id"], $text);
     exit;
 }
 
@@ -59,15 +54,14 @@ if ($_GET["action"] == "receive") {
     }
 
     $new_messages = array_slice($messages, $_SESSION["messages_consumed"]);
-
-    $concatenated_msgs = "";
-    foreach ($new_messages as $message) {
-        $concatenated_msgs .= format_message($db, $message);
+    foreach ($new_messages as &$message) {
+        $message = ["id" => $message["id"], "body" => format_message($db, $message)];
     }
 
     $_SESSION["messages_consumed"] = $msg_count;
 
-    echo $concatenated_msgs;
+    header("Content-Type: application/json; charset=utf-8");
+    echo json_encode($new_messages);
     exit;
 }
 

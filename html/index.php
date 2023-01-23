@@ -94,6 +94,9 @@ let chatbox = document.getElementById("chatbox");
 // enable message listener that checks new messages every 0.5 seconds
 let message_requester = window.setInterval(request_messages, 500);
 
+// set of messages that have been send but not yet processed by `request_messages`
+let handled_messages = new Set();
+
 // reset queue of new messages and request message log
 (async function() {
     await checked_fetch("/broadcast_message.php?action=reset");
@@ -102,15 +105,15 @@ let message_requester = window.setInterval(request_messages, 500);
 
 message_box.addEventListener("keydown", async function(keypress) {
     if (keypress.code == "Enter" && message_box.value != "") {
-        // disable message listener
-        window.clearInterval(message_requester);
-
         // send message to server
-        await checked_fetch("/broadcast_message.php?action=send", {
+        let id = await checked_fetch("/broadcast_message.php?action=send", {
             method: "POST",
             body: message_box.value,
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
         });
+
+        // mark message as handled
+        handled_messages.add(id);
 
         // get local user data
         let username = "<?php echo $_SESSION["uname"]; ?>";
@@ -131,25 +134,25 @@ message_box.addEventListener("keydown", async function(keypress) {
 
         // clear message box
         message_box.value = "";
-
-        // send request for new messages, clearing the unseen message log
-        await checked_fetch("/broadcast_message.php?action=receive");
-
-        // re-enable message listener
-        message_request = window.setInterval(request_messages, 500);
     }
 });
 
 async function request_messages() {
-    let body = await checked_fetch("/broadcast_message.php?action=receive");
+    let messages = await checked_fetch_json("/broadcast_message.php?action=receive");
 
-    if (body != "") {
+    messages.forEach(message => {
+        // remove handled messages as they've now been acknowledged
+        if (handled_messages.has(message.id)) {
+            handled_messages.delete(message.id);
+            return;
+        }
+
         // append message to chatbox
-        chatbox.innerHTML += body;
+        chatbox.innerHTML += message.body;
 
         // scroll chatbox down
         chatbox.scrollTop = chatbox.scrollHeight;
-    }
+    });
 }
 
 async function checked_fetch(resource, options = {}) {
@@ -157,16 +160,28 @@ async function checked_fetch(resource, options = {}) {
     let request = await fetch(resource, options)
         .then(v => v, _ => { failed = true });
 
-    if (failed) {
+    if (failed || request.status == 500) {
         return "";
-    }
-
-    if (request.status == 500) {
-        return ""
     }
 
     if (request.status == 200) {
         return await request.text();
+    }
+
+    window.location.replace("/index.php");
+}
+
+async function checked_fetch_json(resource, options = {}) {
+    var failed = false;
+    let request = await fetch(resource, options)
+        .then(v => v, _ => { failed = true });
+
+    if (failed || request.status == 500) {
+        return [];
+    }
+
+    if (request.status == 200) {
+        return await request.json();
     }
 
     window.location.replace("/index.php");
