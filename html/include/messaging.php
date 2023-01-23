@@ -3,6 +3,8 @@
 include_once "include/common.php";
 
 function send_message($db, $uid, $text) {
+    mysqli_autocommit($db, false);
+
     $sql = "INSERT INTO messages (uid, text, date) VALUES (?, ?, now())";
     $stmt = mysqli_stmt_init($db);
 
@@ -10,6 +12,13 @@ function send_message($db, $uid, $text) {
     mysqli_stmt_bind_param($stmt, "is", $uid, $text);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+
+    $query = mysqli_query($db, "SELECT LAST_INSERT_ID()");
+    $row = mysqli_fetch_array($query);
+
+    mysqli_autocommit($db, true);
+
+    return $row["LAST_INSERT_ID()"];
 }
 
 // retrieve latest 150 messages
