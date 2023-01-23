@@ -130,12 +130,14 @@ ul {
 
 .box-item img {
     display: block;
+    border-radius: 15px;
     width: 265px;
     height: 370px;
 }
 
 .box-item h2 {
     margin-top: 0;
+    width: 265px;
 }
 
 .chatbox-msgs {

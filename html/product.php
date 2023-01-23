@@ -10,8 +10,8 @@ if (!isset($_SESSION["id"])) {
     exit;
 }
 
-$sql = "SELECT * FROM products WHERE id=?";
-$product = query_execute($db, $sql, "i", $_GET["id"])[0];
+$sql = "SELECT * FROM cards WHERE id=?";
+$card = query_execute($db, $sql, "i", $_GET["id"])[0];
 
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount = $_POST["amount"];
-    $product_id = $_POST["product_id"];
+    $card_id = $_POST["id"];
 
-    if (isset($amount) && isset($product_id)) {
-        $_SESSION["cart"][$product_id] += $amount;
+    if (isset($amount) && isset($card_id)) {
+        $_SESSION["cart"][$card_id] += $amount;
     }
 
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
@@ -44,26 +44,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/shop.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
 
 <?php include_once "header.php"; ?>
 
+<?php
+$card_front = $card["image"];
+$card_back = $card["back_image"];
+$card_price = $card["normal_price"];
+$foil_price = $card["foil_price"];
+if ($card_front == NULL) {
+    $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+}
+if ($card_back == NULL) {
+    $card_back = "https://i.etsystatic.com/12913642/r/il/f6f5f7/1010631517/il_570xN.1010631517_c55s.jpg";
+}
+if ($card["normal_price"] == 0) {
+    $card_price = "--";
+}
+if ($card["foil_price"] == 0) {
+    $foil_price = "--";
+}
+?>
+
 <div class="box box-row box-container">
+        <h1>
+            <?= $card["name"] ?>
+            <!-- <span>€<?= $card_price ?></span> -->
+        </h1>
+        <br>
     <div id="product-image">
-        <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
+        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+        <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>"/>
     </div>
     <div id="product-info">
-        <h1>
-            <?= $product["name"] ?>
-            <span>€<?= $product["price"] ?></span>
-        </h1>
+        <!-- <h1>
+            <?= $card["name"] ?>
+            <span>€<?= $card_price ?></span>
+        </h1> -->
     </div>
     <div id="product-purchase">
+
          <form method="post" action="<?php echo $_SERVER["REQUEST_URI"];?>" class="form">
             <fieldset>
+                <span>Normal price: €<?= $card_price ?></span>
+                <span>Foil price: €<?= $foil_price ?></span>
+                <br>
                 <legend>
                     Add item(s) to cart
                 </legend>

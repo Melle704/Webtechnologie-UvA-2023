@@ -20,6 +20,9 @@ th {
 }
 
 #product-image img {
+    border-radius: 15px;
+    width: 336px;
+    height: 468px;
     margin-left: auto;
     margin-right: auto;
 }
