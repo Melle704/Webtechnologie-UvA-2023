@@ -67,8 +67,32 @@ ul {
 }
 
 .box-head {
-    border-top: 4px solid;
-    border-image: linear-gradient(-45deg, #CC401D, #CC241D, #CF0606) 1 0 0 0;
+	position: relative;
+	border-radius: 4px;
+	padding-top: 4px;
+	z-index: 0;
+}
+
+.box-head::before {
+    border-radius: 4px;
+    content: "";
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #FE8019 0%, #CF0606 100%);
+    background-repeat: repeat-x;
+    animation: flow 4s linear infinite;
+}
+
+@keyframes flow {
+    from {background-position: -900px 0;}
+    to {background-position: 900px 0;}
+}
+
+.box-head-row {
+    background-color: #282828;
 }
 
 .box-light {
