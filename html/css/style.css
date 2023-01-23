@@ -47,6 +47,13 @@ ul {
     margin-right: auto;
 }
 
+.box img {
+    height: 300px;
+    border-radius: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .box-error {
     color: #DBDBDB;
     font-weight: 600;
@@ -131,7 +138,6 @@ ul {
 .box-item img {
     display: block;
     border-radius: 15px;
-    width: 265px;
     height: 370px;
 }
 

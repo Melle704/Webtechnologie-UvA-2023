@@ -118,21 +118,21 @@ for card in bulk_file_data:
       card["layout"] == "reversible_card" or
       card["layout"] == "art_series") :
     if "image_uris" in card["card_faces"][0].keys():
-        card_fields["image"] = card["card_faces"][0]["image_uris"]["large"]
+        card_fields["image"] = card["card_faces"][0]["image_uris"]["normal"]
     if "image_uris" in card["card_faces"][1].keys():
-        card_fields["back_image"] = card["card_faces"][1]["image_uris"]["large"]
+        card_fields["back_image"] = card["card_faces"][1]["image_uris"]["normal"]
   # Meld cards are checked seperately because they are a bit weird.
   elif (card["layout"] == "meld") :
-    card_fields["image"] = card["image_uris"]["large"]
+    card_fields["image"] = card["image_uris"]["normal"]
     for part in card["all_parts"]:
       if (part["component"] == "meld_result"):
         meld_result = requests.get(part["uri"])
         meld_result_data = meld_result.json()
-        card_fields["back_image"] = meld_result_data["image_uris"]["large"]
+        card_fields["back_image"] = meld_result_data["image_uris"]["normal"]
   else :
     if "image_uris" in card.keys():
       if "normal" in card["image_uris"].keys():
-        card_fields["image"] = card["image_uris"]["large"]
+        card_fields["image"] = card["image_uris"]["normal"]
 
   fields = ", ".join(card_fields.keys())
 

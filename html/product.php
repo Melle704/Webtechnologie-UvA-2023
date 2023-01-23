@@ -60,7 +60,7 @@ if ($card_front == NULL) {
     $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
 }
 if ($card_back == NULL) {
-    $card_back = "https://i.etsystatic.com/12913642/r/il/f6f5f7/1010631517/il_570xN.1010631517_c55s.jpg";
+    $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
 }
 if ($card["normal_price"] == 0) {
     $card_price = "--";
@@ -70,39 +70,35 @@ if ($card["foil_price"] == 0) {
 }
 ?>
 
-<div class="box box-row box-container">
+<div class="box">
+    <div class="box-row box-light">
         <h1>
             <?= $card["name"] ?>
-            <!-- <span>€<?= $card_price ?></span> -->
         </h1>
-        <br>
-    <div id="product-image">
-        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
-        <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>"/>
     </div>
-    <div id="product-info">
-        <!-- <h1>
-            <?= $card["name"] ?>
-            <span>€<?= $card_price ?></span>
-        </h1> -->
-    </div>
-    <div id="product-purchase">
-
-         <form method="post" action="<?php echo $_SERVER["REQUEST_URI"];?>" class="form">
-            <fieldset>
-                <span>Normal price: €<?= $card_price ?></span>
-                <span>Foil price: €<?= $foil_price ?></span>
-                <br>
-                <legend>
-                    Add item(s) to cart
-                </legend>
-                <label for=count>Amount</label>
-                <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                <br/>
-                <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>" />
-                <input type="submit" value="Add to cart">
-            </fieldset>
-         </form>
+    <div class="box-row">
+        <br/>
+        <div id="product-image">
+            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>"/>
+        </div>
+        <div id="product-purchase">
+            <form method="post" action="<?php echo $_SERVER["REQUEST_URI"];?>" class="form">
+                <fieldset>
+                    <span>Normal price: €<?= $card_price ?></span>
+                    <span>Foil price: €<?= $foil_price ?></span>
+                    <br/>
+                    <legend>
+                        Add item(s) to cart
+                    </legend>
+                    <label for=count>Amount</label>
+                    <input id="amount" type="number" name="amount" value="1" min="1" max="50">
+                    <br/>
+                    <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>" />
+                    <input type="submit" value="Add to cart">
+                </fieldset>
+            </form>
+        </div>
     </div>
 </div>
 

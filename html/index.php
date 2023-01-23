@@ -43,11 +43,15 @@
     <center>
         <?php foreach ($cards as $card):
             $card_front = $card["image"];
+            $card_back = $card["back_image"];
             if ($card_front == NULL) {
                 $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
             }
+            if ($card_back == NULL) {
+                $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
+            }
         ?>
-            <img src="<?= $card["image"] ?>" alt="<?= $card["name"] ?>" width="300px" border-radius="15px"/>
+        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
         <?php endforeach ?>
     </center>
 </div>

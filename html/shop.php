@@ -42,7 +42,7 @@ WHERE
             $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
         }
         if ($card_back == NULL) {
-            $card_back = "https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f8/Magic_card_back.jpg/revision/latest?cb=20140813141013";
+            $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
         }
         if ($card["normal_price"] == 0) {
             $card_price = "--";
