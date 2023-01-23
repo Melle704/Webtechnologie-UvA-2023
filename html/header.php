@@ -21,7 +21,7 @@ if (isset($_SESSION["cart"])) {
 
 <div class="box">
     <div class="box-head">
-        <div class="box-row">
+        <div class="box-row box-head-row">
             <div class="box-title">
                 <a href="/index.php"><span>MAGIC</span> THE GATHERING</a>
             </div>
@@ -52,7 +52,7 @@ if (isset($_SESSION["cart"])) {
             </div>
         </div>
         <?php if (isset($_SESSION["uname"])): ?>
-        <div class="box-row">
+        <div class="box-row box-head-row">
             <div class="box-left">
                 Logged in as <b><?php echo $_SESSION["uname"];?></b>
             </div>
