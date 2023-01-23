@@ -40,6 +40,9 @@ function query_execute($db, $sql, $types="", ...$vars) {
     }
     mysqli_stmt_execute($stmt);
     $query = mysqli_stmt_get_result($stmt);
+    if ($query === false) {
+        return false;
+    }
 
     $rows = [];
     while ($row = mysqli_fetch_assoc($query)) {

@@ -14,6 +14,30 @@ foreach ($products as $product) {
     $amount = $_SESSION["cart"][$product["id"]];
     $total += $product["price"] * $amount;
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST["name"]);
+    $address = trim($_POST["address"]);
+    $postcode = trim($_POST["postcode"]);
+    $city = trim($_POST["city"]);
+
+    validate_not_empty(
+        ["name", $name],
+        ["address", $address],
+        ["postcode", $postcode],
+        ["city", $city],
+    );
+
+    validate_predicates(
+        ["Postcode is invalid", preg_match("/^\d{4} [A-Z]{2}$/", $postcode) === 1],
+    );
+
+    $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    query_execute($db, $sql, "issssd", $_SESSION["id"],
+                  $name, $address, $postcode, $city, $total);
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,6 +58,7 @@ foreach ($products as $product) {
 <body>
 
 <?php include_once "header.php"; ?>
+<?php include_once "include/errors.php"; ?>
 
 <div class="box box-row ">
     <h1>Checkout</h1>

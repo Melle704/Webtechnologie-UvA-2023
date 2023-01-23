@@ -4,9 +4,7 @@ include_once "include/errors.php";
 include_once "include/db.php";
 
 session_start();
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+
 $empty = !isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
