@@ -4,6 +4,12 @@ include_once "include/db.php";
 
 session_start();
 
+// Ensure user is logged in and has items in their cart
+if (!isset($_SESSION["id"]) || count($_SESSION["cart"]) === 0) {
+    header("Location: index.php");
+    exit;
+}
+
 $keys_string = implode(',', array_keys($_SESSION["cart"]));
 
 $sql = "SELECT * FROM products WHERE id IN ($keys_string)";
@@ -29,7 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     validate_predicates(
+        ["Name is too long (max 80)", strlen($name) <= 80],
+        ["Address is too long (max 80)", strlen($name) <= 80],
         ["Postcode is invalid", preg_match("/^\d{4} [A-Z]{2}$/", $postcode) === 1],
+        ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
     $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price)
@@ -71,22 +80,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label>
                 <b>Name</b>
-                <input name="name">
+                <input name="name" required>
             </label>
 
             <label>
                 <b>Address (Street and house number)</b>
-                <input name="address" placeholder="Science Park 900">
+                <input name="address" placeholder="Science Park 900" required>
             </label>
 
             <label>
                 <b>Postal code</b>
-                <input name="postcode" placeholder="1098 XH">
+                <input name="postcode" placeholder="1098 XH" required>
             </label>
 
             <label>
                 <b>City</b>
-                <input name="city" placeholder="Amsterdam">
+                <input name="city" placeholder="Amsterdam" required>
             </label>
         </fieldset>
 

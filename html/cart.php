@@ -5,8 +5,6 @@ include_once "include/db.php";
 
 session_start();
 
-$empty = !isset($_SESSION["cart"]) || count($_SESSION["cart"]) == 0;
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
