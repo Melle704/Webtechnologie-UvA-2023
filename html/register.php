@@ -41,11 +41,21 @@
                 </legend>
                 <label>
                     <b>Password</b>
-                    <input type="password" name="passwd1" size="18" maxlength="500">
+                    <input type="password" name="passwd1" id="password1" size="18" maxlength="500" onkeyup='check();'>
                 </label>
                 <label>
                     <b>Confirm Password</b>
-                    <input type="password" name="passwd2" size="18" maxlength="500">
+                    <input type="password" name="passwd2" id="password2" size="18" maxlength="500" onkeyup='check();'>
+                    <script type="text/javascript" src="/js/MatchPassword.js"></script>
+                </label>
+                <label>
+                    <b>Matching</b>
+                    <span style="font-size: 18px" size="18" id='message'></span>
+                </label>
+                <label>
+                    <b>Show password</b>
+                    <input type="checkbox" onclick="ShowPassword()">
+                    <script type="text/javascript" src="/js/ShowPassword.js"></script>
                 </label>
             </fieldset>
             <fieldset>
@@ -119,7 +129,7 @@
             </fieldset>
             <input type="submit" name="submit" value="Register">
             &nbsp;&nbsp;
-            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a> 
+            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>
         </form>
     </div>
 </div>

@@ -40,7 +40,12 @@
                 </legend>
                 <label>
                     <b>Password</b>
-                    <input type="password" name="passwd" size="18" maxlength="500">
+                    <input type="password" name="passwd" id="password1" size="18" maxlength="500">
+                </label>
+                <label>
+                    <b>Show password</b>
+                    <input type="checkbox" onclick="ShowPassword()">
+                    <script type="text/javascript" src="/js/ShowPassword.js"></script>
                 </label>
                 <label class="form-after">
                     <input type="checkbox" name="stay_logged" value="1" tabindex="3">
