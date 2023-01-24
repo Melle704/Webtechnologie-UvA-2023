@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+// ensure you can't reach the shop page if you're not logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: /index.php");
+    exit;
+}
+?>
 <!doctype html>
 <html lang="en">
 

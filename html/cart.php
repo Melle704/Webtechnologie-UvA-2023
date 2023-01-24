@@ -4,6 +4,12 @@ include_once "include/db.php";
 
 session_start();
 
+// ensure you can't reach the cart page if you're not logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: /index.php");
+    exit;
+}
+
 if ($_POST["action"] == "remove" && isset($_POST["id"])) {
     unset($_SESSION["cart"][$_POST["id"]]);
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);

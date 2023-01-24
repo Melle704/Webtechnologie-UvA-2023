@@ -32,34 +32,6 @@ ul {
     display: inline;
 }
 
-.form {
-    margin: 0.5rem;
-}
-
-.form fieldset {
-    border-color: #4F5459;
-    margin-bottom: 1rem;
-}
-
-.form legend {
-    padding: 0 0.5rem;
-    color: #FE8019 /* #60A0DC; */
-}
-
-.form b {
-    display: block;
-}
-
-.form span {
-    display: block;
-}
-
-.form label {
-    float: left;
-    margin: 3px 0.75rem 3px 0;
-    display: block;
-}
-
 .box {
     background-color: #282828;
 
@@ -95,8 +67,32 @@ ul {
 }
 
 .box-head {
-    border-top: 4px solid;
-    border-image: linear-gradient(-45deg, #CC401D, #CC241D, #CF0606) 1 0 0 0;
+	position: relative;
+	border-radius: 4px;
+	padding-top: 4px;
+	z-index: 0;
+}
+
+.box-head::before {
+    border-radius: 4px;
+    content: "";
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #FE8019 0%, #CF0606 100%);
+    background-repeat: repeat-x;
+    animation: flow 4s linear infinite;
+}
+
+@keyframes flow {
+    from {background-position: -900px 0;}
+    to {background-position: 900px 0;}
+}
+
+.box-head-row {
+    background-color: #282828;
 }
 
 .box-light {
@@ -166,14 +162,54 @@ ul {
     margin-top: 0;
 }
 
-.users-online li {
-    margin-right: 0.35rem;
+.chatbox-msgs {
+    padding: 0.4rem;
+    height: 100%;
+    border: 2px solid #373737;
+    background-color: #202020;
+    color-scheme: dark;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-#user-online {
+.chatbox-msgs:after {
+    content: "\a";
+    white-space: pre;
+    font-size: 5px;
+    display: block;
+}
+
+.chatbox span {
+    border: 2px solid #373737;
+    background-color: #202020;
+}
+
+.chatbox input {
+    padding: 0.3rem;
+    border: 2px solid #373737;
+    background-color: #202020;
+    width: 100%;
+}
+
+.chatbox input:focus {
+    outline: none;
+}
+
+.message {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.message-content {
+    display: inline-block;
+}
+
+#default-user {
     color: #FB4934;
 }
 
-#admin-online {
+#admin-user {
     color: #CCAF0B;
 }

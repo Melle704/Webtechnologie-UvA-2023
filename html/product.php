@@ -4,6 +4,12 @@ include_once "include/db.php";
 
 session_start();
 
+// ensure you can't reach the product page if you're not logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: /index.php");
+    exit;
+}
+
 $sql = "SELECT * FROM products WHERE id=?";
 $product = query_execute($db, $sql, "i", $_GET["id"])[0];
 

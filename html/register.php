@@ -11,6 +11,8 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript" src="/js/MatchPassword.js"></script>
+    <script type="text/javascript" src="/js/ShowPassword.js"></script>
 </head>
 
 <body>
@@ -41,11 +43,18 @@
                 </legend>
                 <label>
                     <b>Password</b>
-                    <input type="password" name="passwd1" size="18" maxlength="500">
+                    <input type="password" name="passwd1" id="password1" size="18" maxlength="500" onkeyup='check();'>
                 </label>
                 <label>
                     <b>Confirm Password</b>
-                    <input type="password" name="passwd2" size="18" maxlength="500">
+                    <input type="password" name="passwd2" id="password2" size="18" maxlength="500" onkeyup='check();'>
+                </label>
+                <label>
+                    <b class="password-match" id="message"></b>
+                </label>
+                <label class="form-after">
+                    <input type="checkbox" onclick="ShowPassword()">
+                    Display password characters entered
                 </label>
             </fieldset>
             <fieldset>
@@ -59,7 +68,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Insert your DOB (only admins will have access to this by default)
+                    Insert your DOB (this will not show on your profile by default)
                 </legend>
                 <b>Date of Birth</b>
                 <label>
@@ -117,9 +126,10 @@
                     <input name="year" placeholder="year" size="4" maxlength="4">
                 </label>
             </fieldset>
+            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>.
+            <br>
+            <br>
             <input type="submit" name="submit" value="Register">
-            &nbsp;&nbsp;
-            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a> 
         </form>
     </div>
 </div>
