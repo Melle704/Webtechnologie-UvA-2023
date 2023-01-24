@@ -65,6 +65,13 @@ i=200
 str+="($i, $i, \"Test product $i\", 2.56, 64); "
 echo $str | mysql -uroot || err
 
-echo "=> Database generated!"
+echo "=> Test database generated!"
+
+# Generate card database.
+# First generate query and store in `sql_query` otherwise mysql times out.
+sql_query=$(/mnt/build_cards_db.py || err)
+echo $sql_query | mysql -uroot || err
+
+echo "=> Cards database generated!"
 
 fg
