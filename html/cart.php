@@ -5,10 +5,11 @@ include_once "include/db.php";
 
 session_start();
 
-$cart_empty = (isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0);
+$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
+echo $cart_empty;
 
 // Ensure user is logged in and has items in their cart
-if (!isset($_SESSION["id"]) || !$cart_empty) {
+if (!isset($_SESSION["id"]) || $cart_empty) {
     header("Location: index.php");
     exit;
 }

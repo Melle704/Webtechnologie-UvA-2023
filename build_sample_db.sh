@@ -51,7 +51,8 @@ CREATE TABLE purchases (
   address VARCHAR(80) NOT NULL,
   postcode CHAR(7) NOT NULL,
   city VARCHAR(30) NOT NULL,
-  price DECIMAL(10,2) NOT NULL
+  price DECIMAL(10,2) NOT NULL,
+  time DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ALTER TABLE purchases ADD PRIMARY KEY (id);

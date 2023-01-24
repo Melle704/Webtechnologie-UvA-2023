@@ -4,10 +4,10 @@ include_once "include/db.php";
 
 session_start();
 
-$cart_empty = (isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0);
+$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
 
 // Ensure user is logged in and has items in their cart
-if (!isset($_SESSION["id"]) || !$cart_empty) {
+if (!isset($_SESSION["id"]) || $cart_empty) {
     header("Location: index.php");
     exit;
 }
@@ -43,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
-    $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price)
-            VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price, time)
+            VALUES (?, ?, ?, ?, ?, ?, now())";
 
     query_execute($db, $sql, "issssd", $_SESSION["id"],
                   $name, $address, $postcode, $city, $total);
