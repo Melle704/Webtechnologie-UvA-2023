@@ -47,6 +47,13 @@ ul {
     margin-right: auto;
 }
 
+.box img {
+    height: 300px;
+    border-radius: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .box-error {
     color: #DBDBDB;
     font-weight: 600;
@@ -154,12 +161,13 @@ ul {
 
 .box-item img {
     display: block;
-    width: 265px;
+    border-radius: 15px;
     height: 370px;
 }
 
 .box-item h2 {
     margin-top: 0;
+    width: 265px;
 }
 
 .chatbox-msgs {
