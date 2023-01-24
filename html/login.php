@@ -11,6 +11,7 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript" src="/js/ShowPassword.js"></script>
 </head>
 
 <body>
@@ -40,13 +41,17 @@
                 </legend>
                 <label>
                     <b>Password</b>
-                    <input type="password" name="passwd" size="18" maxlength="500">
+                    <input type="password" name="passwd" id="password1" size="18" maxlength="500">
                 </label>
                 <label class="form-after">
-                    <input type="checkbox" name="stay_logged" value="1" tabindex="3">
-                    Remain logged in for the remainder of the session
+                    <input type="checkbox" onclick="ShowPassword()">
+                    Display password characters entered
                 </label>
             </fieldset>
+            <input type="checkbox" name="stay_logged" value="1" tabindex="3">
+            Remain logged in for the remainder of the session
+            <br>
+            <br>
             <input type="submit" name="submit" value="Login">
         </form>
     </div>

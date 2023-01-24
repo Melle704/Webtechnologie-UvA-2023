@@ -42,6 +42,7 @@
 .form input {
     border: 2px solid #373737;
     background-color: #202020;
+    vertical-align: middle;
 }
 
 .form input:focus {
@@ -63,4 +64,10 @@
 
 .form-after {
     clear: both;
+}
+
+.password-match:before {
+    content: "⠀";
+    display: block;
+    font-size: 0.75rem;
 }
