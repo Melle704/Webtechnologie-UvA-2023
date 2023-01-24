@@ -9,6 +9,7 @@
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/forum.css">
 </head>
 
 <body>
@@ -31,6 +32,68 @@
 </div>
 <?php endif; ?>
 
+<?php if (isset($_SESSION["id"])): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <div class="post-title box-title">
+            <a href="/forum.php">Magic the Gathering forum</a>
+        </div>
+        <p>
+            A space to ask questions and discuss Magic!
+            <br>
+            <a href="forumrules.php">Forum rules</a>
+        </p>
+    </div>
+
+    <div class="box-row">
+        <div class="preview-box">
+            <a href="forumpost.php">
+                <h class="preview-title">
+                    Hallo dit is de test titel.
+                </h>
+                <div class="bottom-text">
+                    <p class="post-timestamp">
+                        12/03/1984
+                    </p>
+                    <p class="comment-count">
+                        3 comments
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="preview-box">
+            <a href="forumpost.php">
+                <h class="preview-title">
+                    En dit is dan de tweede post!
+                </h>
+                <div class="bottom-text">
+                    <p class="post-timestamp">
+                        01/01/1984
+                    </p>
+                    <p class="comment-count">
+                        2 comments
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="preview-box">
+            <a href="forumpost.php">
+                <h class="preview-title">
+                    En dit is dan de derde post!
+                </h>
+                <div class="bottom-text">
+                    <p class="post-timestamp">
+                        01/01/1984
+                    </p>
+                    <p class="comment-count">
+                        4 comments
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<?php else: ?>
 <div class="box box-row">
     <p>
     取本顔外舞切記区還入氷浦。礎田典著住掲必門財裏栖督暮掲遠売短部。能階採災豆結占恐極覧洲掛験引護理上質。党仰滝手能葉予半道請安統浜中以経。載検将逆家経選効身愕述明吹候毒藤察行電設。後断供界字宅軽証田止衝能界時軍求基務裁根。急野真重万供局国天手暮動見。会更多泳禁更秋労相宮埼致員優大。放没継開要総妻励供空亡職幅密裁対条。
@@ -38,6 +101,7 @@
     探胸新藤石五動少防済携載戦以趣直。各条名一者松応来理内差期提容向改変。計政生授別界副績途表音法終月作捨優言。戦中査急援感無住民寒暖億例隆原。高充俊枝月面添千細先金新。聞理済着暮主販潤彼総物毫健党時賀入経法。旧没念岡権告町開弥実全家設譜要務孤人別。舞度他得渡整面夜面青行宏水盟頭月廟井治和。着紙面法意溶刊医報金予意。
     </p>
 </div>
+<?php endif; ?>
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php

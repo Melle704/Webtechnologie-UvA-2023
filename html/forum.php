@@ -14,23 +14,29 @@
 
 <body>
 
-    <?php include_once "header.php";?>
+<?php include_once "header.php";?>
 
-    <div class="box box-row">
-
-        <h class="post-title">
+<div class="box">
+    <div class="box-row box-light">
+        <div class="post-title">
             Magic the Gathering forum
-        </h>
-        <p>A space to ask questions and discuss Magic! <a href="forumrules.php">Forum rules</a></p>
+        </div>
+        <p>
+            A space to ask questions and discuss Magic!
+            <br>
+            <a href="forumrules.php">Forum rules</a>
+        </p>
+    </div>
 
+    <div class="box-row">
         <div class="preview-box">
             <a href="forumpost.php">
-                <h class="preview-title"> 
+                <h class="preview-title">
                     Hallo dit is de test titel.
                 </h>
                 <div class="bottom-text">
                     <p class="post-timestamp">
-                        1-1-1984
+                        12/03/1984
                     </p>
                     <p class="comment-count">
                         3 comments
@@ -40,12 +46,12 @@
         </div>
         <div class="preview-box">
             <a href="forumpost.php">
-                <h class="preview-title"> 
+                <h class="preview-title">
                     En dit is dan de tweede post!
                 </h>
                 <div class="bottom-text">
                     <p class="post-timestamp">
-                        1-1-1984
+                        01/01/1984
                     </p>
                     <p class="comment-count">
                         2 comments
@@ -55,12 +61,12 @@
         </div>
         <div class="preview-box">
             <a href="forumpost.php">
-                <h class="preview-title"> 
+                <h class="preview-title">
                     En dit is dan de derde post!
                 </h>
                 <div class="bottom-text">
                     <p class="post-timestamp">
-                        1-1-1984
+                        01/01/1984
                     </p>
                     <p class="comment-count">
                         4 comments
@@ -69,8 +75,9 @@
             </a>
         </div>
     </div>
+</div>
 
-    <?php include_once "footer.php"; ?>
+<?php include_once "footer.php"; ?>
 
 </body>
 
