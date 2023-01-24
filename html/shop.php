@@ -19,9 +19,9 @@ if (!isset($_SESSION["id"])) {
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
-
+WHERE
 <body>
 
 <?php include_once "header.php"; ?>
@@ -31,19 +31,36 @@ if (!isset($_SESSION["id"])) {
     include_once "include/common.php";
     include_once "include/db.php";
 
-    $sql = "SELECT * FROM products LIMIT 21";
-    $products = query_execute($db, $sql);
+    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem' ORDER BY name LIMIT 60";
+    $cards = query_execute($db, $sql);
 
-    foreach ($products as $product):
+    foreach ($cards as $card):
+        $card_front = $card["image"];
+        $card_back = $card["back_image"];
+        $card_price = $card["normal_price"];
+        if ($card_front == NULL) {
+            $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+        }
+        if ($card_back == NULL) {
+            $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
+        }
+        if ($card["normal_price"] == 0) {
+            $card_price = "--";
+        }
     ?>
         <div class="box box-item">
             <h2>
-                <a href="product.php?id=<?= $product["id"] ?>"><?= $product["name"] ?></a>
+                <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
                 <span class="box-right">
-                    €<?= $product["price"] ?>
+                    €<?= $card_price ?>
                 </span>
             </h2>
-            <img src="https://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=580583" alt="<?= $product["name"] ?>"/>
+            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+            <h2>
+                <center>
+                    <?= $card["set_name"] ?>
+                </center>
+            </h2>
         </div>
     <?php endforeach; ?>
 </div>
