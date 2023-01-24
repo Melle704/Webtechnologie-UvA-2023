@@ -44,14 +44,18 @@
         <?php foreach ($cards as $card):
             $card_front = $card["image"];
             $card_back = $card["back_image"];
-            if ($card_front == NULL) {
+            if (!$card_front) {
                 $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
             }
-            if ($card_back == NULL) {
+            if (!$card_back) {
                 $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
             }
+
+            $card_page = "/product.php?id=" . $card["id"];
         ?>
-        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+        <a href="<?= $card_page ?>">
+            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+        </a>
         <?php endforeach ?>
     </center>
 </div>
