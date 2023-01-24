@@ -19,9 +19,8 @@ if (!isset($_SESSION["id"])) {
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
-WHERE
+
 <body>
 
 <?php include_once "header.php"; ?>
@@ -31,13 +30,14 @@ WHERE
     include_once "include/common.php";
     include_once "include/db.php";
 
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem' ORDER BY name LIMIT 60";
+    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem' ORDER BY ID DESC LIMIT 60";
     $cards = query_execute($db, $sql);
 
     foreach ($cards as $card):
         $card_front = $card["image"];
         $card_back = $card["back_image"];
         $card_price = $card["normal_price"];
+
         if ($card_front == NULL) {
             $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
         }
@@ -55,11 +55,9 @@ WHERE
                     €<?= $card_price ?>
                 </span>
             </h2>
-            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+            <img src="<?= $card_front ?>" alt="<?= htmlspecialchars($card["name"]) ?>">
             <h2>
-                <center>
-                    <?= $card["set_name"] ?>
-                </center>
+                <?= $card["set_name"] ?>
             </h2>
         </div>
     <?php endforeach; ?>

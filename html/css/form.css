@@ -8,14 +8,12 @@
 }
 
 .form legend {
-    font-size: 0.75rem;
     padding: 0 0.5rem;
     color: #FE8019 /* #60A0DC; */
 }
 
 .form b {
     display: block;
-    font-size: 0.75rem;
 }
 
 .form span {
