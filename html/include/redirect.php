@@ -1,3 +1,8 @@
+<?php
+if (!isset($redirect_title) || !isset($redirect_msg)) {
+    exit;
+}
+?>
 <!doctype html>
 <html lang="en">
 
