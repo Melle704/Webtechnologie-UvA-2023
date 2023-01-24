@@ -5,6 +5,14 @@ include_once "include/db.php";
 
 session_start();
 
+$cart_empty = (isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0);
+
+// Ensure user is logged in and has items in their cart
+if (!isset($_SESSION["id"]) || !$cart_empty) {
+    header("Location: index.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
@@ -12,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($_POST["action"] == "checkout") {
-        if (count($_SESSION["cart"]) > 0) {
+        if (!$cart_empty) {
             header("Location: checkout.php");
         } else {
             header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
