@@ -68,7 +68,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Insert your DOB (only admins will have access to this by default)
+                    Insert your DOB (this will not show on your profile by default)
                 </legend>
                 <b>Date of Birth</b>
                 <label>
