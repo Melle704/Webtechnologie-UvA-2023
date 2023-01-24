@@ -33,14 +33,14 @@
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' ORDER BY RAND() LIMIT 3";
+    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' ORDER BY RAND() LIMIT 4";
     $cards = query_execute($db, $sql);
 ?>
 <div class="box">
     <div class="box-row box-light">
-        <b>Three random cards</b>
+        <b>Four random cards</b>
     </div>
-    <center>
+    <div class="box-row random-cards">
         <?php foreach ($cards as $card):
             $card_front = $card["image"];
             $card_back = $card["back_image"];
@@ -53,11 +53,11 @@
 
             $card_page = "/product.php?id=" . $card["id"];
         ?>
-        <a href="<?= $card_page ?>">
-            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>"/>
+        <a href="<?= $card_page ?>" class="random-cards">
+            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
         </a>
         <?php endforeach ?>
-    </center>
+    </div>
 </div>
 <?php endif; ?>
 
