@@ -15,6 +15,22 @@
 
 <?php include_once "header.php";?>
 
+<?php if (isset($_SESSION["id"])): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b>Chatbox</b>
+    </div>
+    <div class="box-row" style="height: 10rem;">
+        <div class="chatbox-msgs" id="chatbox"></div>
+    </div>
+    <div class="box-row" style="padding-top: 0;">
+        <div class="chatbox">
+            <input id="chatbox-message" type="text" name="msg" maxlength="200">
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <div class="box box-row">
     <p>
     取本顔外舞切記区還入氷浦。礎田典著住掲必門財裏栖督暮掲遠売短部。能階採災豆結占恐極覧洲掛験引護理上質。党仰滝手能葉予半道請安統浜中以経。載検将逆家経選効身愕述明吹候毒藤察行電設。後断供界字宅軽証田止衝能界時軍求基務裁根。急野真重万供局国天手暮動見。会更多泳禁更秋労相宮埼致員優大。放没継開要総妻励供空亡職幅密裁対条。
@@ -36,10 +52,10 @@
         $tag = 'href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . '</a>';
 
         // TODO: different display for admins
-        if ($row["uname"] == "admin") {
-            $tag = '<a id="admin-online" ' . $tag;
+        if (isset($row["role"]) && $row["role"] == "admin") {
+            $tag = '<a id="admin-user" ' . $tag;
         } else {
-            $tag = '<a id="user-online" ' . $tag;
+            $tag = '<a id="default-user" ' . $tag;
         }
 
         $last_activity = $row["last_activity"];
@@ -68,6 +84,109 @@
     </div>
 </div>
 <?php endif; ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION["id"])): ?>
+<script>
+let message_box = document.getElementById("chatbox-message");
+let chatbox = document.getElementById("chatbox");
+
+// enable message listener that checks new messages every 0.5 seconds
+let message_requester = window.setInterval(request_messages, 500);
+
+// set of messages that have been send but not yet processed by `request_messages`
+let handled_messages = new Set();
+
+// reset queue of new messages and request message log
+(async function() {
+    await checked_fetch("/broadcast_message.php?action=reset");
+    await request_messages();
+})();
+
+message_box.addEventListener("keydown", async function(keypress) {
+    if (keypress.code == "Enter" && message_box.value != "") {
+        // send message to server
+        let id = await checked_fetch("/broadcast_message.php?action=send", {
+            method: "POST",
+            body: message_box.value,
+            headers: { "Content-Type": "text/plain; charset=UTF-8" }
+        });
+
+        // mark message as handled
+        handled_messages.add(id);
+
+        // get local user data
+        let username = "<?php echo $_SESSION["uname"]; ?>";
+        let user_type = "<?php echo $_SESSION["role"]; ?>-user";
+
+        // generate message html layout
+        let message = `\n\t\t`
+                    + `<span class="message">`
+                    + `<b class="message-content" id="${user_type}">${username}</b>`
+                    + `<div class="message-content">: ${message_box.value}</div>`
+                    + `</span>`;
+
+        // add message to chatbox
+        chatbox.innerHTML += message;
+
+        // scroll chatbox down
+        chatbox.scrollTop = chatbox.scrollHeight;
+
+        // clear message box
+        message_box.value = "";
+    }
+});
+
+async function request_messages() {
+    let messages = await checked_fetch_json("/broadcast_message.php?action=receive");
+
+    messages.forEach(message => {
+        // remove handled messages as they've now been acknowledged
+        if (handled_messages.has(message.id)) {
+            handled_messages.delete(message.id);
+            return;
+        }
+
+        // append message to chatbox
+        chatbox.innerHTML += message.body;
+
+        // scroll chatbox down
+        chatbox.scrollTop = chatbox.scrollHeight;
+    });
+}
+
+async function checked_fetch(resource, options = {}) {
+    var failed = false;
+    let request = await fetch(resource, options)
+        .then(v => v, _ => { failed = true });
+
+    if (failed || request.status == 500) {
+        return "";
+    }
+
+    if (request.status == 200) {
+        return await request.text();
+    }
+
+    window.location.replace("/index.php");
+}
+
+async function checked_fetch_json(resource, options = {}) {
+    var failed = false;
+    let request = await fetch(resource, options)
+        .then(v => v, _ => { failed = true });
+
+    if (failed || request.status == 500) {
+        return [];
+    }
+
+    if (request.status == 200) {
+        return await request.json();
+    }
+
+    window.location.replace("/index.php");
+}
+</script>
 <?php endif; ?>
 
 <?php include_once "footer.php"; ?>

@@ -58,8 +58,13 @@ if ($_GET["action"] == "register") {
 
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
-    $_SESSION["last_activity"] = new DateTime($user["last_activity"]);
     $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
+    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
+
+    $now = time();
+    $_SESSION["last_activity"] = new DateTime("@$now");
+
+    logout_user_on_inactivity($db, $user["id"]);
 
     $redirect_title="Registering";
     $redirect_msg="You are being registered.";
@@ -101,10 +106,13 @@ if ($_GET["action"] == "login") {
 
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
-    $_SESSION["last_activity"] = new DateTime($user["last_activity"]);
     $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
+    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
 
-    update_user_activity($db, $user["id"]);
+    $now = time();
+    $_SESSION["last_activity"] = new DateTime("@$now");
+
+    logout_user_on_inactivity($db, $user["id"]);
 
     $redirect_title="Logging in";
     $redirect_msg="You are being logged in..";

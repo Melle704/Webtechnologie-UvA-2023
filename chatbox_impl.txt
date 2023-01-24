@@ -1,0 +1,27 @@
+# Chatbox implementation
+
+TABLE messages [
+    INT id,
+    INT uid,
+    TINYTEXT msg, message of up to 255 characters
+    TIMESTAMP date
+]
+
+ON MESSAGE SEND (client):
+1. send POST request to `broadcast_message.php` containing the message using AJAX.
+
+ON MESSAGE SEND (server):
+1. determine whether the `PHPSESSID` cookie is set on POST request.
+2. record date and add message to `messages` table.
+
+CLIENT LOOP:
+1. send GET request to `broadcast_message.php` using AJAX.
+2. append new messages to message log.
+2. sleep for 0.5 seconds.
+3. repeat.
+
+SERVER LOOP:
+1. determine whether the `PHPSESSID` cookie is set on GET request.
+2. check what messages are new since the last request.
+3. load messages from `msgs` table.
+4. format and return new messages.

@@ -8,23 +8,7 @@ if (isset($_SESSION["id"])) {
     require_once "include/db.php";
     include_once "include/common.php";
 
-    $now = time();
-    $now = new DateTime("@$now");
-
-    $dt = $now->diff($_SESSION["last_activity"]);
-    $mins_logged_in = $dt->days * 24 * 60;
-    $mins_logged_in += $dt->h * 60;
-    $mins_logged_in += $dt->i;
-
-    // logout user after 10 minutes of inactivity
-    if ($mins_logged_in >= 10 && !$_SESSION["stay_logged"]) {
-        session_start();
-        session_destroy();
-        header("Location: /index.php");
-        exit;
-    }
-
-    update_user_activity($db, $_SESSION["id"]);
+    logout_user_on_inactivity($db);
 }
 
 $cart_size = 0;
@@ -37,7 +21,7 @@ if (isset($_SESSION["cart"])) {
 
 <div class="box">
     <div class="box-head">
-        <div class="box-row">
+        <div class="box-row box-head-row">
             <div class="box-title">
                 <a href="/index.php"><span>MAGIC</span> THE GATHERING</a>
             </div>
@@ -68,7 +52,7 @@ if (isset($_SESSION["cart"])) {
             </div>
         </div>
         <?php if (isset($_SESSION["uname"])): ?>
-        <div class="box-row">
+        <div class="box-row box-head-row">
             <div class="box-left">
                 Logged in as <b><?php echo $_SESSION["uname"];?></b>
             </div>

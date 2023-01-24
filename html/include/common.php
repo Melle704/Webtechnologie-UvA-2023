@@ -89,12 +89,27 @@ function user_create($db, $username, $email, $dob, $passwd) {
     mysqli_stmt_close($stmt);
 }
 
-function update_user_activity($db, $uid) {
+function logout_user_on_inactivity($db) {
+    $now = time();
+    $now = new DateTime("@$now");
+
+    $dt = $now->diff($_SESSION["last_activity"]);
+    $mins_logged_in = $dt->days * 24 * 60;
+    $mins_logged_in += $dt->h * 60;
+    $mins_logged_in += $dt->i;
+
+    // logout user after 10 minutes of inactivity
+    if ($mins_logged_in >= 10 && !$_SESSION["stay_logged"]) {
+        session_destroy();
+        header("Location: /index.php");
+        exit;
+    }
+
     $sql = "UPDATE users SET last_activity=now() WHERE id=?";
     $stmt = mysqli_stmt_init($db);
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
@@ -102,7 +117,7 @@ function update_user_activity($db, $uid) {
     $stmt = mysqli_stmt_init($db);
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
     mysqli_stmt_execute($stmt);
     $query = mysqli_stmt_get_result($stmt);
     $query = mysqli_fetch_assoc($query)["last_activity"];
