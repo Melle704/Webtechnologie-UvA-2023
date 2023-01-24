@@ -11,6 +11,8 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script type="text/javascript" src="/js/MatchPassword.js"></script>
+    <script type="text/javascript" src="/js/ShowPassword.js"></script>
 </head>
 
 <body>
@@ -46,16 +48,13 @@
                 <label>
                     <b>Confirm Password</b>
                     <input type="password" name="passwd2" id="password2" size="18" maxlength="500" onkeyup='check();'>
-                    <script type="text/javascript" src="/js/MatchPassword.js"></script>
                 </label>
                 <label>
-                    <b>Matching</b>
-                    <span style="font-size: 18px" size="18" id='message'></span>
+                    <b class="password-match" id="message"></b>
                 </label>
-                <label>
-                    <b>Show password</b>
+                <label class="form-after">
                     <input type="checkbox" onclick="ShowPassword()">
-                    <script type="text/javascript" src="/js/ShowPassword.js"></script>
+                    Display password characters entered
                 </label>
             </fieldset>
             <fieldset>
@@ -127,9 +126,10 @@
                     <input name="year" placeholder="year" size="4" maxlength="4">
                 </label>
             </fieldset>
+            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>.
+            <br>
+            <br>
             <input type="submit" name="submit" value="Register">
-            &nbsp;&nbsp;
-            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>
         </form>
     </div>
 </div>

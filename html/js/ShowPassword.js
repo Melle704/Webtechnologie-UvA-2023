@@ -1,14 +1,15 @@
 function ShowPassword() {
     var x = document.getElementById("password1");
-        if (x.type === "password") {
+    if (x.type === "password") {
         x.type = "text";
-        } else {
+    } else {
         x.type = "password";
-        }
-        var y = document.getElementById("password2");
-        if (y.type === "password") {
+    }
+
+    var y = document.getElementById("password2");
+    if (y.type === "password") {
         y.type = "text";
-        } else {
+    } else {
         y.type = "password";
-        }
+    }
 }
