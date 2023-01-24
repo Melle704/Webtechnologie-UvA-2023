@@ -1,9 +1,12 @@
+#!/bin/python3
+
 import requests
 
 print("""
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+SET @@local.net_read_timeout=360;
 
 USE test;
 
