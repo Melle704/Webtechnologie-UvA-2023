@@ -31,20 +31,35 @@
 </div>
 <?php endif; ?>
 
-<?php if (isset($_SESSION["id"])): ?>
-<?php
-    $sql = "SELECT * FROM cards
-            WHERE NOT layout='art_series' AND NOT layout='token'
-            ORDER BY RAND() LIMIT 7";
+<div class="box">
+    <div class="box-row box-light">
+        <b>Welcome</b>
+    </div>
+    <div class="box-row">
+        <p>Ensure you thoroughly read the <a href="/rules.php">rules</a> before proceeding.</p>
+        <p>There will be a deck builder (hopefully), a forum (soon) and more potentially.</p>
+        <p>Please be patient as we try to improve the current site.</p>
+        <br>
+        <p>Thx in advance.</p>
+    </div>
+</div>
 
-    $cards = query_execute($db, $sql);
-?>
 <div class="box">
     <div class="box-row box-light">
         <b>Most popular cards this week</b>
     </div>
     <div class="box-row popular-cards">
-        <?php foreach ($cards as $card):
+        <?php
+        include_once "include/common.php";
+        include_once "include/db.php";
+
+        $sql = "SELECT * FROM cards
+                WHERE NOT layout='art_series' AND NOT layout='token'
+                ORDER BY RAND() LIMIT 7";
+
+        $cards = query_execute($db, $sql);
+
+        foreach ($cards as $card):
             $card_front = $card["image"];
             $card_back = $card["back_image"];
             $card_page = "/product.php?id=" . $card["id"];
@@ -78,8 +93,6 @@
         <?php endforeach ?>
     </div>
 </div>
-
-<?php endif; ?>
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
