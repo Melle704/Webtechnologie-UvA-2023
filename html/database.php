@@ -25,12 +25,26 @@ if (isset($_GET["page"])) {
 }
 
 $sql = "SELECT * FROM cards
-        WHERE real_card='1'
-          AND NOT layout='art_series'
-          AND NOT layout='token'
-          AND NOT layout='emblem'
-          AND id > $id_offset
-        ORDER BY id ASC LIMIT 60";
+    WHERE real_card='1'
+    AND NOT layout='art_series'
+    AND NOT layout='token'
+    AND NOT layout='emblem'
+    AND id > $id_offset";
+
+
+if (!empty($_GET["card_name"])) {
+    $sql .= " AND name LIKE '%{$_GET["card_name"]}%'";
+}
+if (!empty($_GET["oracle_text"])) {
+    $sql .= " AND oracle_text LIKE '%{$_GET["oracle_text"]}%'";
+}
+if (!empty($_GET["card_type"])) {
+    $sql .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
+}
+
+$sql .= " ORDER BY id ASC LIMIT 60";
+
+
 
 $cards = query_execute_unsafe($db, $sql);
 
@@ -66,19 +80,19 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
     <form action="" method="GET">
             <b>card name</b>
             <label>
-                <input type="text" id="card_name">
+                <input type="text" name="card_name">
             </label>
-            <br><br>
+            <br><br><br>
             <b>oracle text</b>
             <label>
-                <input type="text" id="oracle_text">
+                <input type="text" name="oracle_text">
             </label>
-            <br><br>
+            <br><br><br>
             <b>card type</b>
             <label>
-                <input type="text" id="card_type">
+                <input type="text" name="card_type">
             </label>
-            <br><br>
+            <br><br><br>
             <b>colors</b>
             <div class="color-options">
                 <input class="white_checkbox" type="checkbox" id="white" value="white">
