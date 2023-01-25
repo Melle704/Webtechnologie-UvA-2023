@@ -51,11 +51,11 @@
     accent-color: #FE8019;
 }
 
-.white_checkbox {
-    background-image: url('https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8e/W.svg/revision/latest/scale-to-width-down/200?cb=20160125094923');
+.color-options > * {
+    background-image: url("/img/search_icon.svg");
     background-size: 30px;
     background-color: transparent !important;
-    width: 35px;
+    width:35px;
     height: 35px;
     border-radius: 50%;
     vertical-align: middle;
@@ -65,6 +65,7 @@
     outline: none;
     cursor: pointer;
 }
+
 .white_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
@@ -72,16 +73,9 @@
 }
 
 .blue_checkbox {
-    width:35px;
-    height: 35px;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+    filter: invert(7%) sepia(100%) saturate(7304%) hue-rotate(249deg) brightness(107%) contrast(144%);
 }
+
 .blue_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
@@ -89,16 +83,9 @@
 }
 
 .black_checkbox {
-    width:35px;
-    height: 35px;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+    filter: invert(51%) sepia(0%) saturate(1%) hue-rotate(263deg) brightness(100%) contrast(90%);
 }
+
 .black_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
@@ -106,16 +93,9 @@
 }
 
 .red_checkbox {
-    width:35px;
-    height: 35px;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+    filter: invert(15%) sepia(63%) saturate(5800%) hue-rotate(355deg) brightness(99%) contrast(119%);
 }
+
 .red_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
@@ -123,33 +103,15 @@
 }
 
 .green_checkbox {
-    width:35px;
-    height: 35px;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+    filter: invert(45%) sepia(73%) saturate(1062%) hue-rotate(84deg) brightness(129%) contrast(118%);
 }
+
 .green_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
     accent-color: #35a700 !important;
 }
 
-.colorless_checkbox {
-    width:35px;
-    height: 35px;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid black;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
-}
 .colorless_checkbox:checked {
     appearance: auto;
     clip-path: circle(50% at 50% 50%);
