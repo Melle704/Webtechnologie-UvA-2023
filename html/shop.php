@@ -64,7 +64,7 @@ shuffle($cards);
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
             <div class="box-right item-price">
-                €<?= $card_price ?>
+                <?= format_eur($card_price) ?>
             </div>
         </div>
 
