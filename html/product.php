@@ -4,12 +4,6 @@ include_once "include/db.php";
 
 session_start();
 
-// ensure you can't reach the product page if you're not logged in
-if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
-    exit;
-}
-
 $sql = "SELECT * FROM cards WHERE id=?";
 $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 
@@ -95,7 +89,13 @@ if ($card["foil_price"] == 0) {
                     <input id="amount" type="number" name="amount" value="1" min="1" max="50">
                     <br>
                     <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>">
+                    <?php if (isset($_SESSION["id"])): ?>
                     <input type="submit" value="Add to cart">
+                    <?php else: ?>
+                    <a href="/register.php">
+                        <input type="button" value="Add to cart">
+                    </a>
+                    <?php endif; ?>
                 </fieldset>
             </form>
         </div>
