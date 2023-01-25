@@ -31,33 +31,33 @@ if (isset($_SESSION["cart"])) {
                 <ul>
                     <li><a href="/index.php">Index</a></li>
                     <li><a href="/database.php">Database</a></li>
-                <?php if (isset($_SESSION["id"])): ?>
+<?php if (isset($_SESSION["id"])): ?>
                     <li><a href="shop.php">Shop</a></li>
-                <?php endif; ?>
+<?php endif; ?>
                 </ul>
             </div>
             <div class="box-right">
                 <ul>
-                <?php if (isset($_SESSION["cart"])): ?>
+<?php if (isset($_SESSION["cart"])): ?>
                     <li><a href="/cart.php">Cart (<?= $cart_size ?>)</a></li>
-                <?php endif; ?>
-                <?php if (isset($_SESSION["id"])): ?>
+<?php endif; ?>
+<?php if (isset($_SESSION["id"])): ?>
                     <li><a href="/profile.php?id=<?= $_SESSION["id"] ?>">Profile</a></li>
                     <li><a href="/logout.php">Logout</a></li>
-                <?php else: ?>
+<?php else: ?>
                     <li><a href="/login.php">Login</a></li>
                     <li><a href="/register.php">Register</a></li>
-                <?php endif; ?>
+<?php endif; ?>
                 </ul>
             </div>
         </div>
-        <?php if (isset($_SESSION["uname"])): ?>
+<?php if (isset($_SESSION["uname"])): ?>
         <div class="box-row box-head-row">
             <div class="box-left">
                 Logged in as <b><?= $_SESSION["uname"] ?></b>
             </div>
             <div class="box-right" id="datetime"></div>
         </div>
-        <?php endif; ?>
+<?php endif; ?>
     </div>
 </div>
