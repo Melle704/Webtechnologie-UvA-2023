@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
 <?php include_once "header.php";?>
 
 <?php if (isset($_SESSION["id"])): ?>
@@ -51,26 +50,26 @@
         <b>Most popular cards this week</b>
     </div>
     <div class="box-row popular-cards">
-        <?php
-        include_once "include/common.php";
-        include_once "include/db.php";
+<?php
+include_once "include/common.php";
+include_once "include/db.php";
 
-        $sql = "SELECT * FROM cards
-                WHERE NOT layout='art_series' AND NOT layout='token'
-                ORDER BY RAND() LIMIT 7";
+$sql = "SELECT * FROM cards
+        WHERE NOT layout='art_series' AND NOT layout='token'
+        ORDER BY RAND() LIMIT 7";
 
-        $cards = query_execute_unsafe($db, $sql);
+$cards = query_execute_unsafe($db, $sql);
 
-        foreach ($cards as $card):
-            $card_front = $card["image"];
-            $card_back = $card["back_image"];
-            $card_page = "/product.php?id=" . $card["id"];
+foreach ($cards as $card):
+    $card_front = $card["image"];
+    $card_back = $card["back_image"];
+    $card_page = "/product.php?id=" . $card["id"];
 
-            if (!$card_front) {
-                $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
-            }
-        ?>
-        <?php if (isset($card_back)): ?>
+    if (!$card_front) {
+        $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+    }
+?>
+<?php if (isset($card_back)): ?>
         <div class="box-card">
             <div class="box-card-flip">
                 <div class="box-card-front">
@@ -85,14 +84,14 @@
                 </div>
             </div>
         </div>
-        <?php else: ?>
+<?php else: ?>
         <div class="box-card">
             <a href="<?= $card_page ?>">
                 <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
             </a>
         </div>
-        <?php endif; ?>
-        <?php endforeach ?>
+<?php endif; ?>
+<?php endforeach ?>
     </div>
 </div>
 
