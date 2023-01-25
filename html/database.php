@@ -62,21 +62,29 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
     <div class="box-row form">
     <form action="" method="GET">
             <b>card name</b>
-            <input type="text" id="card_name">
+            <label>
+                <input type="text" id="card_name">
+            </label>
             <br><br>
             <b>oracle text</b>
-            <input type="text" id="oracle_text">
+            <label>
+                <input type="text" id="oracle_text">
+            </label>
             <br><br>
             <b>card type</b>
-            <input type="text" id="card_type">
+            <label>
+                <input type="text" id="card_type">
+            </label>
             <br><br>
             <b>colors</b>
-            <input class="white_checkbox" type="checkbox" id="white" value="white">
-            <input class="blue_checkbox" type="checkbox" id="blue" value="blue">
-            <input class="black_checkbox" type="checkbox" id="black" value="black">
-            <input class="red_checkbox" type="checkbox" id="red" value="red">
-            <input class="green_checkbox" type="checkbox" id="green" value="green">
-            <input class="colorless_checkbox" type="checkbox" id="colorless" value="colorless">
+            <div class="color-options">
+                <input class="white_checkbox" type="checkbox" id="white" value="white">
+                <input class="blue_checkbox" type="checkbox" id="blue" value="blue">
+                <input class="black_checkbox" type="checkbox" id="black" value="black">
+                <input class="red_checkbox" type="checkbox" id="red" value="red">
+                <input class="green_checkbox" type="checkbox" id="green" value="green">
+                <input class="colorless_checkbox" type="checkbox" id="colorless" value="colorless">
+            </div>
             <br><br>
             <input type="submit" name="submit" value="Search">
     </form>
