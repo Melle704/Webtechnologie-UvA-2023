@@ -115,17 +115,13 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
             <div class="box-left item-name">
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
-            <div class="box-right item-price">
-                €<?= $card_price ?>
-            </div>
+            <div class="box-right item-price">€<?= $card_price ?></div>
         </div>
 
-        <div class="box-row item-set">
-            <?= $card["set_name"] ?>
-        </div>
+        <div class="box-row item-set"><?= $card["set_name"] ?></div>
 
         <div class="box-row">
-            <?php if (isset($card_back)): ?>
+<?php if (isset($card_back)): ?>
             <div class="box-card">
                 <div class="box-card-flip">
                     <div class="box-card-front">
@@ -140,66 +136,64 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
                     </div>
                 </div>
             </div>
-            <?php else: ?>
+<?php else: ?>
             <div class="box-card">
                 <a href="<?= $card_page ?>">
                     <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
                 </a>
             </div>
-            <?php endif; ?>
+<?php endif; ?>
         </div>
     </div>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 </div>
 
 <div class="pageinator">
-    <?php if ($page > 2): ?>
+<?php if ($page > 2): ?>
     <a class="first-page" href="/database.php?page=1";>
         <i class="fa-solid fa-chevron-left"></i>
         <i class="fa-solid fa-chevron-left"></i>
     </a>
-    <?php endif; ?>
-    <?php if ($page > 1): ?>
+<?php endif; ?>
+<?php if ($page > 1): ?>
     <a href="/database.php?page=<?= $page - 1 ?>">
         <i class="fa-solid fa-chevron-left"></i>
     </a>
-    <?php endif; ?>
-
-    <?php
-        function window($page, $last_page) {
-            if ($page < 4) {
-                return range(1, 7);
-            }
-
-            if ($last_page - $page < 4) {
-                return range($last_page - 6, $last_page);
-            }
-
-            return range($page - 3, $page + 3);
+<?php endif; ?>
+<?php
+    function window($page, $last_page) {
+        if ($page < 4) {
+            return range(1, 7);
         }
 
-        foreach (window($page, $last_page) as $page_ref) {
-            $tag = '<a href="/database.php?page=' . strval($page_ref). '"';
-
-            $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
-            $tag .= strval($page_ref);
-            $tag .= "</a>\n";
-
-            echo $tag;
+        if ($last_page - $page < 4) {
+            return range($last_page - 6, $last_page);
         }
-    ?>
 
-    <?php if ($last_page != $page): ?>
+        return range($page - 3, $page + 3);
+    }
+
+    foreach (window($page, $last_page) as $page_ref) {
+        $tag = '<a href="/database.php?page=' . strval($page_ref). '"';
+
+        $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
+        $tag .= strval($page_ref);
+        $tag .= "</a>";
+
+        echo "\t$tag\n";
+    }
+?>
+<?php if ($last_page != $page): ?>
     <a href="/database.php?page=<?= $page + 1 ?>">
         <i class="fa-solid fa-chevron-right"></i>
     </a>
-    <?php endif; ?>
-    <?php if ($last_page - $page > 1): ?>
+<?php endif; ?>
+<?php if ($last_page - $page > 1): ?>
     <a class="last-page" href="/database.php?page=<?= $last_page ?>">
         <i class="fa-solid fa-chevron-right"></i>
         <i class="fa-solid fa-chevron-right"></i>
     </a>
-    <?php endif; ?>
+<?php endif; ?>
 </div>
 
 <?php include_once "footer.php"; ?>
