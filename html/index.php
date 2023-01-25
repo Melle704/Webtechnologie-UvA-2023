@@ -31,6 +31,7 @@
 </div>
 <?php endif; ?>
 
+<?php if (!isset($_SESSION["id"])): ?>
 <div class="box">
     <div class="box-row box-light">
         <b>Welcome</b>
@@ -43,6 +44,7 @@
         <p>Thx in advance.</p>
     </div>
 </div>
+<?php endif; ?>
 
 <div class="box">
     <div class="box-row box-light">
