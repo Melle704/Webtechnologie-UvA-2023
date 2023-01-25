@@ -8,19 +8,39 @@
     <title>MTG | Cards</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 
 <body>
 
 <?php include_once "header.php";?>
-
-<div class="box box-row">
-    <p>
-行基場時能激質逆夜要読台料校力。住人姿知切堅行読観弁好必分圧客道。経学広景玉着他他校金面朝上治港理熊深永独。当地受情聞用近注中森治医裁化開在場米真基。達号電度受提山日世未聞結般新移屋。技近治年者後新掲記取佐覧暖担面村分過。民就無闘展介画予覧新写止医子笠仕。稿群供害第留旅売写型年現刊育店期。楽工型円記学本結図有半度歌。
-
-点落手藤質円連識施断不流歴要水証辞常。速辞展絞面内営府革覚芸国。青三京新教野本検択日新球加要。章携党石融波期非情催光社集作午容米問農索。豊害察面負称造福政鹿想知中車載際秘相型。沢断行局捜手平際立連価則感百聴需並深一済。込毎娘流個変題椙品相策済部更意未月座。作担界号絶査高富関日首到前。父年済再都最部記要痛帝望末育問踊。
-    </p>
+<div class="box">
+    <div class="box-row box-light">
+        <b>Simple search</b>
+    </div>
+    <div class="box-row form">
+    <form action="" method="GET">
+            <b>card name</b>
+            <input type="text" id="card_name">
+            <br><br>
+            <b>oracle text</b>
+            <input type="text" id="oracle_text">
+            <br><br>
+            <b>card type</b>
+            <input type="text" id="card_type">
+            <br><br>
+            <b>colors</b>
+            <input class="white_checkbox" type="checkbox" id="white" value="white">
+            <input class="blue_checkbox" type="checkbox" id="blue" value="blue">
+            <input class="black_checkbox" type="checkbox" id="black" value="black">
+            <input class="red_checkbox" type="checkbox" id="red" value="red">
+            <input class="green_checkbox" type="checkbox" id="green" value="green">
+            <input class="colorless_checkbox" type="checkbox" id="colorless" value="colorless">
+            <br><br>
+            <input type="submit" name="submit" value="Search">
+    </form>
+    </div>
 </div>
 
 <?php include_once "footer.php"; ?>
