@@ -24,42 +24,79 @@ if (!isset($_SESSION["id"])) {
 <body>
 
 <?php include_once "header.php"; ?>
+<?php
+include_once "include/common.php";
+include_once "include/db.php";
 
+$sql = "SELECT * FROM cards
+        WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem'
+        ORDER BY ID DESC LIMIT 50";
+$single_sided_cards = query_execute($db, $sql);
+
+$sql = "SELECT * FROM cards
+        WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem'
+        AND back_image IS NOT NULL
+        ORDER BY ID DESC LIMIT 10";
+$double_sided_cards = query_execute($db, $sql);
+
+$cards = array_merge($single_sided_cards, $double_sided_cards);
+shuffle($cards);
+?>
 <div class="box box-row box-container">
     <?php
-    include_once "include/common.php";
-    include_once "include/db.php";
-
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND NOT layout='emblem' ORDER BY ID DESC LIMIT 60";
-    $cards = query_execute($db, $sql);
-
     foreach ($cards as $card):
         $card_front = $card["image"];
         $card_back = $card["back_image"];
         $card_price = $card["normal_price"];
+        $card_page = "/product.php?id=" . $card["id"];
 
-        if ($card_front == NULL) {
+        if (!$card_front) {
             $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
         }
-        if ($card_back == NULL) {
-            $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
-        }
+
         if ($card["normal_price"] == 0) {
             $card_price = "--";
         }
     ?>
-        <div class="box box-item">
-            <h2>
+    <div class="box box-item">
+        <div class="box-row">
+            <div class="box-left item-name">
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
-                <span class="box-right">
-                    €<?= $card_price ?>
-                </span>
-            </h2>
-            <img src="<?= $card_front ?>" alt="<?= htmlspecialchars($card["name"]) ?>">
-            <h2>
-                <?= $card["set_name"] ?>
-            </h2>
+            </div>
+            <div class="box-right item-price">
+                €<?= $card_price ?>
+            </div>
         </div>
+
+        <div class="box-row item-set">
+            <?= $card["set_name"] ?>
+        </div>
+
+        <div class="box-row">
+            <?php if (isset($card_back)): ?>
+            <div class="box-card">
+                <div class="box-card-flip">
+                    <div class="box-card-front">
+                        <a href="<?= $card_page ?>">
+                            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                        </a>
+                    </div>
+                    <div class="box-card-back">
+                        <a href="<?= $card_page ?>">
+                            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php else: ?>
+            <div class="box-card">
+                <a href="<?= $card_page ?>">
+                    <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                </a>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
     <?php endforeach; ?>
 </div>
 
