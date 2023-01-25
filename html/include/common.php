@@ -41,12 +41,23 @@ function query_execute($db, $sql, $types="", ...$vars) {
     mysqli_stmt_execute($stmt);
     $query = mysqli_stmt_get_result($stmt);
 
-    $rows = [];
+    $rows = array();
     while ($row = mysqli_fetch_assoc($query)) {
         array_push($rows, $row);
     }
 
     mysqli_stmt_close($stmt);
+    return $rows;
+}
+
+function query_execute_unsafe($db, $sql) {
+    $query = mysqli_query($db, $sql);
+
+    $rows = array();
+    while ($row = mysqli_fetch_array($query)) {
+        array_push($rows, $row);
+    }
+
     return $rows;
 }
 

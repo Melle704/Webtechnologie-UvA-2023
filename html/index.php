@@ -31,35 +31,70 @@
 </div>
 <?php endif; ?>
 
-<?php if (isset($_SESSION["id"])): ?>
-<?php
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND real_card='1' ORDER BY RAND() LIMIT 4";
-    $cards = query_execute($db, $sql);
-?>
+<?php if (!isset($_SESSION["id"])): ?>
 <div class="box">
     <div class="box-row box-light">
-        <b>Four random cards</b>
+        <b>Welcome</b>
     </div>
-    <div class="box-row random-cards">
-        <?php foreach ($cards as $card):
-            $card_front = $card["image"];
-            $card_back = $card["back_image"];
-            if (!$card_front) {
-                $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
-            }
-            if (!$card_back) {
-                $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
-            }
-
-            $card_page = "/product.php?id=" . $card["id"];
-        ?>
-        <a href="<?= $card_page ?>" class="random-cards">
-            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-        </a>
-        <?php endforeach ?>
+    <div class="box-row">
+        <p>Ensure you thoroughly read the <a href="/rules.php">rules</a> before proceeding.</p>
+        <p>There will be a deck builder (hopefully), a forum (soon) and more potentially.</p>
+        <p>Please be patient as we try to improve the current site.</p>
+        <br>
+        <p>Thx in advance.</p>
     </div>
 </div>
 <?php endif; ?>
+
+<div class="box">
+    <div class="box-row box-light">
+        <b>Most popular cards this week</b>
+    </div>
+    <div class="box-row popular-cards">
+        <?php
+        include_once "include/common.php";
+        include_once "include/db.php";
+
+        $sql = "SELECT * FROM cards
+                WHERE NOT layout='art_series' AND NOT layout='token'
+                ORDER BY RAND() LIMIT 7";
+
+        $cards = query_execute_unsafe($db, $sql);
+
+        foreach ($cards as $card):
+            $card_front = $card["image"];
+            $card_back = $card["back_image"];
+            $card_page = "/product.php?id=" . $card["id"];
+
+            if (!$card_front) {
+                $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+            }
+        ?>
+        <?php if (isset($card_back)): ?>
+        <div class="box-card">
+            <div class="box-card-flip">
+                <div class="box-card-front">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+                <div class="box-card-back">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <?php else: ?>
+        <div class="box-card">
+            <a href="<?= $card_page ?>">
+                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+            </a>
+        </div>
+        <?php endif; ?>
+        <?php endforeach ?>
+    </div>
+</div>
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
@@ -102,7 +137,7 @@
         <b>Users online</b>
     </div>
     <div class="box-row users-online">
-        <?php echo $seperated_tags; ?>
+        <?= $seperated_tags ?>
     </div>
 </div>
 <?php endif; ?>
@@ -138,8 +173,8 @@ message_box.addEventListener("keydown", async function(keypress) {
         handled_messages.add(id);
 
         // get local user data
-        let username = "<?php echo $_SESSION["uname"]; ?>";
-        let user_type = "<?php echo $_SESSION["role"]; ?>-user";
+        let username = "<?= $_SESSION["uname"] ?>";
+        let user_type = "<?= $_SESSION["role"] ?>-user";
 
         // generate message html layout
         let message = `\n\t\t`
