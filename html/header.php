@@ -29,8 +29,8 @@ if (isset($_SESSION["cart"])) {
         <div class="box-row box-light">
             <div class="box-left">
                 <ul>
-                    <li><a href="index.php">Index</a></li>
-                    <li><a href="cards.php">Cards</a></li>
+                    <li><a href="/index.php">Index</a></li>
+                    <li><a href="/database.php">Database</a></li>
                 <?php if (isset($_SESSION["id"])): ?>
                     <li><a href="shop.php">Shop</a></li>
                 <?php endif; ?>
@@ -39,14 +39,14 @@ if (isset($_SESSION["cart"])) {
             <div class="box-right">
                 <ul>
                 <?php if (isset($_SESSION["cart"])): ?>
-                    <li><a href="cart.php">Cart (<?= $cart_size ?>)</a></li>
+                    <li><a href="/cart.php">Cart (<?= $cart_size ?>)</a></li>
                 <?php endif; ?>
                 <?php if (isset($_SESSION["id"])): ?>
-                    <li><a href="profile.php?id=<?php echo $_SESSION["id"];?>">Profile</a></li>
-                    <li><a href="logout.php">Logout</a></li>
+                    <li><a href="/profile.php?id=<?php echo $_SESSION["id"];?>">Profile</a></li>
+                    <li><a href="/logout.php">Logout</a></li>
                 <?php else: ?>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
+                    <li><a href="/login.php">Login</a></li>
+                    <li><a href="/register.php">Register</a></li>
                 <?php endif; ?>
                 </ul>
             </div>
