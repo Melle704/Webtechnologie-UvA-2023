@@ -34,7 +34,7 @@
 <?php if (isset($_SESSION["id"])): ?>
 <?php
     $sql = "SELECT * FROM cards
-            WHERE NOT layout='art_series' AND NOT layout='token' AND back_image IS NOT NULL
+            WHERE NOT layout='art_series' AND NOT layout='token'
             ORDER BY RAND() LIMIT 7";
 
     $cards = query_execute($db, $sql);
