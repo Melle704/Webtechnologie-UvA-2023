@@ -51,6 +51,111 @@
     accent-color: #FE8019;
 }
 
+.white_checkbox {
+    background-image: url('https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8e/W.svg/revision/latest/scale-to-width-down/200?cb=20160125094923');
+    background-size: 30px;
+    background-color: transparent !important;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.white_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #f8df01 !important;
+}
+
+.blue_checkbox {
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.blue_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #01b2f8 !important;
+}
+
+.black_checkbox {
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.black_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #6a00b1 !important;
+}
+
+.red_checkbox {
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.red_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #f80101 !important;
+}
+
+.green_checkbox {
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.green_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #35a700 !important;
+}
+
+.colorless_checkbox {
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.colorless_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #747474 !important;
+}
+
 .form input[type="file"] {
     display: none;
 }
