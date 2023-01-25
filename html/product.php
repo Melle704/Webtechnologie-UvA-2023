@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount = $_POST["amount"];
     $product_id = $_POST["product_id"];
 
-    if (isset($amount) && isset($product_id)) {
+    if (isset($amount) && isset($product_id) && $amount > 0) {
         $_SESSION["cart"][$product_id] += $amount;
     }
 
