@@ -32,6 +32,11 @@ ul {
     display: inline;
 }
 
+p {
+    margin: 0;
+    padding: 0.1rem 0;
+}
+
 .box {
     background-color: #282828;
 
