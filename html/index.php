@@ -33,7 +33,7 @@
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' ORDER BY RAND() LIMIT 4";
+    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' AND real_card='1' ORDER BY RAND() LIMIT 4";
     $cards = query_execute($db, $sql);
 ?>
 <div class="box">
