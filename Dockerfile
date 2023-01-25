@@ -1,6 +1,6 @@
 FROM python:3
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir requests
+RUN pip install --no-cache-dir --root-user-action=ignore --upgrade pip && \
+    pip install --no-cache-dir --root-user-action=ignore requests
 
 FROM mattrayner/lamp:latest-2004-php8
 COPY ./build_cards_db.py /mnt
