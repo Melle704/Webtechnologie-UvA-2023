@@ -154,7 +154,7 @@ p {
 .box-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 10px;
     align-items: flex-start;
 }
 
@@ -179,7 +179,7 @@ p {
 }
 
 .item-name {
-    width: 73%;
+    width: 68%;
     color: #60A0DC;
 }
 
