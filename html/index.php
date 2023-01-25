@@ -33,32 +33,52 @@
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
-    $sql = "SELECT * FROM cards WHERE NOT layout='art_series' AND NOT layout='token' ORDER BY RAND() LIMIT 4";
+    $sql = "SELECT * FROM cards
+            WHERE NOT layout='art_series' AND NOT layout='token' AND back_image IS NOT NULL
+            ORDER BY RAND() LIMIT 7";
+
     $cards = query_execute($db, $sql);
 ?>
 <div class="box">
     <div class="box-row box-light">
-        <b>Four random cards</b>
+        <b>Most popular cards this week</b>
     </div>
-    <div class="box-row random-cards">
+    <div class="box-row popular-cards">
         <?php foreach ($cards as $card):
             $card_front = $card["image"];
             $card_back = $card["back_image"];
+            $card_page = "/product.php?id=" . $card["id"];
+
             if (!$card_front) {
                 $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
             }
-            if (!$card_back) {
-                $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
-            }
-
-            $card_page = "/product.php?id=" . $card["id"];
         ?>
-        <a href="<?= $card_page ?>" class="random-cards">
-            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-        </a>
+        <?php if (isset($card_back)): ?>
+        <div class="box-card">
+            <div class="box-card-flip">
+                <div class="box-card-front">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+                <div class="box-card-back">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <?php else: ?>
+        <div class="box-card">
+            <a href="<?= $card_page ?>">
+                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+            </a>
+        </div>
+        <?php endif; ?>
         <?php endforeach ?>
     </div>
 </div>
+
 <?php endif; ?>
 
 <?php if (isset($_SESSION["id"])): ?>

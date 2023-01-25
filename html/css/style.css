@@ -87,8 +87,16 @@ ul {
 }
 
 @keyframes flow {
-    from {background-position: -900px 0;}
-    to {background-position: 900px 0;}
+    from {
+        background-position: -900px 0;
+    }
+    to {
+        background-position: 900px 0;
+    }
+}
+
+.box-head a {
+    color: #DDDDDD;
 }
 
 .box-head-row {
@@ -121,10 +129,6 @@ ul {
   margin-right: 0.75rem;
 }
 
-.box-left a {
-    color: #DDDDDD;
-}
-
 .box-right {
   float: right;
 }
@@ -145,22 +149,118 @@ ul {
 .box-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    align-items: center;
+    justify-content: center;
 }
 
 .box-item {
-    padding: 16px;
+    margin: 0.25rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    width: 350px;
+    max-width: 350px;
+    display: inline-block;
 }
 
-.box-item img {
-    display: block;
-    border-radius: 15px;
-    height: 370px;
+.box-container > .box-item {
+    min-width: 0; /* for allowing nowrap in flex-items */
+    height: 390px;
 }
 
-.box-item h2 {
-    margin-top: 0;
-    width: 265px;
+.item-set {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.item-name {
+    width: 73%;
+    color: #60A0DC;
+}
+
+.item-set {
+    width: 100%;
+    margin: 0;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.item-name, .item-price {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.item-name, .item-set {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width: 719px) {
+    .box-item {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .box-container > .box-item {
+        height: auto;
+        flex: 1 1 100%;
+    }
+}
+
+@media only screen and (min-width: 720px) {
+    .box-container > .box-item {
+        flex: 1 1 44%;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .box-container > .box-item {
+        flex: 1 1 30%;
+    }
+}
+
+@media only screen and (min-width: 1150px) {
+    .box-container > .box-item {
+        flex: 1 1 20%;
+    }
+}
+
+.box-card {
+    height: 300px;
+    aspect-ratio: 488 / 680;
+    perspective: 1000px;
+}
+
+.box-card img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.box-card-flip {
+  width: inherit;
+  height: inherit;
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+}
+
+.box-card:hover .box-card-flip {
+  transform: rotateY(180deg);
+}
+
+.box-card-front {
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.box-card-back {
+  transform: rotateY(180deg);
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .chatbox-msgs {
@@ -215,11 +315,12 @@ ul {
     color: #CCAF0B;
 }
 
-.random-cards {
-    display: inline;
-}
-
-.random-cards img {
-    height: 300px;
-    border-radius: 15px;
+.popular-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    overflow-x: auto;
+    margin: 0.5rem 0.75rem 0.5rem;
+    padding: 0;
+    scrollbar-width: none;
 }
