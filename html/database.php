@@ -100,7 +100,7 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
                 <input class="green_checkbox" type="checkbox" id="green" value="green">
                 <input class="colorless_checkbox" type="checkbox" id="colorless" value="colorless">
             </div>
-            <br><br>
+            <br>
             <input type="submit" name="submit" value="Search">
     </form>
     </div>
@@ -178,7 +178,19 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
     <?php endif; ?>
 
     <?php
-        foreach (range($page, $page + 6) as $page_ref) {
+        function window($page, $last_page) {
+            if ($page < 4) {
+                return range(1, 7);
+            }
+
+            if ($last_page - $page < 4) {
+                return range($last_page - 6, $last_page);
+            }
+
+            return range($page - 3, $page + 3);
+        }
+
+        foreach (window($page, $last_page) as $page_ref) {
             $tag = '<a href="/database.php?page=' . strval($page_ref). '"';
 
             $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
@@ -189,12 +201,12 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
         }
     ?>
 
-    <?php if ($last_page - $page > 1): ?>
+    <?php if ($last_page != $page): ?>
     <a href="/database.php?page=<?= $page + 1 ?>">
         <i class="fa-solid fa-chevron-right"></i>
     </a>
     <?php endif; ?>
-    <?php if ($last_page != $page): ?>
+    <?php if ($last_page - $page > 1): ?>
     <a class="last-page" href="/database.php?page=<?= $last_page ?>">
         <i class="fa-solid fa-chevron-right"></i>
         <i class="fa-solid fa-chevron-right"></i>
