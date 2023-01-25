@@ -76,7 +76,7 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
             <div class="box-right item-price">
-                €<?= $card_price ?>
+                <?= format_eur($card_price) ?>
             </div>
         </div>
 
