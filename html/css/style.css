@@ -329,3 +329,34 @@ p {
     padding: 0;
     scrollbar-width: none;
 }
+
+.pageinator {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.pageinator a {
+    color: #DDDDDD;
+    margin: 0 3px;
+}
+
+.fa-chevron-left::before {
+    content: "\f053";
+}
+
+.fa-chevrons-right::before {
+    content: "\f054";
+}
+
+.first-page > * {
+    margin-left: -3px;
+    margin-right: -3px;
+}
+
+.last-page > * {
+    margin-left: -3px;
+    margin-right: -3px;
+}

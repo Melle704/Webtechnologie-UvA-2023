@@ -59,7 +59,7 @@
                 WHERE NOT layout='art_series' AND NOT layout='token'
                 ORDER BY RAND() LIMIT 7";
 
-        $cards = query_execute($db, $sql);
+        $cards = query_execute_unsafe($db, $sql);
 
         foreach ($cards as $card):
             $card_front = $card["image"];
@@ -137,7 +137,7 @@
         <b>Users online</b>
     </div>
     <div class="box-row users-online">
-        <?php echo $seperated_tags; ?>
+        <?= $seperated_tags ?>
     </div>
 </div>
 <?php endif; ?>
@@ -173,8 +173,8 @@ message_box.addEventListener("keydown", async function(keypress) {
         handled_messages.add(id);
 
         // get local user data
-        let username = "<?php echo $_SESSION["uname"]; ?>";
-        let user_type = "<?php echo $_SESSION["role"]; ?>-user";
+        let username = "<?= $_SESSION["uname"] ?>";
+        let user_type = "<?= $_SESSION["role"] ?>-user";
 
         // generate message html layout
         let message = `\n\t\t`

@@ -42,7 +42,7 @@ if (isset($_SESSION["cart"])) {
                     <li><a href="/cart.php">Cart (<?= $cart_size ?>)</a></li>
                 <?php endif; ?>
                 <?php if (isset($_SESSION["id"])): ?>
-                    <li><a href="/profile.php?id=<?php echo $_SESSION["id"];?>">Profile</a></li>
+                    <li><a href="/profile.php?id=<?= $_SESSION["id"] ?>">Profile</a></li>
                     <li><a href="/logout.php">Logout</a></li>
                 <?php else: ?>
                     <li><a href="/login.php">Login</a></li>
@@ -54,7 +54,7 @@ if (isset($_SESSION["cart"])) {
         <?php if (isset($_SESSION["uname"])): ?>
         <div class="box-row box-head-row">
             <div class="box-left">
-                Logged in as <b><?php echo $_SESSION["uname"];?></b>
+                Logged in as <b><?= $_SESSION["uname"] ?></b>
             </div>
             <div class="box-right" id="datetime"></div>
         </div>
