@@ -102,4 +102,12 @@ $posts = query_execute_unsafe($db, $sql);
 
 </body>
 
+<!-- scroll down to bottom of page if we have an error -->
+<?php if (isset($_GET["error"])): ?>
+<script>
+let body_height = document.scrollingElement.scrollHeight;
+document.scrollingElement.scrollTo({ top: body_height })
+</script>
+<?php endif; ?>
+
 </html>
