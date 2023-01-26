@@ -143,7 +143,7 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
         }
     ?>
     <div class="box box-item">
-        <div class="box-row">
+        <div class="box-row item-header">
             <div class="box-left item-name">
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
