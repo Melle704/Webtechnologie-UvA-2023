@@ -55,8 +55,12 @@ function query_execute($db, $sql, $types="", ...$vars) {
 
 function query_execute_unsafe($db, $sql) {
     $query = mysqli_query($db, $sql);
-
     $rows = array();
+
+    if (!$query) {
+        return $rows;
+    }
+
     while ($row = mysqli_fetch_array($query)) {
         array_push($rows, $row);
     }
@@ -154,4 +158,8 @@ function format_eur($price) {
         return "€--";
     }
     return "€" . number_format($price, 2, ",", ".");
+}
+
+function format_datetime($sql_datetime) {
+    return date_format(date_create($sql_datetime), "Y-m-d h:i A");
 }

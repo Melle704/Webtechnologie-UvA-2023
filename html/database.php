@@ -127,21 +127,21 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
 </div>
 
 <div class="box box-row box-container">
-    <?php
-    foreach ($cards as $card):
-        $card_front = $card["image"];
-        $card_back = $card["back_image"];
-        $card_price = $card["normal_price"];
-        $card_page = "/product.php?id=" . $card["id"];
+<?php
+foreach ($cards as $card):
+    $card_front = $card["image"];
+    $card_back = $card["back_image"];
+    $card_price = $card["normal_price"];
+    $card_page = "/product.php?id=" . $card["id"];
 
-        if (!$card_front) {
-            $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
-        }
+    if (!$card_front) {
+        $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+    }
 
-        if ($card["normal_price"] == 0) {
-            $card_price = "--";
-        }
-    ?>
+    if ($card["normal_price"] == 0) {
+        $card_price = "--";
+    }
+?>
     <div class="box box-item">
         <div class="box-row item-header">
             <div class="box-left item-name">

@@ -16,11 +16,7 @@
 }
 
 .form label {
-    width: 98%;
-}
-
-.form textarea {
-    width: 98%;
+    width: 100%;
 }
 
 .img-showcase {
