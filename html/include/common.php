@@ -40,13 +40,27 @@ function query_execute($db, $sql, $types="", ...$vars) {
     }
     mysqli_stmt_execute($stmt);
     $query = mysqli_stmt_get_result($stmt);
+    if ($query === false) {
+        return false;
+    }
 
-    $rows = [];
+    $rows = array();
     while ($row = mysqli_fetch_assoc($query)) {
         array_push($rows, $row);
     }
 
     mysqli_stmt_close($stmt);
+    return $rows;
+}
+
+function query_execute_unsafe($db, $sql) {
+    $query = mysqli_query($db, $sql);
+
+    $rows = array();
+    while ($row = mysqli_fetch_array($query)) {
+        array_push($rows, $row);
+    }
+
     return $rows;
 }
 
@@ -133,4 +147,11 @@ function update_user_desc($db, $uid, $desc) {
     mysqli_stmt_bind_param($stmt, "si", $desc, $uid);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+}
+
+function format_eur($price) {
+    if ($price < 0.05) {
+        return "€--";
+    }
+    return "€" . number_format($price, 2, ",", ".");
 }
