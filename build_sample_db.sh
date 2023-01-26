@@ -87,12 +87,13 @@ CREATE TABLE forum_posts (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
 INSERT INTO forum_posts (thread_id, user_id, text) VALUES (1, 1, "test post 1");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (2, 1, "test post 2");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (3, 1, "test post 3");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (4, 1, "test post 4");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (5, 1, "test post 5");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (6, 1, "test post 6");
-INSERT INTO forum_posts (thread_id, user_id, text) VALUES (7, 1, "test post 7");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (1, 1, "test post 2");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (2, 1, "test post 3");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (3, 1, "test post 4");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (4, 1, "test post 5");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (5, 1, "test post 6");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (6, 1, "test post 7");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (7, 1, "test post 8");
 
 COMMIT;
 EOF
