@@ -34,6 +34,7 @@
                 <div class="box-row"><?= $profile_desc ?></div>
             </div>
         </div>
+        <div class="flex-break"></div>
         <div class="form">
             <form action="<?= $pic_submit ?>" method="post" enctype="multipart/form-data">
                 <fieldset>
