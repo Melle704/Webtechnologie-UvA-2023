@@ -1,13 +1,8 @@
 <?php
 
 function reload_err($err = "") {
-    $redirect = "Location: " . $_SERVER["PHP_SELF"];
-
-    if ($err != "") {
-        $redirect = "$redirect?error=\"$err\"";
-    }
-
-    header($redirect);
+    $_GET["error"] = $err;
+    header("Location: " . $_SERVER["PHP_SELF"] . "?". http_build_query($_GET));
     exit;
 }
 

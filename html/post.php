@@ -1,6 +1,4 @@
 <?php
-include_once "include/common.php";
-include_once "include/db.php";
 
 session_start();
 
@@ -20,6 +18,9 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     exit;
 }
 
+include_once "include/common.php";
+include_once "include/db.php";
+
 $thread_id = intval($_GET["id"]);
 $thread = query_execute_unsafe($db, "SELECT * from forum_threads WHERE id=$thread_id");
 
@@ -35,6 +36,15 @@ if (count($thread) != 1) {
 
 $thread = $thread[0];
 $user_id = $thread["user_id"];
+
+if (isset($_POST["submit"])) {
+    $text = htmlspecialchars(trim($_POST["text"]));
+
+    validate_predicates(["Messages should be of at least 10 characters", strlen($text) >= 10]);
+
+    $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
+    query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
+}
 
 $user = query_execute_unsafe($db, "SELECT * FROM users where id=$user_id")[0];
 
@@ -79,9 +89,13 @@ $posts = query_execute_unsafe($db, $sql);
 <?php endforeach ?>
 </div>
 
+<?php include_once "include/errors.php";?>
+
 <div class="box box-row">
-    <textarea style="margin-top: 0;"></textarea>
-    <button>Add comment</button>
+    <form action="/post.php?id=<?= $thread_id ?>" method="post">
+        <textarea name="text" style="margin-top: 0;"></textarea>
+        <input type="submit" name="submit" value="Add comment">
+    </form>
 </div>
 
 <?php include_once "footer.php"; ?>
