@@ -79,7 +79,7 @@ if ($card_back == NULL) {
             <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
         </div>
         <div id="product-purchase">
-            <form method="post" action="http://localhost/product.php?id=<?= $_GET["id"] ?>" class="form">
+            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
                     <legend>
                         Add item(s) to cart
