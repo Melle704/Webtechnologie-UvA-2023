@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     if (!isset($_SESSION["cart"])) {
         $_SESSION["cart"] = array();
     }
@@ -87,16 +87,14 @@ if ($card_back == NULL) {
                     <span>Normal price: <?= format_eur($card_price) ?></span>
                     <span>Foil price: <?= format_eur($foil_price) ?></span>
                     <br>
+                    <?php if (isset($_SESSION["id"])): ?>
                     <label for=count>Amount</label>
                     <input id="amount" type="number" name="amount" value="1" min="1" max="50">
                     <br>
                     <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
-                    <?php if (isset($_SESSION["id"])): ?>
                     <input type="submit" value="Add to cart">
                     <?php else: ?>
-                    <a href="/register.php">
-                        <input type="button" value="Add to cart">
-                    </a>
+                    Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
                     <?php endif; ?>
                 </fieldset>
             </form>

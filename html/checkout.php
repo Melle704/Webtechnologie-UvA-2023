@@ -28,7 +28,11 @@ foreach ($products as $product) {
     $total += $product["normal_price"] * $amount;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
+    if ($cart_empty || $total == 0) {
+        reload_err("Cart should not be empty.");
+    }
+
     $name = trim($_POST["name"]);
     $address = trim($_POST["address"]);
     $postcode = trim($_POST["postcode"]);
