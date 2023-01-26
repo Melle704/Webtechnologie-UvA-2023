@@ -50,7 +50,7 @@ $profile_pic_type = @file_get_contents("./img/user" . $_GET["id"] . ".info");
 
 if (!$profile_pic) {
     $profile_pic = file_get_contents("./img/sample.raw");
-    $profile_pic_type = "image/gif";
+    $profile_pic_type = "image/png";
 }
 
 // continue if it's form submissions

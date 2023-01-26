@@ -35,7 +35,7 @@ if (count($thread) != 1) {
 }
 
 $thread = $thread[0];
-$user_id = $thread["user_id"];
+$user_id = $_SESSION["id"];
 
 if (isset($_POST["submit"])) {
     $text = htmlspecialchars(trim($_POST["text"]));
@@ -44,6 +44,9 @@ if (isset($_POST["submit"])) {
 
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
+
+    header("Location: " . $_SERVER["REQUEST_URI"]);
+    exit;
 }
 
 $user = query_execute_unsafe($db, "SELECT * FROM users where id=$user_id")[0];
@@ -71,23 +74,36 @@ $posts = query_execute_unsafe($db, $sql);
 <div class="box box-row">
     <div class="post-title"><?= $thread["title"] ?></div>
     <div class="bottom-text">
-        <p class="user"><?= $user["uname"] ?> - <?= format_datetime($thread["date"]) ?></p>
+        <p><?= $user["uname"] ?> - <?= format_datetime($thread["date"]) ?></p>
     </div>
 </div>
 
-<div class="box box-row">
 <?php foreach ($posts as $post):
     $post_user_id = $post["user_id"];
     $post_user = query_execute_unsafe($db, "SELECT * FROM users where id=$post_user_id")[0];
+
+    // get profile picture of user
+    $profile_pic = @file_get_contents("./img/user" . $post_user_id . ".raw");
+    $profile_pic_type = @file_get_contents("./img/user" . $post_user_id . ".info");
+
+    if (!$profile_pic) {
+        $profile_pic = file_get_contents("./img/sample.raw");
+        $profile_pic_type = "image/png";
+    }
 ?>
+<div class="box box-row">
+    <div class="profile-pic">
+        <a class="user" href="/profile.php?id=<?=$post_user_id?>"><?= $post_user["uname"] ?></a>
+        <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
+    </div>
     <div class="comment">
         <div class="comment-header">
-            <p class="user"><?= $post_user["uname"] ?> - <?= format_datetime($post["date"]) ?></p>
+            <p><?= format_datetime($post["date"]) ?></p>
         </div>
         <p class="comment-content"><?= $post["text"] ?></p>
     </div>
-<?php endforeach ?>
 </div>
+<?php endforeach ?>
 
 <?php include_once "include/errors.php";?>
 
