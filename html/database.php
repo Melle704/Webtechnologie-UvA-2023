@@ -42,6 +42,25 @@ if (!empty($_GET["card_type"])) {
     $sql .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
 }
 
+if (isset($_GET["white"])) {
+    $sql .= " AND colors LIKE '%W%'";
+}
+if (isset($_GET["blue"])) {
+    $sql .= " AND colors LIKE '%U%'";
+}
+if (isset($_GET["black"])) {
+    $sql .= " AND colors LIKE '%B%'";
+}
+if (isset($_GET["red"])) {
+    $sql .= " AND colors LIKE '%R%'";
+}
+if (isset($_GET["green"])) {
+    $sql .= " AND colors LIKE '%G%'";
+}
+if (isset($_GET["colorless"])) {
+    $sql .= " AND colors LIKE '%C%'";
+}
+
 $sql .= " ORDER BY id ASC LIMIT 60";
 
 $cards = query_execute_unsafe($db, $sql);
@@ -78,27 +97,28 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
     <form action="" method="GET">
             <b>card name</b>
             <label>
-                <input type="text" name="card_name">
+                <input type="text" name="card_name"
+                       value="<?php echo $_GET['card_name']??''; ?>" >
             </label>
             <br><br><br>
             <b>oracle text</b>
             <label>
-                <input type="text" name="oracle_text">
+                <input type="text" name="oracle_text" value="<?php echo $_GET['oracle_text']??''; ?>" >
             </label>
             <br><br><br>
             <b>card type</b>
             <label>
-                <input type="text" name="card_type">
+                <input type="text" name="card_type" value="<?php echo $_GET['card_type']??''; ?>" >
             </label>
             <br><br><br>
             <b>colors</b>
             <div class="color-options">
-                <input class="white_checkbox" type="checkbox" id="white" value="white">
-                <input class="blue_checkbox" type="checkbox" id="blue" value="blue">
-                <input class="black_checkbox" type="checkbox" id="black" value="black">
-                <input class="red_checkbox" type="checkbox" id="red" value="red">
-                <input class="green_checkbox" type="checkbox" id="green" value="green">
-                <input class="colorless_checkbox" type="checkbox" id="colorless" value="colorless">
+                <input class="white_checkbox" type="checkbox" name="white" <?php if(isset($_GET['white'])) echo "checked='checked'"; ?> >
+                <input class="blue_checkbox" type="checkbox" name="blue" <?php if(isset($_GET['blue'])) echo "checked='checked'"; ?> >
+                <input class="black_checkbox" type="checkbox" name="black" <?php if(isset($_GET['black'])) echo "checked='checked'"; ?> >
+                <input class="red_checkbox" type="checkbox" name="red" <?php if(isset($_GET['red'])) echo "checked='checked'"; ?> >
+                <input class="green_checkbox" type="checkbox" name="green" <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
+                <input class="colorless_checkbox" type="checkbox" name="colorless" <?php if(isset($_GET['colorless'])) echo "checked='checked'"; ?> >
             </div>
             <br>
             <input type="submit" name="submit" value="Search">
