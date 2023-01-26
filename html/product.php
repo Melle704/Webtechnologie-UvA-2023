@@ -10,7 +10,7 @@ $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
-        header("Location: /shop.php");
+        header("Location: /database.php");
     }
 }
 
@@ -23,6 +23,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+}
+
+$card_front = $card["image"];
+$card_back  = $card["back_image"];
+$card_price = $card["normal_price"];
+$foil_price = $card["foil_price"];
+
+if (!$card_front) {
+    $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+}
+
+if ($card["normal_price"] == 0) {
+    $card_price = "--";
+}
+
+if ($card["foil_price"] == 0) {
+    $foil_price = "--";
 }
 ?>
 <!doctype html>
@@ -42,27 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-
 <?php include_once "header.php"; ?>
-
-<?php
-$card_front = $card["image"];
-$card_back = $card["back_image"];
-$card_price = $card["normal_price"];
-$foil_price = $card["foil_price"];
-if ($card_front == NULL) {
-    $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
-}
-if ($card_back == NULL) {
-    $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
-}
-if ($card["normal_price"] == 0) {
-    $card_price = "--";
-}
-if ($card["foil_price"] == 0) {
-    $foil_price = "--";
-}
-?>
 
 <div class="box">
     <div class="box-row box-light">
@@ -72,12 +69,30 @@ if ($card["foil_price"] == 0) {
     </div>
     <div class="box-row">
         <br>
-        <div id="product-image">
-            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
-        </div>
+<?php if (isset($card_back)): ?>
+            <div class="box-card-large">
+                <div class="box-card-flip">
+                    <div class="box-card-front">
+                        <a href="<?= $card_page ?>">
+                            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                        </a>
+                    </div>
+                    <div class="box-card-back">
+                        <a href="<?= $card_page ?>">
+                            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                        </a>
+                    </div>
+                </div>
+            </div>
+<?php else: ?>
+            <div class="box-card-large">
+                <a href="<?= $card_page ?>">
+                    <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                </a>
+            </div>
+<?php endif; ?>
         <div id="product-purchase">
-            <form method="post" action="http://localhost/product.php?id=<?= $_GET["id"] ?>" class="form">
+            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
                     <legend>
                         Add item(s) to cart
