@@ -236,16 +236,23 @@ p {
     }
 }
 
-.box-card {
+.box-card-small {
     height: 300px;
+}
+
+.box-card-large {
+    height: 480px;
+}
+
+.box-card-small, .box-card-large {
     aspect-ratio: 488 / 680;
     perspective: 1000px;
 }
 
-.box-card img {
+.box-card-small img, .box-card-large img {
+    border-radius: 4.5%;
     height: 100%;
     width: 100%;
-    border-radius: 10px;
 }
 
 .box-card-flip {
