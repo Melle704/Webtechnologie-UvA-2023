@@ -82,7 +82,7 @@ $posts = query_execute_unsafe($db, $sql);
 ?>
     <div class="comment">
         <div class="comment-header">
-            <p class="user"><?= $post_user["uname"] ?> - <?= format_datetime($thread["date"]) ?></p>
+            <p class="user"><?= $post_user["uname"] ?> - <?= format_datetime($post["date"]) ?></p>
         </div>
         <p class="comment-content"><?= $post["text"] ?></p>
     </div>
