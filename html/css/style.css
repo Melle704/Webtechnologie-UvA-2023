@@ -37,6 +37,16 @@ p {
     padding: 0.1rem 0;
 }
 
+textarea {
+    border: 2px solid #373737;
+    background-color: #202020;
+    resize: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
 .box {
     background-color: #282828;
 

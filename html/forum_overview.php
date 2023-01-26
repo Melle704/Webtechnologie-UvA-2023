@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+// ensure you can't reach the forum page if you're not logged in
+if (!isset($_SESSION["id"])) {
+    header("Location: /index.php");
+    exit;
+}
+?>
 <div class="box">
     <div class="box-row box-light">
         <div class="post-title box-title">
@@ -18,16 +28,14 @@ include_once "include/db.php";
 $threads = query_execute_unsafe($db, "SELECT * FROM forum_threads ORDER BY date LIMIT 5");
 
 foreach ($threads as $thread):
-    $date = $thread["date"];
-    $date = date_create($date);
-    $date = date_format($date, "Y-m-d h:i A");
+    $date = format_datetime($thread["date"]);
 
     $thread_id = $thread["id"];
     $sql = "SELECT SUM(thread_id=$thread_id) FROM forum_posts";
     $comment_count = query_execute_unsafe($db, $sql)[0][0];
 ?>
         <div class="preview-box">
-            <a href="forumpost.php">
+            <a href="/post.php?id=<?= $thread_id ?>">
                 <div class="preview-title"><b><?= $thread["title"] ?></b></div>
                 <div class="bottom-text">
                     <p class="post-timestamp"><?= $date ?></p>
