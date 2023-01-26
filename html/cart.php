@@ -14,6 +14,11 @@ if (!isset($_SESSION["id"]) || $cart_empty) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_SESSION["id"])) {
+        // Ignore post if not logged in
+        exit();
+    }
+
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
         header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
