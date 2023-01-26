@@ -71,7 +71,7 @@ foreach ($cards as $card):
     }
 ?>
 <?php if (isset($card_back)): ?>
-        <div class="box-card">
+        <div class="box-card-small">
             <div class="box-card-flip">
                 <div class="box-card-front">
                     <a href="<?= $card_page ?>">
@@ -86,7 +86,7 @@ foreach ($cards as $card):
             </div>
         </div>
 <?php else: ?>
-        <div class="box-card">
+        <div class="box-card-small">
             <a href="<?= $card_page ?>">
                 <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
             </a>

@@ -154,7 +154,7 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
 
         <div class="box-row">
 <?php if (isset($card_back)): ?>
-            <div class="box-card">
+            <div class="box-card-small">
                 <div class="box-card-flip">
                     <div class="box-card-front">
                         <a href="<?= $card_page ?>">
@@ -169,7 +169,7 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
                 </div>
             </div>
 <?php else: ?>
-            <div class="box-card">
+            <div class="box-card-small">
                 <a href="<?= $card_page ?>">
                     <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
                 </a>
