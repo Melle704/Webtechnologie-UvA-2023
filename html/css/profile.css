@@ -44,8 +44,7 @@
 
 .text-showcase {
     flex: 2;
-    flex-direction: column;
-
+    overflow-wrap: anywhere;
     border: 3px solid #202020;
 }
 
