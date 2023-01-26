@@ -7,6 +7,7 @@
     display: flex;
     flex: 2;
     flex-wrap: wrap;
+    max-width: 80%;
 }
 
 .form form {
@@ -25,13 +26,12 @@
 .img-showcase {
     flex: 1;
     align-self: flex-start;
-    height: min-content;
     aspect-ratio: 9 / 11;
     background-size: cover;
 }
 
 .img-showcase, .text-showcase {
-    margin: 0.5rem;
+    margin: 1%;
 }
 
 .img-showcase img {
@@ -44,8 +44,7 @@
 
 .text-showcase {
     flex: 2;
-    flex-direction: column;
-
+    overflow-wrap: anywhere;
     border: 3px solid #202020;
 }
 

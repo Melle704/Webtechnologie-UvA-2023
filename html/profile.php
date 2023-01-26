@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
 <?php include_once "header.php";?>
 <?php $pic_submit = $_SERVER["PHP_SELF"] . "?id=" . $_GET["id"] . "&action=picture"; ?>
 <?php $desc_submit = $_SERVER["PHP_SELF"] . "?id=" . $_GET["id"] . "&action=desc"; ?>
@@ -29,16 +28,15 @@
     <div class="box-row box-flex">
         <div class="showcase">
             <div class="img-showcase">
-                <img src="<?php echo "data:$profile_pic_type;base64,$profile_pic"; ?>">
+                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
             </div>
             <div class="text-showcase box-light">
-                <div class="box-row">
-                    <?php echo $profile_desc; ?>
-                </div>
+                <div class="box-row"><?= $profile_desc ?></div>
             </div>
         </div>
+        <div class="flex-break"></div>
         <div class="form">
-            <form action=<?php echo $pic_submit; ?> method="post" enctype="multipart/form-data">
+            <form action="<?= $pic_submit ?>" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend>
                         Personal profile picture
@@ -52,7 +50,7 @@
                     </label>
                 </fieldset>
             </form>
-            <form action=<?php echo $desc_submit; ?> method="post">
+            <form action="<?= $desc_submit ?>" method="post">
                 <fieldset>
                     <legend>
                         Profile description
@@ -72,17 +70,17 @@
 <?php else: ?>
 <div class="box">
     <div class="box-row box-light">
-        <b><?php echo $user["uname"];?>'s profile</b>
+        <b><?= $user["uname"] ?>'s profile</b>
     </div>
 
     <div class="box-row box-flex">
         <div class="showcase">
             <div class="img-showcase">
-                <img src="<?php echo "data:$profile_pic_type;base64,$profile_pic"; ?>">
+                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
             </div>
             <div class="text-showcase box-light">
                 <div class="box-row">
-                    <?php echo $profile_desc; ?>
+                    <?= $profile_desc ?>
                 </div>
             </div>
         </div>

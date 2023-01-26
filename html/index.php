@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
 <?php include_once "header.php";?>
 
 <?php if (isset($_SESSION["id"])): ?>
@@ -28,6 +27,71 @@
         <div class="chatbox">
             <input id="chatbox-message" type="text" name="msg" maxlength="200">
         </div>
+    </div>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($_SESSION["id"])): ?>
+<div class="box">
+    <div class="box-row box-light">
+        <b>Welcome</b>
+    </div>
+    <div class="box-row">
+        <p>Ensure you thoroughly read the <a href="/rules.php">rules</a> before proceeding.</p>
+        <p>There will be a deck builder (hopefully), a forum (soon) and more potentially.</p>
+        <p>Please be patient as we try to improve the current site.</p>
+        <br>
+        <p>Thx in advance.</p>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-row box-light">
+        <b>Most popular cards this week</b>
+    </div>
+    <div class="box-row popular-cards">
+<?php
+include_once "include/common.php";
+include_once "include/db.php";
+
+$sql = "SELECT * FROM cards
+        WHERE NOT layout='art_series' AND NOT layout='token'
+        ORDER BY RAND() LIMIT 7";
+
+$cards = query_execute_unsafe($db, $sql);
+
+foreach ($cards as $card):
+    $card_front = $card["image"];
+    $card_back = $card["back_image"];
+    $card_page = "/product.php?id=" . $card["id"];
+
+    if (!$card_front) {
+        $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+    }
+?>
+<?php if (isset($card_back)): ?>
+        <div class="box-card-small">
+            <div class="box-card-flip">
+                <div class="box-card-front">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+                <div class="box-card-back">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                    </a>
+                </div>
+            </div>
+        </div>
+<?php else: ?>
+        <div class="box-card-small">
+            <a href="<?= $card_page ?>">
+                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+            </a>
+        </div>
+<?php endif; ?>
+<?php endforeach ?>
     </div>
 </div>
 <?php endif; ?>
@@ -93,14 +157,6 @@
         </div>
     </div>
 </div>
-<?php else: ?>
-<div class="box box-row">
-    <p>
-    取本顔外舞切記区還入氷浦。礎田典著住掲必門財裏栖督暮掲遠売短部。能階採災豆結占恐極覧洲掛験引護理上質。党仰滝手能葉予半道請安統浜中以経。載検将逆家経選効身愕述明吹候毒藤察行電設。後断供界字宅軽証田止衝能界時軍求基務裁根。急野真重万供局国天手暮動見。会更多泳禁更秋労相宮埼致員優大。放没継開要総妻励供空亡職幅密裁対条。
-
-    探胸新藤石五動少防済携載戦以趣直。各条名一者松応来理内差期提容向改変。計政生授別界副績途表音法終月作捨優言。戦中査急援感無住民寒暖億例隆原。高充俊枝月面添千細先金新。聞理済着暮主販潤彼総物毫健党時賀入経法。旧没念岡権告町開弥実全家設譜要務孤人別。舞度他得渡整面夜面青行宏水盟頭月廟井治和。着紙面法意溶刊医報金予意。
-    </p>
-</div>
 <?php endif; ?>
 
 <?php if (isset($_SESSION["id"])): ?>
@@ -144,7 +200,7 @@
         <b>Users online</b>
     </div>
     <div class="box-row users-online">
-        <?php echo $seperated_tags; ?>
+        <?= $seperated_tags ?>
     </div>
 </div>
 <?php endif; ?>
@@ -180,8 +236,8 @@ message_box.addEventListener("keydown", async function(keypress) {
         handled_messages.add(id);
 
         // get local user data
-        let username = "<?php echo $_SESSION["uname"]; ?>";
-        let user_type = "<?php echo $_SESSION["role"]; ?>-user";
+        let username = "<?= $_SESSION["uname"] ?>";
+        let user_type = "<?= $_SESSION["role"] ?>-user";
 
         // generate message html layout
         let message = `\n\t\t`

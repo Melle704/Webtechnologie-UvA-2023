@@ -8,14 +8,12 @@
 }
 
 .form legend {
-    font-size: 0.75rem;
     padding: 0 0.5rem;
     color: #FE8019 /* #60A0DC; */
 }
 
 .form b {
     display: block;
-    font-size: 0.75rem;
 }
 
 .form span {
@@ -53,6 +51,73 @@
     accent-color: #FE8019;
 }
 
+.color-options > * {
+    background-image: url("/img/search_icon.svg");
+    background-size: 30px;
+    background-color: transparent !important;
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.white_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #f8df01 !important;
+}
+
+.blue_checkbox {
+    filter: invert(7%) sepia(100%) saturate(7304%) hue-rotate(249deg) brightness(107%) contrast(144%);
+}
+
+.blue_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #01b2f8 !important;
+}
+
+.black_checkbox {
+    filter: invert(51%) sepia(0%) saturate(1%) hue-rotate(263deg) brightness(100%) contrast(90%);
+}
+
+.black_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #6a00b1 !important;
+}
+
+.red_checkbox {
+    filter: invert(15%) sepia(63%) saturate(5800%) hue-rotate(355deg) brightness(99%) contrast(119%);
+}
+
+.red_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #f80101 !important;
+}
+
+.green_checkbox {
+    filter: invert(45%) sepia(73%) saturate(1062%) hue-rotate(84deg) brightness(129%) contrast(118%);
+}
+
+.green_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #35a700 !important;
+}
+
+.colorless_checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    accent-color: #747474 !important;
+}
+
 .form input[type="file"] {
     display: none;
 }
@@ -70,4 +135,10 @@
     content: "⠀";
     display: block;
     font-size: 0.75rem;
+}
+
+.address label {
+    display: block;
+    width: 100%;
+    margin: 0.25rem 0;
 }

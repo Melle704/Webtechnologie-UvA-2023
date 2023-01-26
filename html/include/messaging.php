@@ -16,6 +16,7 @@ function send_message($db, $uid, $text) {
     $query = mysqli_query($db, "SELECT LAST_INSERT_ID()");
     $row = mysqli_fetch_array($query);
 
+    mysqli_commit($db);
     mysqli_autocommit($db, true);
 
     return $row["LAST_INSERT_ID()"];
@@ -23,15 +24,7 @@ function send_message($db, $uid, $text) {
 
 // retrieve latest 150 messages
 function retrieve_messages($db) {
-    $sql = "SELECT * FROM messages ORDER BY date LIMIT 150";
-    $query = mysqli_query($db, $sql);
-    $entries = array();
-
-    while ($row = mysqli_fetch_array($query)) {
-        array_push($entries, $row);
-    }
-
-    return $entries;
+    return query_execute_unsafe($db, "SELECT * FROM messages ORDER BY date LIMIT 150");
 }
 
 function format_message($db, $message) {
