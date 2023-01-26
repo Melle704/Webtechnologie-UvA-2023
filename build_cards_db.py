@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS cards (
     mana_cost TEXT,
     keywords TEXT,
     type_line TEXT,
+    real_card INT,
     standard_legal TEXT NOT NULL,
     pioneer_legal TEXT NOT NULL,
     modern_legal TEXT NOT NULL,
@@ -77,6 +78,11 @@ for card in bulk_file_data:
   card_fields["released_at"] = card["released_at"]
   card_fields["set_code"] = card["set"]
   card_fields["set_name"] = card["set_name"]
+
+  if "paper" in card["games"]:
+    card_fields["real_card"] = "1"
+  else:
+    card_fields["real_card"] = "0"
 
   # These values are not always available.
   if "usd" in card["prices"]:
