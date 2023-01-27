@@ -55,13 +55,15 @@ CREATE TABLE products (
 CREATE TABLE purchases (
   id INT AUTO_INCREMENT PRIMARY KEY,
   uid INT NOT NULL,
+  mollie_id VARCHAR(32) NOT NULL,
+  status ENUM("open", "canceled", "expired", "failed", "paid") NOT NULL,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(80) NOT NULL,
   postcode CHAR(7) NOT NULL,
   city VARCHAR(30) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   time DATETIME NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
 COMMIT;
 EOF
