@@ -5,13 +5,13 @@ include_once "include/db.php";
 
 session_start();
 
-$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
-
-// Ensure user is logged in and has items in their cart
-if (!isset($_SESSION["id"]) || $cart_empty) {
+// Ensure user is logged in
+if (!isset($_SESSION["id"])) {
     header("Location: index.php");
     exit;
 }
+
+$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION["id"])) {

@@ -17,6 +17,8 @@ if (!isset($_SESSION["id"]) || $cart_empty) {
     exit;
 }
 
+$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
+
 $keys_string = implode(',', array_keys($_SESSION["cart"]));
 
 $sql = "SELECT * FROM cards WHERE id IN ($keys_string)";
@@ -30,7 +32,7 @@ foreach ($products as $product) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     if ($cart_empty || $total == 0) {
-        reload_err("Cart should not be empty.");
+        reload_err("Cart should not be empty");
     }
 
     $name = trim($_POST["name"]);
