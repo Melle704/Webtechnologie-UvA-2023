@@ -1,15 +1,9 @@
 <?php
 include_once "include/common.php";
 include_once "include/db.php";
+include_once "include/payment.php";
 
 session_start();
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
 
 // Ensure user is logged in and has items in their cart
 if (!isset($_SESSION["id"]) || $cart_empty) {
@@ -35,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
         reload_err("Cart should not be empty");
     }
 
-    $name = trim($_POST["name"]);
-    $address = trim($_POST["address"]);
-    $postcode = trim($_POST["postcode"]);
-    $city = trim($_POST["city"]);
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $address = htmlspecialchars(trim($_POST["address"]));
+    $postcode = htmlspecialchars(trim($_POST["postcode"]));
+    $city = htmlspecialchars(trim($_POST["city"]));
 
     validate_not_empty(
         ["name", $name],
@@ -54,13 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
-    $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price, time)
-            VALUES (?, ?, ?, ?, ?, ?, now())";
+    $mollie_id = make_payment($total);
 
-    query_execute($db, $sql, "issssd", $_SESSION["id"],
-                  $name, $address, $postcode, $city, $total);
+    if ($mollie_id == false) {
+        header("Location: purchase.php?result=failure");
+    }
 
-    header("Location: purchase.php?result=success");
+    $sql = "INSERT INTO purchases (uid, mollie_id, status, name, address, postcode, city, price, time)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())";
+
+    query_execute($db, $sql, "issssssd", $_SESSION["id"],
+                  $mollie_id, "open", $name, $address, $postcode, $city, $total);
+
+    // header("Location: purchase.php?result=success");
     exit;
 }
 ?>
@@ -115,16 +115,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
             </label>
         </fieldset>
 
-        <fieldset>
-            <legend>Payment (currently iDeal only)</legend>
+        <b>Important note</b>
+        <p>
+            Clicking pay now will lead to a page where a mock payment can be made.<br>
+            We do not currently sell any products, and you will also not be charged any money.
+        </p>
 
-            <label>
-                <b>Bank</b>
-                <select>
-                    <option>Example bank</option>
-                </select>
-            </label>
-        </fieldset>
         <input type="submit" value="Pay now">
     </form>
 </div>
