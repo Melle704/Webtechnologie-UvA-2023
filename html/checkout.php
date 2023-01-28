@@ -5,13 +5,13 @@ include_once "include/payment.php";
 
 session_start();
 
+$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
+
 // Ensure user is logged in and has items in their cart
 if (!isset($_SESSION["id"]) || $cart_empty) {
     header("Location: index.php");
     exit;
 }
-
-$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
 
 $keys_string = implode(',', array_keys($_SESSION["cart"]));
 
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
-    $mollie_id = make_payment($total);
+    // $mollie_id = make_payment($total);
 
     if ($mollie_id == false) {
         header("Location: purchase.php?result=failure");
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     query_execute($db, $sql, "issssssd", $_SESSION["id"],
                   $mollie_id, "open", $name, $address, $postcode, $city, $total);
 
-    // header("Location: purchase.php?result=success");
+    header("Location: purchase.php?result=success");
     exit;
 }
 ?>

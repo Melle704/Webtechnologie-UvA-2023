@@ -5,6 +5,7 @@ h1 {
 
 table {
     width: 100%;
+    font-variant-numeric: tabular-nums;
 }
 
 th {
@@ -12,7 +13,7 @@ th {
 }
 
 td {
-    padding: 0 8px;
+    padding: 4px 8px;
 }
 
 tr:nth-child(even) {
