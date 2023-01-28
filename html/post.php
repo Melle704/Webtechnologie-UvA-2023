@@ -40,7 +40,8 @@ $user_id = $_SESSION["id"];
 if (isset($_POST["submit"])) {
     $text = htmlspecialchars(trim($_POST["text"]));
 
-    validate_predicates(["Messages should be of at least 10 characters", strlen($text) >= 10]);
+    validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 2]);
+    validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
 
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
