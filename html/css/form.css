@@ -51,71 +51,90 @@
     accent-color: #FE8019;
 }
 
-.color-options > * {
-    background-image: url("/img/search_icon.svg");
-    background-size: 30px;
-    background-color: transparent !important;
-    width:35px;
+.color-checkbox > * {
+    background-size: 100%;
+    width: 35px;
     height: 35px;
     border-radius: 50%;
     vertical-align: middle;
-    border: 1px solid black;
+    border: 2px solid black !important;
     appearance: none;
     -webkit-appearance: none;
     outline: none;
     cursor: pointer;
 }
 
+.white_checkbox {
+    background-image: none;
+    background-color: #fffbd6 !important;
+}
+
 .white_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/W.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #f8df01 !important;
+    border: 2px solid black !important;
+    accent-color: #fffbd6 !important;
 }
 
 .blue_checkbox {
-    filter: invert(7%) sepia(100%) saturate(7304%) hue-rotate(249deg) brightness(107%) contrast(144%);
+    background-image: none;
+    background-color: #abe1fa !important;
 }
 
 .blue_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/U.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #01b2f8 !important;
+    accent-color: #abe1fa !important;
 }
 
 .black_checkbox {
-    filter: invert(51%) sepia(0%) saturate(1%) hue-rotate(263deg) brightness(100%) contrast(90%);
+    background-image: none;
+    background-color: #ccc3c0 !important;
 }
 
 .black_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/B.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #6a00b1 !important;
+    accent-color: #ccc3c0 !important;
 }
 
 .red_checkbox {
-    filter: invert(15%) sepia(63%) saturate(5800%) hue-rotate(355deg) brightness(99%) contrast(119%);
+    background-image: none;
+    background-color: #f9ac90 !important;
 }
 
 .red_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/R.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #f80101 !important;
+    accent-color: #f9ac90 !important;
 }
 
 .green_checkbox {
-    filter: invert(45%) sepia(73%) saturate(1062%) hue-rotate(84deg) brightness(129%) contrast(118%);
+    background-image: none;
+    background-color: #9cd4b0 !important;
 }
 
 .green_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/G.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #35a700 !important;
+    accent-color: #9cd4b0 !important;
+}
+
+.colorless_checkbox {
+    background-image: none;
+    background-color: #cdc3c1 !important;
 }
 
 .colorless_checkbox:checked {
-    appearance: auto;
+    appearance: none;
+    background-image: url("/img/C.png");
     clip-path: circle(50% at 50% 50%);
-    accent-color: #747474 !important;
+    accent-color: #cdc3c1 !important;
 }
 
 .form input[type="file"] {

@@ -1,7 +1,9 @@
 <?php
-
 include_once "include/common.php";
 include_once "include/db.php";
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 $cards_per_page = 60;
 $id_offset = 0;
@@ -25,58 +27,94 @@ if (isset($_GET["page"])) {
 }
 
 $sql = "SELECT * FROM cards
-    WHERE real_card='1'
-    AND NOT layout='art_series'
-    AND NOT layout='token'
-    AND NOT layout='emblem'
-    AND id > $id_offset";
-
+        WHERE real_card='1'
+        AND NOT layout='art_series'
+        AND NOT layout='token'
+        AND NOT layout='emblem'
+        AND id > $id_offset";
 
 if (!empty($_GET["card_name"])) {
-    $sql .= " AND name LIKE '%{$_GET["card_name"]}%'";
+    $sql_search .= " AND name LIKE '%{$_GET["card_name"]}%'";
 }
 if (!empty($_GET["oracle_text"])) {
-    $sql .= " AND oracle_text LIKE '%{$_GET["oracle_text"]}%'";
+    $sql_search .= " AND oracle_text LIKE '%{$_GET["oracle_text"]}%'";
 }
 if (!empty($_GET["card_type"])) {
-    $sql .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
+    $sql_search .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
 }
 
-if (isset($_GET["white"])) {
-    $sql .= " AND colors LIKE '%W%'";
-}
-if (isset($_GET["blue"])) {
-    $sql .= " AND colors LIKE '%U%'";
-}
-if (isset($_GET["black"])) {
-    $sql .= " AND colors LIKE '%B%'";
-}
-if (isset($_GET["red"])) {
-    $sql .= " AND colors LIKE '%R%'";
-}
-if (isset($_GET["green"])) {
-    $sql .= " AND colors LIKE '%G%'";
-}
-if (isset($_GET["colorless"])) {
-    $sql .= " AND colors LIKE '%C%'";
+if (isset($_GET["white"]) or isset($_GET["blue"]) or isset($_GET["black"]) or isset($_GET["red"])
+or isset($_GET["green"]) or isset($_GET["colorless"])) {
+    if (isset($_GET["white"])) {
+        $sql_search .= " AND colors LIKE '%W%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%W%'";
+    }
+    if (isset($_GET["blue"])) {
+        $sql_search .= " AND colors LIKE '%U%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%U%'";
+    }
+    if (isset($_GET["black"])) {
+        $sql_search .= " AND colors LIKE '%B%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%B%'";
+    }
+    if (isset($_GET["red"])) {
+        $sql_search .= " AND colors LIKE '%R%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%R%'";
+    }
+    if (isset($_GET["green"])) {
+        $sql_search .= " AND colors LIKE '%G%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%G%'";
+    }
+    if (isset($_GET["colorless"])) {
+        $sql_search .= " AND colors LIKE '%C%'";
+    }
+    else {
+        $sql_search .= " AND NOT colors LIKE '%C%'";
+    }
 }
 
+if (isset($sql_search)) {
+    $_SESSION["search"] = $sql_search;
+}
+else if (isset($_SESSION["search"])) {
+    $sql_search = $_SESSION["search"];
+}
+
+$sql .= $sql_search;
 $sql .= " ORDER BY id ASC LIMIT 60";
 
 $cards = query_execute_unsafe($db, $sql);
 
-$last_page = mysqli_query($db, "SELECT COUNT(1) FROM cards");
+$sql_amount = "SELECT COUNT(1) FROM cards ";
+$sql_amount .= "WHERE real_card='1'
+                AND NOT layout='art_series'
+                AND NOT layout='token'
+                AND NOT layout='emblem'";
+$sql_amount .= $sql_search;
+
+$last_page = mysqli_query($db, $sql_amount);
 $last_page = mysqli_fetch_array($last_page)[0];
 $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
-
+echo $last_page;
 ?>
+
 <!doctype html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MTG | Shop</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
@@ -111,14 +149,20 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
                 <input type="text" name="card_type" value="<?php echo $_GET['card_type']??''; ?>" >
             </label>
             <br><br><br>
-            <b>colors</b>
-            <div class="color-options">
-                <input class="white_checkbox" type="checkbox" name="white" <?php if(isset($_GET['white'])) echo "checked='checked'"; ?> >
-                <input class="blue_checkbox" type="checkbox" name="blue" <?php if(isset($_GET['blue'])) echo "checked='checked'"; ?> >
-                <input class="black_checkbox" type="checkbox" name="black" <?php if(isset($_GET['black'])) echo "checked='checked'"; ?> >
-                <input class="red_checkbox" type="checkbox" name="red" <?php if(isset($_GET['red'])) echo "checked='checked'"; ?> >
-                <input class="green_checkbox" type="checkbox" name="green" <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
-                <input class="colorless_checkbox" type="checkbox" name="colorless" <?php if(isset($_GET['colorless'])) echo "checked='checked'"; ?> >
+        <b>colors</b>
+            <div class="color-checkbox">
+                <input class="white_checkbox" type="checkbox" name="white"
+                <?php if(isset($_GET['white'])) echo "checked='checked'"; ?> >
+                <input class="blue_checkbox" type="checkbox" name="blue"
+                <?php if(isset($_GET['blue'])) echo "checked='checked'"; ?> >
+                <input class="black_checkbox" type="checkbox" name="black"
+                <?php if(isset($_GET['black'])) echo "checked='checked'"; ?> >
+                <input class="red_checkbox" type="checkbox" name="red"
+                <?php if(isset($_GET['red'])) echo "checked='checked'"; ?> >
+                <input class="green_checkbox" type="checkbox" name="green"
+                <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
+                <input class="colorless_checkbox" type="checkbox" name="colorless"
+                <?php if(isset($_GET['colorless'])) echo "checked='checked'"; ?> >
             </div>
             <br>
             <input type="submit" name="submit" value="Search">
@@ -137,9 +181,13 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
         if (!$card_front) {
             $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
         }
-
         if ($card["normal_price"] == 0) {
-            $card_price = "--";
+            if ($card["foil_price"] == 0) {
+                $card_price = "--";
+            }
+            else {
+                $card_price = $card["foil_price"];
+            }
         }
     ?>
     <div class="box box-item">
@@ -212,7 +260,9 @@ $last_page = intdiv(intval($last_page), $cards_per_page) + 1;
         $tag .= strval($page_ref);
         $tag .= "</a>";
 
-        echo "\t$tag\n";
+        if (strval($page_ref) <= $last_page And strval($page_ref) > 0) {
+            echo "\t$tag\n";
+        }
     }
 ?>
 <?php if ($last_page != $page): ?>
