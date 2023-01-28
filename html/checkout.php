@@ -85,44 +85,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
 <?php include_once "header.php"; ?>
 <?php include_once "include/errors.php"; ?>
 
-<div class="box box-row ">
-    <h1>Checkout</h1>
-    <div class="box-row box-light" style="font-size: 1rem;">
-    Order total: <b><?= format_eur($total) ?></b>
+<div class="box">
+    <div class="box-row box-light">
+        <h1>Checkout</h1>
     </div>
-    <form method="post" class="form checkout">
-        <fieldset class="address">
-            <legend>Shipping address (currently Netherlands only)</legend>
+    <div class="box-row">
+        <div class="box-row" style="font-size: 1rem; background-color: #202020;">
+        Order total: <b><?= format_eur($total) ?></b>
+        </div>
+        <form method="post" class="form checkout">
+            <fieldset class="address">
+                <legend>Shipping address (currently Netherlands only)</legend>
 
-            <label>
-                <b>Name</b>
-                <input name="name" required>
-            </label>
+                <label>
+                    <b>Name</b>
+                    <input name="name" required>
+                </label>
 
-            <label>
-                <b>Address (Street and house number)</b>
-                <input name="address" placeholder="Science Park 900" required>
-            </label>
+                <label>
+                    <b>Address (Street and house number)</b>
+                    <input name="address" placeholder="Science Park 900" required>
+                </label>
 
-            <label>
-                <b>Postal code</b>
-                <input name="postcode" placeholder="1098 XH" required>
-            </label>
+                <label>
+                    <b>Postal code</b>
+                    <input name="postcode" placeholder="1098 XH" required>
+                </label>
 
-            <label>
-                <b>City</b>
-                <input name="city" placeholder="Amsterdam" required>
-            </label>
-        </fieldset>
+                <label>
+                    <b>City</b>
+                    <input name="city" placeholder="Amsterdam" required>
+                </label>
+            </fieldset>
 
-        <b>Important note</b>
-        <p>
-            Clicking pay now will lead to a page where a mock payment can be made.<br>
-            We do not currently sell any products, and you will also not be charged any money.
-        </p>
+            <b>Important note</b>
+            <p>
+                Clicking pay now will lead to a page where a mock payment can be made.<br>
+                We do not currently sell any products, and you will also not be charged any money.
+            </p>
 
-        <input type="submit" value="Pay now">
-    </form>
+            <br>
+            <input type="submit" value="Pay now">
+        </form>
+    </div>
 </div>
 
 <?php include_once "footer.php"; ?>
