@@ -77,6 +77,7 @@ $posts = query_execute_unsafe($db, $sql);
     <div class="bottom-text">
         <p><?= $user["uname"] ?> - <?= format_datetime($thread["date"]) ?></p>
     </div>
+    <p class="post-content"><?= $thread["thread_content"] ?></p>
 </div>
 
 <?php foreach ($posts as $post):
