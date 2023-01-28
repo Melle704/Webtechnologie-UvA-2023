@@ -109,8 +109,8 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "include/errors.php";?>
 
 <div class="box box-row">
-    <form action="/post.php?id=<?= $thread_id ?>" method="post">
-        <textarea name="text" style="margin-top: 0;"></textarea>
+    <form action="/post.php?id=<?= $thread_id ?>" method="post" id="form">
+        <textarea id="usermessage" name="text" style="margin-top: 0;"></textarea>
         <input type="submit" name="submit" value="Add comment">
     </form>
 </div>
