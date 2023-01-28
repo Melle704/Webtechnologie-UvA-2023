@@ -17,6 +17,8 @@
 
 <?php include_once "forum_overview.php";?>
 
+<?php include_once "create_post.php";?>
+
 <?php include_once "footer.php"; ?>
 
 </body>
