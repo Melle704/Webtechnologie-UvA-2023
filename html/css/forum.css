@@ -13,6 +13,11 @@ input {
     vertical-align: middle;
 }
 
+.textarea-title {
+    height: 25px;
+    margin-bottom: 5px;
+}
+
 .preview-title {
     font-size: 1rem;
     color: white;
@@ -24,6 +29,12 @@ input {
     padding: 2px;
     padding-left: 10px;
     padding-top: 5px;
+}
+
+.create-title {
+    font-size: 1.25rem;
+    color: white;
+    margin-bottom: 10px;
 }
 
 .post-title, .forum-title {
