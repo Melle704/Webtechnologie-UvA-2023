@@ -53,6 +53,7 @@
 
 .color-checkbox > * {
     background-size: 100%;
+    background-image: none;
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -65,12 +66,10 @@
 }
 
 .white_checkbox {
-    background-image: none;
     background-color: #fffbd6 !important;
 }
 
 .white_checkbox:checked {
-    appearance: none;
     background-image: url("/img/W.png");
     clip-path: circle(50% at 50% 50%);
     border: 2px solid black !important;
@@ -78,7 +77,6 @@
 }
 
 .blue_checkbox {
-    background-image: none;
     background-color: #abe1fa !important;
 }
 
@@ -90,7 +88,6 @@
 }
 
 .black_checkbox {
-    background-image: none;
     background-color: #ccc3c0 !important;
 }
 
@@ -102,7 +99,6 @@
 }
 
 .red_checkbox {
-    background-image: none;
     background-color: #f9ac90 !important;
 }
 
@@ -114,7 +110,6 @@
 }
 
 .green_checkbox {
-    background-image: none;
     background-color: #9cd4b0 !important;
 }
 
@@ -126,7 +121,6 @@
 }
 
 .colorless_checkbox {
-    background-image: none;
     background-color: #cdc3c1 !important;
 }
 

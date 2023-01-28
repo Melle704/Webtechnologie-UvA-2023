@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-$cards_per_page = 60;
+$cards_per_page = 20;
 $id_offset = 0;
 $page = 1;
 
@@ -24,14 +24,14 @@ if (isset($_GET["page"])) {
     }
 
     $id_offset = ($page - 1) * $cards_per_page;
+    echo $id_offset;
 }
 
 $sql = "SELECT * FROM cards
         WHERE real_card='1'
         AND NOT layout='art_series'
         AND NOT layout='token'
-        AND NOT layout='emblem'
-        AND id > $id_offset";
+        AND NOT layout='emblem'";
 
 if (!empty($_GET["card_name"])) {
     $sql_search .= " AND name LIKE '%{$_GET["card_name"]}%'";
@@ -75,12 +75,6 @@ or isset($_GET["green"]) or isset($_GET["colorless"])) {
     else {
         $sql_search .= " AND NOT colors LIKE '%G%'";
     }
-    if (isset($_GET["colorless"])) {
-        $sql_search .= " AND colors LIKE '%C%'";
-    }
-    else {
-        $sql_search .= " AND NOT colors LIKE '%C%'";
-    }
 }
 
 if (isset($sql_search)) {
@@ -91,7 +85,7 @@ else if (isset($_SESSION["search"])) {
 }
 
 $sql .= $sql_search;
-$sql .= " ORDER BY id ASC LIMIT 60";
+$sql .= " ORDER BY id ASC LIMIT {$cards_per_page} OFFSET {$id_offset}";
 
 $cards = query_execute_unsafe($db, $sql);
 
@@ -102,10 +96,9 @@ $sql_amount .= "WHERE real_card='1'
                 AND NOT layout='emblem'";
 $sql_amount .= $sql_search;
 
-$last_page = mysqli_query($db, $sql_amount);
-$last_page = mysqli_fetch_array($last_page)[0];
-$last_page = intdiv(intval($last_page), $cards_per_page) + 1;
-echo $last_page;
+$card_amount = mysqli_query($db, $sql_amount);
+$card_amount = mysqli_fetch_array($card_amount)[0];
+$last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 ?>
 
 <!doctype html>
@@ -161,10 +154,9 @@ echo $last_page;
                 <?php if(isset($_GET['red'])) echo "checked='checked'"; ?> >
                 <input class="green_checkbox" type="checkbox" name="green"
                 <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
-                <input class="colorless_checkbox" type="checkbox" name="colorless"
-                <?php if(isset($_GET['colorless'])) echo "checked='checked'"; ?> >
             </div>
             <br>
+            <b><?php echo $card_amount??''; ?> results</b>
             <input type="submit" name="submit" value="Search">
     </form>
     </div>
