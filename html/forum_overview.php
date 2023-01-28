@@ -25,7 +25,7 @@ if (!isset($_SESSION["id"])) {
 include_once "include/common.php";
 include_once "include/db.php";
 
-$threads = query_execute_unsafe($db, "SELECT * FROM forum_threads ORDER BY date LIMIT 5");
+$threads = query_execute_unsafe($db, "SELECT * FROM forum_threads ORDER BY score LIMIT 10");
 
 foreach ($threads as $thread):
     $date = format_datetime($thread["date"]);

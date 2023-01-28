@@ -67,16 +67,18 @@ CREATE TABLE forum_threads (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   date TIMESTAMP DEFAULT now(),
-  title TINYTEXT NOT NULL
+  score INT NOT NULL DEFAULT 0,
+  title TINYTEXT NOT NULL,
+  thread_content TEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 1");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 2");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 3");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 4");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 5");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 6");
-INSERT INTO forum_threads (user_id, title) VALUES (1, "test thread 7");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 1, "test thread 1", "test content 1");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 5, "test thread 2", "test content 2");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 2, "test thread 3", "test content 3");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 6, "test thread 4", "test content 4");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 3, "test thread 5", "test content 5");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 7, "test thread 6", "test content 6");
+INSERT INTO forum_threads (user_id, score, title, thread_content) VALUES (1, 4, "test thread 7", "test content 7");
 
 CREATE TABLE forum_posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
