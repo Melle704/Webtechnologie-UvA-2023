@@ -71,59 +71,63 @@ if (!$cart_empty) {
 
 <?php include_once "include/errors.php"; ?>
 
-<div class="box box-row box-container">
-    <div id="cart-list">
+<div class="box">
+    <div class="box-row box-light">
         <h1>Cart</h1>
-        <table class="box">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Amount</th>
-                <th>Total Price</th>
-                <th width="30px"></th>
-            </tr>
-            <?php foreach($products as $product): ?>
-            <tr>
-                <td class="col-text">
-                    <a href="product.php?id=<?= $product["id"] ?>">
-                        <?= $product["name"] ?>
-                    </a>
-                </td>
-                <td class="col-num"><?= format_eur($product["normal_price"]) ?></td>
-                <td class="col-num"><?= $_SESSION["cart"][$product["id"]] ?></td>
-                <td class="col-num">
-                    <?= format_eur($_SESSION["cart"][$product["id"]] * $product["normal_price"]) ?>
-                </td>
-                <td>
-                    <form method="post" action="" class="form remove-form">
-                        <input type="hidden" name="action" value="remove">
-                        <input type="hidden" name="id" value="<?= $product["id"] ?>">
-                        <input type="submit" value="&#x2716;">
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php if ($cart_empty): ?>
-            <tr>
-                <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
-                    Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
-                </td>
-            </tr>
-            <?php endif; ?>
-        </table>
     </div>
+    <div class="box-row box-container">
+        <div id="cart-list">
+            <table class="box">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Total Price</th>
+                    <th width="30px"></th>
+                </tr>
+                <?php foreach($products as $product): ?>
+                <tr>
+                    <td class="col-text">
+                        <a href="product.php?id=<?= $product["id"] ?>">
+                            <?= $product["name"] ?>
+                        </a>
+                    </td>
+                    <td class="col-num"><?= format_eur($product["normal_price"]) ?></td>
+                    <td class="col-num"><?= $_SESSION["cart"][$product["id"]] ?></td>
+                    <td class="col-num">
+                        <?= format_eur($_SESSION["cart"][$product["id"]] * $product["normal_price"]) ?>
+                    </td>
+                    <td>
+                        <form method="post" action="" class="form remove-form">
+                            <input type="hidden" name="action" value="remove">
+                            <input type="hidden" name="id" value="<?= $product["id"] ?>">
+                            <input type="submit" value="&#x2716;">
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if ($cart_empty): ?>
+                <tr>
+                    <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
+                        Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
+                    </td>
+                </tr>
+                <?php endif; ?>
+            </table>
+        </div>
 
-    <div id="cart-details" class="box box-row ">
-        <h2>
-        Total: <?= format_eur($total) ?>
-        </h2>
+        <div id="cart-details" class="box box-row ">
+            <h2>
+            Total: <?= format_eur($total) ?>
+            </h2>
 
-        <?php if (!$cart_empty): ?>
-        <form method="post" class="form">
-            <input type="hidden" name="action" value="checkout">
-            <input type="submit" value="Checkout">
-        </form>
-        <?php endif; ?>
+            <?php if (!$cart_empty): ?>
+            <form method="post" class="form">
+                <input type="hidden" name="action" value="checkout">
+                <input type="submit" value="Checkout">
+            </form>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

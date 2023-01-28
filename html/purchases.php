@@ -38,31 +38,35 @@ $purchases = query_execute($db, $sql, "i", $_SESSION["id"])
 
 <?php include_once "include/errors.php"; ?>
 
-<div class="box box-row box-container">
-    <h1>Purchases</h1>
-    <table class="box">
-        <tr>
-            <th>Purchase id</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Timestamp</th>
-        </tr>
-        <?php foreach($purchases as $purchase): ?>
-        <tr>
-            <td class="col-text"><?= $purchase["id"] ?></td>
-            <td class="col-num"><?= format_eur($purchase["price"]) ?></td>
-            <td class="col-text"><?= $purchase["status"] ?></td>
-            <td><?= $purchase["time"] ?></td>
-        </tr>
-        <?php endforeach; ?>
-        <?php if (count($purchases) === 0): ?>
-        <tr>
-            <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
-                You have not made any purchases yet.
-            </td>
-        </tr>
-        <?php endif; ?>
-    </table>
+<div class="box">
+    <div class="box-row box-light">
+        <h1>Purchases</h1>
+    </div>
+    <div class="box-row box-container">
+        <table class="box">
+            <tr>
+                <th>Purchase id</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Timestamp</th>
+            </tr>
+            <?php foreach($purchases as $purchase): ?>
+            <tr>
+                <td class="col-text"><?= $purchase["id"] ?></td>
+                <td class="col-num"><?= format_eur($purchase["price"]) ?></td>
+                <td class="col-text"><?= $purchase["status"] ?></td>
+                <td><?= $purchase["time"] ?></td>
+            </tr>
+            <?php endforeach; ?>
+            <?php if (count($purchases) === 0): ?>
+            <tr>
+                <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
+                    You have not made any purchases yet.
+                </td>
+            </tr>
+            <?php endif; ?>
+        </table>
+    </div>
 </div>
 
 <?php include_once "footer.php"; ?>
