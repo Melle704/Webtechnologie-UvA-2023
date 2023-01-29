@@ -33,25 +33,31 @@ $sql = "SELECT * FROM cards
         AND NOT layout='emblem'";
 
 if (!empty($_GET["card_name"])) {
-    $sql_search .= " AND name LIKE '%{$_GET["card_name"]}%'";
+    $card_name = mysqli_real_escape_string($db, $_GET["card_name"]);
+    $sql_search .= " AND name LIKE '%$card_name%'";
 }
 if (!empty($_GET["oracle_text"])) {
-    $sql_search .= " AND oracle_text LIKE '%{$_GET["oracle_text"]}%'";
+    $oracle_text = mysqli_real_escape_string($db, $_GET["oracle_text"]);
+    $sql_search .= " AND oracle_text LIKE '%$oracle_text%'";
 }
 if (!empty($_GET["card_type"])) {
-    $sql_search .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
+    $card_type = mysqli_real_escape_string($db, $_GET["card_type"]);
+    $sql_search .= " AND type_line LIKE '%$card_type%'";
 }
 
 if (!empty($_GET["flavor_text"])) {
-    $sql_search .= " AND flavor_text LIKE '%{$_GET["flavor_text"]}%'";
+    $flavor_text = mysqli_real_escape_string($db, $_GET["flavor_text"]);
+    $sql_search .= " AND flavor_text LIKE '%$flavor_text%'";
 }
 
 if (!empty($_GET["artist"])) {
-    $sql_search .= " AND artist LIKE '%{$_GET["artist"]}%'";
+    $artist = mysqli_real_escape_string($db, $_GET["artist"]);
+    $sql_search .= " AND artist LIKE '%$artist%'";
 }
 
 if (!empty($_GET["set"])) {
-    $sql_search .= " AND set_name LIKE '%{$_GET["set"]}%'";
+    $set = mysqli_real_escape_string($db, $_GET["set"]);
+    $sql_search .= " AND set_name LIKE '%$set%'";
 }
 
 if (isset($_GET["white"])) {
