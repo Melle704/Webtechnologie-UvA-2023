@@ -34,11 +34,11 @@ CREATE TABLE IF NOT EXISTS cards (
     vintage_legal TEXT NOT NULL,
     pauper_legal TEXT NOT NULL,
     commander_legal TEXT NOT NULL,
-    penny_legal TEXT NOT NULL,
     power TEXT,
     toughness TEXT,
     loyalty TEXT,
     rarity TEXT,
+    rarity_num INT,
     normal_price FLOAT,
     foil_price FLOAT,
     popularity INT,
@@ -71,8 +71,19 @@ for card in bulk_file_data:
   card_fields["vintage_legal"] = card["legalities"]["vintage"]
   card_fields["pauper_legal"] = card["legalities"]["pauper"]
   card_fields["commander_legal"] = card["legalities"]["commander"]
-  card_fields["penny_legal"] = card["legalities"]["penny"]
   card_fields["rarity"] = card["rarity"]
+  # The rarity is also added as a number to make sorting them easier.
+  if (card["rarity"] == "common"):
+    card_fields["rarity_num"] = "1"
+  elif (card["rarity"] == "uncommon"):
+    card_fields["rarity_num"] = "2"
+  elif (card["rarity"] == "rare"):
+    card_fields["rarity_num"] = "3"
+  elif (card["rarity"] == "mythic"):
+    card_fields["rarity_num"] = "4"
+  else:
+    card_fields["rarity_num"] = "0"
+
   card_fields["popularity"] = "0"
   card_fields["collector_number"] = card["collector_number"]
   card_fields["released_at"] = card["released_at"]
@@ -117,7 +128,7 @@ for card in bulk_file_data:
     card_fields["power"] = card["power"]
     card_fields["toughness"] = card["toughness"]
 
-  if "loyality" in card.keys():
+  if "loyalty" in card.keys():
     card_fields["loyalty"] = card["loyalty"]
 
   # Checks to see if a backside image is present.
