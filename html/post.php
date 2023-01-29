@@ -50,7 +50,7 @@ if (isset($_POST["submit"])) {
     exit;
 }
 
-$user = query_execute_unsafe($db, "SELECT * FROM users where id=$user_id")[0];
+$user = query_execute_unsafe($db, "SELECT * FROM users WHERE id='".$thread["user_id"]."'")[0];
 
 $sql = "SELECT * FROM forum_posts WHERE thread_id=$thread_id ORDER BY date LIMIT 50";
 $posts = query_execute_unsafe($db, $sql);
@@ -95,7 +95,9 @@ $posts = query_execute_unsafe($db, $sql);
 ?>
 <div class="box box-row">
     <div class="profile-pic">
-        <a class="user" href="/profile.php?id=<?=$post_user_id?>"><?= $post_user["uname"] ?></a>
+        <a class="user" href="/profile.php?id=<?=$post_user_id?>">
+            <div class="username"><?= $post_user["uname"] ?></div>
+        </a>
         <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
     </div>
     <div class="comment">
