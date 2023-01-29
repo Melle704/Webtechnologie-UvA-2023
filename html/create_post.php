@@ -29,7 +29,7 @@ if (isset($_POST["submit"])) {
         Create a post!
     </div>
     <form id="new-thread-form" method="post">
-        <textarea class="textarea-title" name="title" rows="1" maxlength="125" placeholder="Title"></textarea>
+        <textarea class="textarea-title" name="title" rows="1" maxlength="124" placeholder="Title"></textarea>
         <textarea class="textarea-content" name="content" maxlength="4096" placeholder="Text (optional)"></textarea>
         <input type="submit" name="submit"></input>
     </form>
