@@ -18,6 +18,7 @@ function make_payment($price) {
         'description' => 'Test payment',
         'redirectUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=success',
         'cancelUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=canceled',
+        'webhookUrl' => 'https://webtech-in21.webtech-uva.nl/mollie_webhook.php',
         'method' => 'ideal'
     ];
 
@@ -26,7 +27,7 @@ function make_payment($price) {
     curl_setopt($curl, CURLOPT_HEADER, false);
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
         "Content-type: application/json",
-        // "Authorization: Bearer $mollie_token"
+        "Authorization: Bearer $mollie_token"
     ]);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
@@ -36,21 +37,17 @@ function make_payment($price) {
 
     $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-    if ( $status != 201 ) {
-        // reload_err("Error sending request to payment processor.");
+    if ($status != 201) {
         return false;
     }
 
     curl_close($curl);
 
-    var_dump($response);
-
     // Exit gracefully in case of unexpected response.
     try {
         $checkout_url = $response["_links"]["checkout"]["href"];
         $mollie_id = $response["id"];
-    } catch (Exception $_) {
-        // reload_err("Error sending request to payment processor");
+    } catch (Throwable $_) {
         return false;
     }
     header("Location: " . $checkout_url);
@@ -60,28 +57,34 @@ function make_payment($price) {
 
 function payment_status($id) {
     include_once "include/mollie.php";
+    include_once "include/db.php";
 
     $url = "https://api.mollie.com/v2/payments/$id";
 
     $curl = curl_init($url);
+    // Don't send/leak response
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer $mollie_token"
     ]);
 
     $json_response = curl_exec($curl);
-    $response = json_decode($json_response);
-    $status = curl_getinfo($json_response);
+    $response = json_decode($json_response, true);
 
-    // TODO: Do proper error handling.
-    // TODO: 201 is not really expected for a get request (?)
-    if ( $status != 201 ) {
-        die("Error: call to URL $url failed with status $status, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+    $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    if ($status != 200) {
+        return false;
     }
 
     curl_close($curl);
 
-    // TODO: Wrap in try/catch in case of unexpected response.
-    $status = $response["status"];
+    // Exit gracefully in case of unexpected response.
+    try {
+        $payment_status = $response["status"];
+    } catch (Throwable $_) {
+        return false;
+    }
 
-    // TODO: Set correct status in database.
+    return $payment_status;
 }
