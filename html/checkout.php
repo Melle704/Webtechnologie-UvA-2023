@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
-    // $mollie_id = make_payment($total);
+    $mollie_id = make_payment($total);
 
     if ($mollie_id == false) {
         header("Location: purchase.php?result=failure");
@@ -60,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     query_execute($db, $sql, "issssssd", $_SESSION["id"],
                   $mollie_id, "open", $name, $address, $postcode, $city, $total);
 
-    header("Location: purchase.php?result=success");
     exit;
 }
 ?>
