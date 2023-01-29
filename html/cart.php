@@ -33,20 +33,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$total = 0;
+$products = [];
 if (!$cart_empty) {
-    $keys_string = implode(',', array_keys($_SESSION["cart"]));
+    $raw_keys = array_keys($_SESSION["cart"]);
+    $keys = str_replace("f", "", $raw_keys);
+    $keys_string = implode(',', $keys);
 
     $sql = "SELECT * FROM cards WHERE id IN ($keys_string)";
-    $products = query_execute($db, $sql);
+    $cards = query_execute($db, $sql);
 
-    $total = 0;
-    foreach ($products as $product) {
-        $amount = $_SESSION["cart"][$product["id"]];
-        $total += $product["normal_price"] * $amount;
+    foreach ($cards as $card) {
+        if (in_array($card["id"], $raw_keys)) {
+            $amount = $_SESSION["cart"][$card["id"]];
+            $price = $card["normal_price"];
+            $name = $card["name"];
+            array_push($products, [
+                "amount" => $amount,
+                "price" => $price,
+                "name" => $name,
+                "id" => $card["id"]
+            ]);
+            $total += $price * $amount;
+        }
+        if (in_array($card["id"] . "f", $raw_keys)) {
+            $amount = $_SESSION["cart"][$card["id"] . "f"];
+            $price = $card["foil_price"];
+            $name = $card["name"] . " (foil)";
+            array_push($products, [
+                "amount" => $amount,
+                "price" => $price,
+                "name" => $name,
+                "id" => $card["id"]
+            ]);
+            $total += $price * $amount;
+        }
     }
-} else {
-    $products = [];
-    $total = 0;
 }
 ?>
 <!doctype html>
@@ -92,15 +114,19 @@ if (!$cart_empty) {
                             <?= $product["name"] ?>
                         </a>
                     </td>
-                    <td class="col-num"><?= format_eur($product["normal_price"]) ?></td>
-                    <td class="col-num"><?= $_SESSION["cart"][$product["id"]] ?></td>
+                    <td class="col-num"><?= format_eur($product["price"]) ?></td>
+                    <td class="col-num"><?= $product["amount"] ?></td>
                     <td class="col-num">
-                        <?= format_eur($_SESSION["cart"][$product["id"]] * $product["normal_price"]) ?>
+                        <?= format_eur($product["amount"] * $product["price"]) ?>
                     </td>
                     <td>
                         <form method="post" action="" class="form remove-form">
                             <input type="hidden" name="action" value="remove">
+                            <?php if (str_contains($product["name"], "(foil)")): ?>
+                            <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
+                            <?php else: ?>
                             <input type="hidden" name="id" value="<?= $product["id"] ?>">
+                            <?php endif; ?>
                             <input type="submit" value="&#x2716;">
                         </form>
                     </td>

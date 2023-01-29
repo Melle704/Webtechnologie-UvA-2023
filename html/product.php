@@ -20,7 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     }
 
     $amount = $_POST["amount"];
+    $foil = $_POST["foil"];
     $card_id = $_POST["id"];
+    $card_id .= $foil ? "f" : "";
 
     if (!isset($_SESSION["cart"][$card_id])) {
         $_SESSION["cart"][$card_id] = 0;
@@ -86,11 +88,16 @@ if ($card_back == NULL) {
                     </legend>
                     <span>Normal price: <?= format_eur($card_price) ?></span>
                     <span>Foil price: <?= format_eur($foil_price) ?></span>
-                    <br>
                     <?php if (isset($_SESSION["id"])): ?>
-                    <label for=count>Amount</label>
-                    <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                    <br>
+                    <label>
+                        <b>Amount</b>
+                        <input type="number" name="amount" value="1" min="1" max="50">
+                    </label>
+                    <label>
+                        <b>Foil</b>
+                        <input id="foil" type="checkbox" name="foil">
+                    </label>
+                    <br><br><br>
                     <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                     <input type="submit" value="Add to cart">
                     <?php else: ?>
