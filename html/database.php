@@ -42,6 +42,18 @@ if (!empty($_GET["card_type"])) {
     $sql_search .= " AND type_line LIKE '%{$_GET["card_type"]}%'";
 }
 
+if (!empty($_GET["flavor_text"])) {
+    $sql_search .= " AND flavor_text LIKE '%{$_GET["flavor_text"]}%'";
+}
+
+if (!empty($_GET["artist"])) {
+    $sql_search .= " AND artist LIKE '%{$_GET["artist"]}%'";
+}
+
+if (!empty($_GET["set"])) {
+    $sql_search .= " AND set_name LIKE '%{$_GET["set"]}%'";
+}
+
 if (isset($_GET["white"])) {
     if (strcmp($_GET["color_type"], "excluding") == 0) {
         $sql_search .= " AND NOT color_identity LIKE '%W%'";
@@ -213,6 +225,21 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             <b>card type</b>
             <label>
                 <input type="text" name="card_type" value="<?php echo $_GET['card_type']??''; ?>" >
+            </label>
+            <br><br><br>
+            <b>flavor text</b>
+            <label>
+                <input type="text" name="flavor_text" value="<?php echo $_GET['flavor_text']??''; ?>" >
+            </label>
+            <br><br><br>
+            <b>artist</b>
+            <label>
+                <input type="text" name="artist" value="<?php echo $_GET['artist']??''; ?>" >
+            </label>
+            <br><br><br>
+            <b>set</b>
+            <label>
+                <input type="text" name="set" value="<?php echo $_GET['set']??''; ?>" >
             </label>
             <br><br><br>
         </div>
