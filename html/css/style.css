@@ -377,6 +377,27 @@ p {
     font-size: 1.5rem;
 }
 
+.collapsible-row {
+    padding: 0.5rem 0.75rem 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+}   
+
+.collapsed-row {
+    display: none;
+}
+
+.collapsible-button {
+    width: 100%;
+    border: none;
+    padding: 0.5rem 0.75rem 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #3d3c3b;
+    text-decoration: none;
+    text-align: left;
+}
+
 @media only screen and (max-width: 700px) {
     .flex-break {
         flex-basis: 100%;

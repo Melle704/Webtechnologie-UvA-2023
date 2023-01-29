@@ -5,8 +5,8 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-$cards_per_page = 20;
-$id_offset = 0;
+$cards_per_page = 60;
+$page_offset = 0;
 $page = 1;
 
 // if there is a page specified
@@ -23,8 +23,7 @@ if (isset($_GET["page"])) {
         header("Location: /database.php");
     }
 
-    $id_offset = ($page - 1) * $cards_per_page;
-    echo $id_offset;
+    $page_offset = ($page - 1) * $cards_per_page;
 }
 
 $sql = "SELECT * FROM cards
@@ -77,6 +76,23 @@ or isset($_GET["green"]) or isset($_GET["colorless"])) {
     }
 }
 
+if (isset($_GET["card_order"])) {
+    switch ($_GET["card_order"]) {
+        case "ID": $sql_search .= " ORDER BY id"; break;
+        case "name": $sql_search .= " ORDER BY name"; break;
+        case "n_price": $sql_search .= " AND NOT normal_price='0' ORDER BY normal_price"; break;
+        case "f_price": $sql_search .= " AND NOT foil_price='0' ORDER BY foil_price"; break;
+        case "popularity": $sql_search .= " ORDER BY popularity"; break;
+        case "release": $sql_search .= " ORDER BY released_at"; break;
+        case "rarity": $sql_search .= " ORDER BY rarity"; break;
+        case "set": $sql_search .= " ORDER BY set_code"; break;
+        case "power": $sql_search .= " AND NOT power='' AND NOT power LIKE '%*%'
+              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY power"; break;
+        case "toughness": $sql_search .= " AND NOT toughness='' AND NOT toughness LIKE '%*%'
+              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY toughness"; break;
+    }
+}
+
 if (isset($sql_search)) {
     $_SESSION["search"] = $sql_search;
 }
@@ -85,7 +101,7 @@ else if (isset($_SESSION["search"])) {
 }
 
 $sql .= $sql_search;
-$sql .= " ORDER BY id ASC LIMIT {$cards_per_page} OFFSET {$id_offset}";
+$sql .= " ASC LIMIT {$cards_per_page} OFFSET {$page_offset}";
 
 $cards = query_execute_unsafe($db, $sql);
 
@@ -121,15 +137,15 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 <?php include_once "header.php"; ?>
 
 <div class="box">
-    <div class="box-row box-light">
+    <button class="collapsible-button" onclick="collapse()">
         <b>Simple search</b>
-    </div>
-    <div class="box-row form">
+    </button>
+    <div id="search_bar" class="collapsed-row">
     <form action="" method="GET">
             <b>card name</b>
             <label>
                 <input type="text" name="card_name"
-                       value="<?php echo $_GET['card_name']??''; ?>" >
+                value="<?php echo $_GET['card_name']??''; ?>" >
             </label>
             <br><br><br>
             <b>oracle text</b>
@@ -156,6 +172,20 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
             </div>
             <br>
+            <label for="card_order"> order by </label>
+            <select name="card_order">
+                <option value="ID" <?php if(strcmp($_GET["card_order"], "ID") == 0) echo "selected='selected'"; ?> >ID</option>
+                <option value="name" <?php if(strcmp($_GET["card_order"], "name") == 0) echo "selected='selected'"; ?> >name</option>
+                <option value="n_price"  <?php if(strcmp($_GET["card_order"], "n_price") == 0) echo "selected='selected'"; ?> >normal price</option>
+                <option value="f_price"  <?php if(strcmp($_GET['card_order'], "f_price") == 0){$_GET['card_order'] = 'f_price';}; ?> >foil price</option>
+                <option value="popularity" <?php if(strcmp($_GET['card_order'], "popularity") == 0) echo "selected='selected'"; ?> >popularity</option>
+                <option value="release" <?php if(strcmp($_GET['card_order'], "release") == 0) echo "selected='selected'"; ?> >release</option>
+                <option value="rarity" <?php if(strcmp($_GET['card_order'], "rarity") == 0) echo "selected='selected'"; ?> >rarity</option>
+                <option value="set">set</option>
+                <option value="power">power</option>
+                <option value="toughness">toughness</option>
+            </select>
+            <br><br><br>
             <b><?php echo $card_amount??''; ?> results</b>
             <input type="submit" name="submit" value="Search">
     </form>
@@ -181,7 +211,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 $card_price = $card["foil_price"];
             }
         }
-    ?>
+        ?>
     <div class="box box-item">
         <div class="box-row item-header">
             <div class="box-left item-name">
@@ -256,7 +286,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             echo "\t$tag\n";
         }
     }
-?>
+    ?>
 <?php if ($last_page != $page): ?>
     <a href="/database.php?page=<?= $page + 1 ?>">
         <i class="fa-solid fa-chevron-right"></i>
@@ -271,6 +301,17 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 </div>
 
 <?php include_once "footer.php"; ?>
+
+    <script>
+        function collapse() {
+            if (document.getElementById('search_bar').classList == "collapsible-row form") {
+                document.getElementById('search_bar').setAttribute("class", "collapsed-row");
+            }
+            else {
+                document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
+            }
+        }
+    </script>
 
 </body>
 
