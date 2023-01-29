@@ -24,6 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     $card_id = $_POST["id"];
     $card_id .= $foil ? "f" : "";
 
+    // Additional GET variables for error redirect
+    $tail = "&id=" . $_POST["id"];
+    // Check if foil/non-foil version of this card exists
+    if ($card["normal_price"] == 0 && !$foil) {
+        reload_err("Non-foil version of this card is not for sale", $tail);
+    } elseif ($card["foil_price"] == 0 && $foil) {
+        reload_err("Foil version of this card is not for sale", $tail);
+    }
+
     if (!isset($_SESSION["cart"][$card_id])) {
         $_SESSION["cart"][$card_id] = 0;
     }
@@ -54,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
 <body>
 
 <?php include_once "header.php"; ?>
+
+<?php include_once "include/errors.php"; ?>
 
 <?php
 $card_front = $card["image"];

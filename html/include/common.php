@@ -1,13 +1,14 @@
 <?php
 
-function reload_err($err = "") {
+// $tail allows us to add additional GET variables to error redirect.
+function reload_err($err = "", $tail = "") {
     $redirect = "Location: " . $_SERVER["PHP_SELF"];
 
     if ($err != "") {
         $redirect = "$redirect?error=\"$err\"";
     }
 
-    header($redirect);
+    header($redirect . $tail);
     exit;
 }
 
