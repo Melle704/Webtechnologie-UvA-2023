@@ -11,46 +11,46 @@ if (!isset($_SESSION["id"])) {
 include_once "include/common.php";
 include_once "include/db.php";
 
-// Sort by highest score on standerd.
-$sortBy = "score-desc";
+// Sort by most comments on standerd
+$sortBy = "comments-desc";
 if (isset($_GET["sortBy"])) {
   $sortBy = $_GET["sortBy"];
 }
 
 // Create the query for how to sort.
 $query = "SELECT * FROM forum_threads";
-if ($sortBy === "score") {
-  $query .= " ORDER BY score";
-} else if ($sortBy === "score-desc") {
-    $query .= " ORDER BY score DESC";
+if ($sortBy === "comments") {
+    $query .= " ORDER BY comments";
+} else if ($sortBy === "comments-desc") {
+    $query .= " ORDER BY comments DESC";
 
 } else if ($sortBy === "date") {
-  $query .= " ORDER BY date";
+    $query .= " ORDER BY date";
 } else if ($sortBy === "date-desc") {
     $query .= " ORDER BY date DESC";
 }
 $query .= " LIMIT 20";
 
 $threads = query_execute_unsafe($db, $query);
-
 ?>
 
 <div class="box">
-    <div class="box-row box-light">
+    <div class="box-row box-light" style="margin-bottom: -10px">
         <div class="post-title box-title">
             <a href="/forum.php">Magic the Gathering forum</a>
         </div>
         <p>
             A space to ask questions and discuss Magic!
             <br>
-
-            <div class="search-sort">
+            <a href="forumrules.php">Forum rules</a>
+            
+            <div class="search-sort" style="margin-bottom: -15px">
                 <input type="text" id="search-input">
                 <button id="search-button" style="background-color: #323232">Search content</button>
 
                 <select id="sort-select" style="background-color: #323232; float: right">
-                    <option value="score-desc" <?= ($sortBy === "score-desc") ? "selected" : "" ?>>Sort by highest score</option>
-                    <option value="score" <?= ($sortBy === "score") ? "selected" : "" ?>>Sort by lowest score</option>
+                    <option value="comments-desc" <?= ($sortBy === "comments-desc") ? "selected" : "" ?>>Sort by most comments</option>
+                    <option value="comments" <?= ($sortBy === "comments") ? "selected" : "" ?>>Sort by least comments</option>
                     <option value="date-desc" <?= ($sortBy === "date-desc") ? "selected" : "" ?>>Sort by newest</option>
                     <option value="date" <?= ($sortBy === "date") ? "selected" : "" ?>>Sort by oldest</option>
                 </select>
@@ -78,14 +78,15 @@ $threads = query_execute_unsafe($db, $query);
 
             $thread_id = $thread["id"];
             $sql = "SELECT SUM(thread_id=$thread_id) FROM forum_posts";
-            $comment_count = query_execute_unsafe($db, $sql)[0][0];
+
+            $comment_count = $thread["comments"];
         ?>
         <div class="preview-box">
             <a href="/post.php?id=<?= $thread_id ?>">
                 <div class="preview-title"><b><?= $thread["title"] ?></b></div>
                 <div class="bottom-text">
                     <p class="post-timestamp"><?= $date ?></p>
-                    <p class="comment-count"><?= $comment_count ?> comments</p>
+                    <p class="comment_count"><?= $comment_count ?> comments</p>
                 </div>
             </a>
         </div>
@@ -96,7 +97,7 @@ $threads = query_execute_unsafe($db, $query);
 <script>
     const select = document.getElementById("sort-select");
     select.addEventListener("change", function() {
-        window.location.href = "/forum.php?sortby=" + select.value;
+        window.location.href = "/forum.php?sortBy=" + select.value;
     });
 
     const input = document.getElementById("search-input");
