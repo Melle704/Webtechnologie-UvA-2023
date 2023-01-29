@@ -5,9 +5,6 @@ session_start();
 include_once "include/common.php";
 include_once "include/db.php";
 
-// $thread_id =
-
-
 $user_id = $_SESSION["id"];
 
 if (isset($_POST["submit"])) {
@@ -31,8 +28,8 @@ if (isset($_POST["submit"])) {
     <div class="create-title">
         Create a post!
     </div>
-    <form id="new-thread-form" method="post" onsubmit="location.reload()">
-        <textarea class="textarea-title" name="title" rows="1" maxlength="124" placeholder="Title"></textarea>
+    <form id="new-thread-form" method="post">
+        <textarea class="textarea-title" name="title" rows="1" maxlength="125" placeholder="Title"></textarea>
         <textarea class="textarea-content" name="content" maxlength="4096" placeholder="Text (optional)"></textarea>
         <input type="submit" name="submit"></input>
     </form>
