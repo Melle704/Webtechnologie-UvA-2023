@@ -42,10 +42,13 @@ if (isset($_POST["submit"])) {
 
     validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 1]);
     validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
-
+    
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
-
+    
+    $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
+    query_execute($db, $sql, "i", $thread_id);
+    
     header("Location: " . $_SERVER["REQUEST_URI"]);
     exit;
 }
