@@ -37,6 +37,11 @@ p {
     padding: 0.1rem 0;
 }
 
+li {
+  list-style-position: inside;
+  line-height: 1.25rem;
+}
+
 .box {
     background-color: #282828;
 
@@ -118,8 +123,10 @@ p {
     box-sizing: border-box;
 }
 
-.box-row li {
+.box-light li {
     display: inline;
+    line-height: 1em;
+
 }
 
 .box-row br {
