@@ -20,13 +20,13 @@
         <b>Cookie policy</b>
     </div>
     <div class="box-row">
-        <p>
-        &#x2022 We use cookies on our website. By using our website or registering you consent to our use of cookies in accordance with our terms of policy. <br>
-        &#x2022 We only use session cookies on our website. We use these cookies to recognise your computer when you visit our website, in order to recognise whether you are loggin in or not.<br>
-        &#x2022 We only do this if you have registered as a user.<br>
-        &#x2022 A cookie is in no way giving us acces to your computer or any other information about you.<br>
-        &#x2022 If you would like to find out more about cookies, including how to manage them, please visit: <a href="https://www.allaboutcookies.org">allaboutcookies.org</a>
-        </p>
+        <ul>
+            <li>We use cookies on our website. By using our website or registering you consent to our use of cookies in accordance with our terms of policy.</li>
+            <li>We only use session cookies on our website. We use these cookies to recognise your computer when you visit our website, in order to recognise whether you are logged in or not.</li>
+            <li>We only do this if you have registered as a user.</li>
+            <li>A cookie is in no way giving us acces to your computer or any other information about you.</li>
+            <li>If you would like to find out more about cookies, including how to manage them, please visit: <a href="https://www.allaboutcookies.org">allaboutcookies.org</a></li>
+        </ul>
     </div>
 </div>
 
