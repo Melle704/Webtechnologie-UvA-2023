@@ -15,10 +15,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_SESSION["cart"])) {
+        $_SESSION["cart"] = array();
+    }
+
     $amount = $_POST["amount"];
     $card_id = $_POST["id"];
 
-    if (isset($amount) && isset($card_id)) {
+    if (!isset($_SESSION["cart"][$card_id])) {
+        $_SESSION["cart"][$card_id] = 0;
+    }
+
+    if (isset($amount) && isset($card_id) && $amount > 0) {
         $_SESSION["cart"][$card_id] += $amount;
     }
 
@@ -93,17 +101,18 @@ if ($card["foil_price"] == 0) {
 <?php endif; ?>
         <div id="product-purchase">
             <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
+            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
                     <legend>
                         Add item(s) to cart
                     </legend>
-                    <span>Normal price: €<?= $card_price ?></span>
-                    <span>Foil price: €<?= $foil_price ?></span>
+                    <span>Normal price: <?= format_eur($card_price) ?></span>
+                    <span>Foil price: <?= format_eur($foil_price) ?></span>
                     <br>
                     <label for=count>Amount</label>
                     <input id="amount" type="number" name="amount" value="1" min="1" max="50">
                     <br>
-                    <input type="hidden" id="product_id" name="product_id" value="<?= $_GET["id"] ?>">
+                    <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                     <?php if (isset($_SESSION["id"])): ?>
                     <input type="submit" value="Add to cart">
                     <?php else: ?>
