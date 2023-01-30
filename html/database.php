@@ -219,35 +219,40 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         <div class="column">
             <b>card name</b>
             <label>
-                <input type="text" name="card_name"
+                <input type="text" name="card_name" maxlength="50"
                 value="<?php echo $_GET['card_name']??''; ?>" >
             </label>
             <br><br><br>
             <b>oracle text</b>
             <label>
-                <input type="text" name="oracle_text" value="<?php echo $_GET['oracle_text']??''; ?>" >
+                <input type="text" name="oracle_text" maxlength="50"
+                value="<?php echo $_GET['oracle_text']??''; ?>" >
             </label>
             <br><br><br>
             <b>card type</b>
             <label>
-                <input type="text" name="card_type" value="<?php echo $_GET['card_type']??''; ?>" >
+                <input type="text" name="card_type" maxlength="50"
+                value="<?php echo $_GET['card_type']??''; ?>" >
             </label>
-            <br><br><br>
+        </div>
+        <div class="column">
             <b>flavor text</b>
             <label>
-                <input type="text" name="flavor_text" value="<?php echo $_GET['flavor_text']??''; ?>" >
+                <input type="text" name="flavor_text" maxlength="50"
+                value="<?php echo $_GET['flavor_text']??''; ?>" >
             </label>
             <br><br><br>
             <b>artist</b>
             <label>
-                <input type="text" name="artist" value="<?php echo $_GET['artist']??''; ?>" >
+                <input type="text" name="artist" maxlength="50"
+                value="<?php echo $_GET['artist']??''; ?>" >
             </label>
             <br><br><br>
             <b>set</b>
             <label>
-                <input type="text" name="set" value="<?php echo $_GET['set']??''; ?>" >
+                <input type="text" name="set" maxlength="50"
+                value="<?php echo $_GET['set']??''; ?>" >
             </label>
-            <br><br><br>
         </div>
         <div class="column">
             <b>converted mana cost</b>
@@ -276,6 +281,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <input class="green_checkbox" type="checkbox" name="green"
                 <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
             </div>
+            <br>
             <select name="color_type">
                 <option value="including" <?php if(strcmp($_GET["color_type"], "including") == 0)
                                         echo "selected='selected'"; ?> >including</option>
@@ -284,7 +290,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <option value="excluding" <?php if(strcmp($_GET["color_type"], "excluding") == 0)
                                         echo "selected='selected'"; ?> >excluding</option>
             </select>
-            <br>
         </div>
         <div class="column">
             <b>legal in</b>
@@ -306,7 +311,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <option value="commander" <?php if(strcmp($_GET["legality"], "commander") == 0)
                                         echo "selected='selected'"; ?> >commander</option>
             </select>
-
+            <br><br>
             <b>order by</b>
             <select name="card_order">
                 <option value="ID" <?php if(strcmp($_GET["card_order"], "ID") == 0)
@@ -341,7 +346,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             <br><br><br>
             <b><?php echo $card_amount??''; ?> results</b>
             <input type="submit" name="submit" value="Search">
-
             </div>
         </form>
     </div>
@@ -356,7 +360,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         $card_page = "/product.php?id=" . $card["id"];
 
         if (!$card_front) {
-            $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+            $card_front = "/img/no_image_available.png";
         }
         if ($card["normal_price"] == 0) {
             if ($card["foil_price"] == 0) {
@@ -403,6 +407,13 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         </div>
     </div>
 <?php endforeach; ?>
+<?php if ($card_amount == 0): ?>
+    <div class="box-row">
+        <div class="box-card-small">
+            <img src="/img/no_cards_found.png" alt="no cards found">
+        </div>
+    </div>
+<?php endif; ?>
 </div>
 
 <div class="pageinator">

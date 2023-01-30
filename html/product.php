@@ -31,7 +31,7 @@ $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 
 if (!$card_front) {
-    $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+    $card_front = "/img/no_image_available.png";
 }
 
 if ($card["normal_price"] == 0) {
