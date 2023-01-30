@@ -19,31 +19,33 @@ else {
     $card_type = ltrim($card_type, '— ');
 }
 
-// echo $card["keywords"];
-
-// Suggested cards are determined from their type line and keywords.
-// If 5 cards arent found, only the type line is used.
-$suggest_sql = "SELECT * FROM cards
+    // Suggested cards are determined from multiple keywords.
+    // If 7 cards arent found, a broader search is used.
+$base_sql = "SELECT * FROM cards
         WHERE real_card='1' AND NOT layout='emblem'
         AND NOT layout='art_series' AND NOT layout='token'
         AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
-        AND NOT name='{$card["name"]}'
-        AND type_line LIKE '%{$card_type}%'
-        AND keywords LIKE '%{$card["keywords"]}%'
-        AND color_identity='{$card["color_identity"]}'
-        ORDER BY RAND() LIMIT 7";
+        AND NOT name=\"{$card["name"]}\"";
 
+$suggest_sql = $base_sql;
+$suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
+                 AND color_identity='{$card["color_identity"]}'
+                 AND cmc='{$card["cmc"]}'
+                 ORDER BY id LIMIT 7";
 $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 if (count($suggested_cards) < 7) {
-    $suggest_sql = "SELECT * FROM cards
-        WHERE real_card='1' AND NOT layout='emblem'
-        AND NOT layout='art_series' AND NOT layout='token'
-        AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
-        AND NOT name='{$card["name"]}'
-        AND type_line LIKE '%{$card_type}%'
-        AND color_identity='{$card["color_identity"]}'
-        ORDER BY RAND() LIMIT 7";
-
+    $suggest_sql = $base_sql;
+    $suggest_sql .= "AND type_line LIKE '%{$card_type}%'
+                     AND color_identity='{$card["color_identity"]}'
+                     ORDER BY id LIMIT 7";
+    $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+}
+if (count($suggested_cards) < 7) {
+    $suggest_sql = $base_sql;
+    $suggest_sql .= "AND (type_line LIKE '%{$card_type}%'
+                     OR keywords LIKE '%{$card["keywords"]}%')
+                     AND color_identity='{$card["color_identity"]}'
+                     ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
 
