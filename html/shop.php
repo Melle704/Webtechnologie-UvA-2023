@@ -456,10 +456,8 @@ foreach ($cards as $card):
     </div>
 <?php endforeach; ?>
 <?php if ($card_amount == 0): ?>
-    <div class="box-row">
-        <div class="box-card-small">
+    <div class="center-img box-row box-card-small">
             <img src="/img/no_cards_found.png" alt="no cards found">
-        </div>
     </div>
 <?php endif; ?>
 </div>
