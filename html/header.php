@@ -30,7 +30,7 @@ if (isset($_SESSION["cart"])) {
             <div class="box-left">
                 <ul>
                     <li><a href="/index.php">Index</a></li>
-                    <li><a href="/database.php">Database</a></li>
+                    <li><a href="/shop.php">Shop</a></li>
 <?php if (isset($_SESSION["id"])): ?>
                     <li><a href="/forum.php">Forum</a></li>
 <?php endif; ?>
