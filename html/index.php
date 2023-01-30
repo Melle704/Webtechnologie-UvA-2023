@@ -52,7 +52,7 @@
     <div class="box-row popular-cards">
 <?php
 include_once "include/common.php";
-include_once "include/db.php";
+include_once "include/db.php";`
 
         $sql = "SELECT * FROM cards
                 WHERE real_card='1' AND NOT layout='emblem'
@@ -67,7 +67,7 @@ foreach ($cards as $card):
     $card_page = "/product.php?id=" . $card["id"];
 
     if (!$card_front) {
-        $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
+        $card_front = "/img/no_image_available.png";
     }
 ?>
 <?php if (isset($card_back)): ?>
@@ -93,6 +93,11 @@ foreach ($cards as $card):
         </div>
 <?php endif; ?>
 <?php endforeach ?>
+        <?php if ($cards == NULL): ?>
+            <div class="box-card-small">
+                <img src="/img/no_cards_found.png" alt="no cards found">
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
