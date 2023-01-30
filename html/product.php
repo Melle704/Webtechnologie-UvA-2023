@@ -10,7 +10,7 @@ $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
-        header("Location: /database.php");
+        header("Location: /shop.php");
     }
 }
 
