@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 
@@ -9,7 +11,6 @@
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/forum.css">
 </head>
 
 <body>
@@ -44,6 +45,7 @@
         <p>Thx in advance.</p>
     </div>
 </div>
+<?php endif; ?>
 
 <div class="box">
     <div class="box-row box-light">
@@ -100,11 +102,6 @@ foreach ($cards as $card):
         <?php endif; ?>
     </div>
 </div>
-<?php endif; ?>
-
-<?php if (isset($_SESSION["id"])): ?>
-<?php include_once "forum_overview.php";?>
-<?php endif; ?>
 
 <?php if (isset($_SESSION["id"])): ?>
 <?php
