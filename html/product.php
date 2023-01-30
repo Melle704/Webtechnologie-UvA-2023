@@ -7,6 +7,46 @@ session_start();
 $sql = "SELECT * FROM cards WHERE id=?";
 $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 
+// Make sure the right part of the type line is used.
+if (str_contains($card["type_line"], "planeswalker")) {
+    $card_type = "planeswalker";
+}
+else if (!strrchr($card["type_line"], "—")) {
+    $card_type = $card["type_line"];
+}
+else {
+    $card_type = strrchr($card["type_line"], "—");
+    $card_type = ltrim($card_type, '— ');
+}
+
+// echo $card["keywords"];
+
+// Suggested cards are determined from their type line and keywords.
+// If 5 cards arent found, only the type line is used.
+$suggest_sql = "SELECT * FROM cards
+        WHERE real_card='1' AND NOT layout='emblem'
+        AND NOT layout='art_series' AND NOT layout='token'
+        AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+        AND NOT name='{$card["name"]}'
+        AND type_line LIKE '%{$card_type}%'
+        AND keywords LIKE '%{$card["keywords"]}%'
+        AND color_identity='{$card["color_identity"]}'
+        ORDER BY RAND() LIMIT 7";
+
+$suggested_cards = query_execute_unsafe($db, $suggest_sql);
+if (count($suggested_cards) < 7) {
+    $suggest_sql = "SELECT * FROM cards
+        WHERE real_card='1' AND NOT layout='emblem'
+        AND NOT layout='art_series' AND NOT layout='token'
+        AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+        AND NOT name='{$card["name"]}'
+        AND type_line LIKE '%{$card_type}%'
+        AND color_identity='{$card["color_identity"]}'
+        ORDER BY RAND() LIMIT 7";
+
+    $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+}
+
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
@@ -123,6 +163,53 @@ if ($card["foil_price"] == 0) {
                 </fieldset>
             </form>
         </div>
+    </div>
+</div>
+
+
+<div class="box">
+    <div class="box-row box-light">
+        <b>Similar cards</b>
+    </div>
+    <div class="box-row popular-cards">
+        <?php
+        foreach ($suggested_cards as $suggest_card):
+            $card_front = $suggest_card["image"];
+            $card_back = $suggest_card["back_image"];
+            $card_page = "/product.php?id=" . $suggest_card["id"];
+
+            if (!$card_front) {
+                $card_front = "/img/no_image_available.png";
+            }
+        ?>
+        <?php if (isset($card_back)): ?>
+                <div class="box-card-small">
+                    <div class="box-card-flip">
+                        <div class="box-card-front">
+                            <a href="<?= $card_page ?>">
+                                <img src="<?= $card_front ?>" alt="<?= $suggest_card["name"] ?>">
+                            </a>
+                        </div>
+                        <div class="box-card-back">
+                            <a href="<?= $card_page ?>">
+                                <img src="<?= $card_back ?>" alt="<?= $suggest_card["name"] ?>">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        <?php else: ?>
+                <div class="box-card-small">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_front ?>" alt="<?= $suggest_card["name"] ?>">
+                    </a>
+                </div>
+        <?php endif; ?>
+        <?php endforeach ?>
+        <?php if ($suggested_cards == NULL): ?>
+            <div class="box-card-small">
+                <img src="/img/no_cards_found.png" alt="no cards found">
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
