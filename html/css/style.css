@@ -283,6 +283,14 @@ textarea:focus {
   transform: rotateY(180deg);
 }
 
+.box-card-large:hover .box-card-flip {
+    transform: rotateY(180deg);
+}
+
+.box-card-small:hover .box-card-flip {
+    transform: rotateY(180deg);
+}
+
 .box-card-front {
   position: absolute;
   -webkit-backface-visibility: hidden;

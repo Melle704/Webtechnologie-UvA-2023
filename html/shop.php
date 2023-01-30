@@ -30,7 +30,9 @@ $sql = "SELECT * FROM cards
         WHERE real_card='1'
         AND NOT layout='art_series'
         AND NOT layout='token'
-        AND NOT layout='emblem'";
+        AND NOT layout='emblem'
+        AND NOT layout='planar'
+        AND NOT name LIKE 'Substitute Card'";
 
 if (!empty($_GET["card_name"])) {
     $card_name = mysqli_real_escape_string($db, $_GET["card_name"]);
