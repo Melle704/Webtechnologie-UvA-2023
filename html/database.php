@@ -140,6 +140,33 @@ if (isset($_GET["cmc"])) {
     }
 }
 
+if (isset($_GET["price"])) {
+    if ($_GET["price_type"] == ">") {
+        if ($_GET["card_price_type"] == "normal") {
+            $sql_search .= " AND NOT normal_price='0' AND normal_price>'{$_GET["price"]}'";
+        }
+        else {
+            $sql_search .= " AND NOT foil_price='0' AND foil_price>'{$_GET["price"]}'";
+        }
+    }
+    if ($_GET["price_type"] == "=") {
+        if ($_GET["card_price_type"] == "normal") {
+            $sql_search .= " AND NOT normal_price='0' AND normal_price='{$_GET["price"]}'";
+        }
+        else {
+            $sql_search .= " AND NOT foil_price='0' AND foil_price='{$_GET["price"]}'";
+        }
+    }
+    if ($_GET["price_type"] == "<") {
+        if ($_GET["card_price_type"] == "normal") {
+            $sql_search .= " AND NOT normal_price='0' AND normal_price<'{$_GET["price"]}'";
+        }
+        else {
+            $sql_search .= " AND NOT foil_price='0' AND foil_price<'{$_GET["price"]}'";
+        }
+    }
+}
+
 if (isset($_GET["card_order"])) {
     switch ($_GET["card_order"]) {
         case "ID": $sql_search .= " ORDER BY id"; break;
@@ -267,7 +294,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> ><</option>
             </select>
             <input type="number" name="cmc" min="-10" max="10" value="<?php echo $_GET['cmc']??''; ?>" >
-            <br><br>
+            <br><br><br>
             <b>color identity</b>
             <div class="color-checkbox">
                 <input class="white_checkbox" type="checkbox" name="white"
@@ -281,7 +308,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <input class="green_checkbox" type="checkbox" name="green"
                 <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
             </div>
-            <br>
             <select name="color_type">
                 <option value="including" <?php if(strcmp($_GET["color_type"], "including") == 0)
                                         echo "selected='selected'"; ?> >including</option>
@@ -311,6 +337,26 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <option value="commander" <?php if(strcmp($_GET["legality"], "commander") == 0)
                                         echo "selected='selected'"; ?> >commander</option>
             </select>
+            <br><br>
+            <b>price</b>
+            <select name="card_price_type">
+                <option value="normal" <?php if(strcmp($_GET["card_price_type"], "normal") == 0)
+                                        echo "selected='selected'"; ?> >normal</option>
+                <option value="foil" <?php if(strcmp($_GET["card_price_type"], "foil") == 0)
+                                        echo "selected='selected'"; ?> >foil</option>
+            </select>
+            <select name="price_type">
+                <option value="--" <?php if(strcmp($_GET["price_type"], "--") == 0)
+                                        echo "selected='selected'"; ?> >--</option>
+                <option value="=" <?php if(strcmp($_GET["price_type"], "=") == 0)
+                                        echo "selected='selected'"; ?> >=</option>
+                <option value=">" <?php if(strcmp($_GET["price_type"], ">") == 0)
+                                        echo "selected='selected'"; ?> >></option>
+                <option value="<" <?php if(strcmp($_GET["price_type"], "<") == 0)
+                                        echo "selected='selected'"; ?> ><</option>
+            </select>
+            <input type="number" name="price" min="0" max="99999" step="0.01"
+                   maxlength="10" value="<?php echo $_GET['price']??''; ?>" >
             <br><br>
             <b>order by</b>
             <select name="card_order">
@@ -344,9 +390,11 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >descending</option>
             </select>
             <br><br><br>
+        </div>
+        <div class="center">
             <b><?php echo $card_amount??''; ?> results</b>
             <input type="submit" name="submit" value="Search">
-            </div>
+        </div>
         </form>
     </div>
 </div>
