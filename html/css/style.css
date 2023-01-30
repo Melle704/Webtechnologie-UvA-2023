@@ -37,6 +37,11 @@ p {
     padding: 0.1rem 0;
 }
 
+li {
+  list-style-position: inside;
+  line-height: 1.25rem;
+}
+
 .box {
     background-color: #282828;
 
@@ -118,8 +123,10 @@ p {
     box-sizing: border-box;
 }
 
-.box-row li {
+.box-light li {
     display: inline;
+    line-height: 1em;
+
 }
 
 .box-row br {
@@ -154,8 +161,8 @@ p {
 .box-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    gap: 10px;
+    align-items: flex-start;
 }
 
 .box-item {
@@ -183,7 +190,7 @@ p {
 }
 
 .item-name {
-    width: 73%;
+    width: 68%;
     color: #60A0DC;
 }
 

@@ -19,11 +19,11 @@
             <b>Rules</b>
         </div>
         <div class="box-row">
-            &#8226; there are no strict rules
-            <br>
-            &#8226; use your head
-            <br>
-            &#8226; keep an open mind
+            <ul>
+                <li>There are no strict rules</li>
+                <li>Use your head</li>
+                <li>Keep an open mind</li>
+            </ul>
         </div>
     </div>
 
