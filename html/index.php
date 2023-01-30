@@ -51,7 +51,7 @@
 
 <div class="box">
     <div class="box-row box-light">
-        <b>Most popular cards this week</b>
+        <b>Random cards</b>
     </div>
     <div class="box-row popular-cards">
 <?php
@@ -63,6 +63,7 @@ include_once "include/db.php";
                 WHERE real_card='1' AND NOT layout='emblem'
                 AND NOT layout='art_series' AND NOT layout='token'
                 AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+                AND NOT set_name='Jumpstart Front Cards' AND normal_price>'15'
                 ORDER BY RAND() LIMIT 7";
 
 $cards = query_execute_unsafe($db, $sql);
