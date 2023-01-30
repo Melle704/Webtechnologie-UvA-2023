@@ -105,7 +105,7 @@ if (!$cart_empty) {
                     <th>Price</th>
                     <th>Amount</th>
                     <th>Total Price</th>
-                    <th width="30px"></th>
+                    <th style="width: 30px;"></th>
                 </tr>
                 <?php foreach($products as $product): ?>
                 <tr>
@@ -120,7 +120,7 @@ if (!$cart_empty) {
                         <?= format_eur($product["amount"] * $product["price"]) ?>
                     </td>
                     <td>
-                        <form method="post" action="" class="form remove-form">
+                        <form method="post" class="form remove-form">
                             <input type="hidden" name="action" value="remove">
                             <?php if (str_contains($product["name"], "(foil)")): ?>
                             <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
