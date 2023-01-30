@@ -52,7 +52,7 @@
     <div class="box-row popular-cards">
 <?php
 include_once "include/common.php";
-include_once "include/db.php";`
+include_once "include/db.php";
 
         $sql = "SELECT * FROM cards
                 WHERE real_card='1' AND NOT layout='emblem'

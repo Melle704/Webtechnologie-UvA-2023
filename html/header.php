@@ -23,7 +23,7 @@ if (isset($_SESSION["cart"])) {
     <div class="box-head">
         <div class="box-row box-head-row">
             <div class="box-title">
-                <a href="/index.php"><span>MAGIC</span> THE GATHERING</a>
+                <a href="/index.php"><span>URZA'S</span> WEBSHOP</a>
             </div>
         </div>
         <div class="box-row box-light">
