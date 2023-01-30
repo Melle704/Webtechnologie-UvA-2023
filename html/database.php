@@ -242,7 +242,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         <b>filter cards</b>
     </button>
     <div id="search_bar" class="collapsed-row">
-    <form action="" method="GET">
+    <form action="database.php" method="GET">
         <div class="column">
             <b>card name</b>
             <label>
@@ -289,9 +289,9 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <option value="=" <?php if(strcmp($_GET["cmc_type"], "=") == 0)
                                         echo "selected='selected'"; ?> >=</option>
                 <option value=">" <?php if(strcmp($_GET["cmc_type"], ">") == 0)
-                                        echo "selected='selected'"; ?> >></option>
+                                        echo "selected='selected'"; ?> >&lt;</option>
                 <option value="<" <?php if(strcmp($_GET["cmc_type"], "<") == 0)
-                                        echo "selected='selected'"; ?> ><</option>
+                                        echo "selected='selected'"; ?> >&gt;</option>
             </select>
             <input type="number" name="cmc" min="-10" max="10" value="<?php echo $_GET['cmc']??''; ?>" >
             <br><br><br>
@@ -351,12 +351,12 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                 <option value="=" <?php if(strcmp($_GET["price_type"], "=") == 0)
                                         echo "selected='selected'"; ?> >=</option>
                 <option value=">" <?php if(strcmp($_GET["price_type"], ">") == 0)
-                                        echo "selected='selected'"; ?> >></option>
+                                        echo "selected='selected'"; ?> >&lt;</option>
                 <option value="<" <?php if(strcmp($_GET["price_type"], "<") == 0)
-                                        echo "selected='selected'"; ?> ><</option>
+                                        echo "selected='selected'"; ?> >&gt;</option>
             </select>
             <input type="number" name="price" min="0" max="99999" step="0.01"
-                   maxlength="10" value="<?php echo $_GET['price']??''; ?>" >
+                                 value="<?php echo $_GET['price']??''; ?>" >
             <br><br>
             <b>order by</b>
             <select name="card_order">

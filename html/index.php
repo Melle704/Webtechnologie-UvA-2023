@@ -133,7 +133,6 @@ foreach ($cards as $card):
             array_push($tags, $tag);
         }
     }
-
     $seperated_tags = implode(", ", $tags);
 ?>
 <?php if (count($tags) > 1): ?>
