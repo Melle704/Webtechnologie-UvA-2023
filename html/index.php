@@ -17,6 +17,7 @@
 <?php include_once "header.php";?>
 
 <?php if (isset($_SESSION["id"])): ?>
+
 <div class="box">
     <div class="box-row box-light">
         <b>Chatbox</b>
@@ -33,6 +34,7 @@
 <?php endif; ?>
 
 <?php if (!isset($_SESSION["id"])): ?>
+
 <div class="box">
     <div class="box-row box-light">
         <b>Welcome</b>
@@ -53,6 +55,7 @@
     </div>
     <div class="box-row popular-cards">
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
 

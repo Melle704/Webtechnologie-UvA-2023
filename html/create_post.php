@@ -7,6 +7,7 @@ include_once "include/db.php";
 
 $user_id = $_SESSION["id"];
 
+// If the post is submitted.
 if (isset($_POST["submit"])) {
     $title = htmlspecialchars(trim($_POST["title"]));
     $text = htmlspecialchars(trim($_POST["content"]));
@@ -16,9 +17,11 @@ if (isset($_POST["submit"])) {
     validate_predicates(["Title should not exceed 124 characters", strlen($title) <= 100]);
     validate_predicates(["Content should not exceed 4096 characters", strlen($text) <= 4096]);
 
+    // Insert the new post into the sql database.
     $sql = "INSERT INTO forum_threads (user_id, title, thread_content) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iss", $user_id, $title, $text);
 
+    // Reload the page.
     header("Location: " . $_SERVER["REQUEST_URI"]);
     exit;
 }
@@ -31,6 +34,6 @@ if (isset($_POST["submit"])) {
     <form id="new-thread-form" method="post">
         <textarea class="textarea-title" name="title" rows="1" maxlength="100" placeholder="Title"></textarea>
         <textarea class="textarea-content" name="content" maxlength="4096" placeholder="Text (optional)"></textarea>
-        <input type="submit" name="submit">
+        <input type="submit" name="submit" value="Create post">
     </form>
 </div>
