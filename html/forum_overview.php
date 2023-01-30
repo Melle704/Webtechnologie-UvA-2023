@@ -11,7 +11,7 @@ if (!isset($_SESSION["id"])) {
 include_once "include/common.php";
 include_once "include/db.php";
 
-// Sort by most comments on standerd
+// Sort by most comments on standard.
 $sortBy = "comments-desc";
 if (isset($_GET["sortBy"])) {
   $sortBy = $_GET["sortBy"];
@@ -43,19 +43,18 @@ $threads = query_execute_unsafe($db, $query);
             A space to ask questions and discuss Magic!
             <br>
             <a href="forumrules.php">Forum rules</a>
-            
-            <div class="search-sort" style="margin-bottom: -15px">
-                <input type="text" id="search-input">
-                <button id="search-button" style="background-color: #323232">Search content</button>
-
-                <select id="sort-select" style="background-color: #323232; float: right">
-                    <option value="comments-desc" <?= ($sortBy === "comments-desc") ? "selected" : "" ?>>Sort by most comments</option>
-                    <option value="comments" <?= ($sortBy === "comments") ? "selected" : "" ?>>Sort by least comments</option>
-                    <option value="date-desc" <?= ($sortBy === "date-desc") ? "selected" : "" ?>>Sort by newest</option>
-                    <option value="date" <?= ($sortBy === "date") ? "selected" : "" ?>>Sort by oldest</option>
-                </select>
-            </div>
         </p>
+        <div class="search-sort">
+            <input type="text" id="search-input">
+            <button id="search-button" style="background-color: #323232">Search content</button>
+
+            <select id="sort-select" style="background-color: #323232; float: right">
+                <option value="comments-desc" <?= ($sortBy === "comments-desc") ? "selected" : "" ?>>Sort by most comments</option>
+                <option value="comments" <?= ($sortBy === "comments") ? "selected" : "" ?>>Sort by least comments</option>
+                <option value="date-desc" <?= ($sortBy === "date-desc") ? "selected" : "" ?>>Sort by newest</option>
+                <option value="date" <?= ($sortBy === "date") ? "selected" : "" ?>>Sort by oldest</option>
+            </select>
+        </div>
     </div>
 
     <div class="box-row">
