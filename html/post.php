@@ -8,6 +8,7 @@ if (!isset($_SESSION["id"])) {
     exit;
 }
 
+// Check if the specific page id exists.
 if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     $redirect_title="Incorrect posts";
     $redirect_msg="You tried to visit a thread that doesn't exist.";
@@ -24,28 +25,22 @@ include_once "include/db.php";
 $thread_id = intval($_GET["id"]);
 $thread = query_execute_unsafe($db, "SELECT * from forum_threads WHERE id=$thread_id");
 
-if (count($thread) != 1) {
-    $redirect_title="Incorrect posts";
-    $redirect_msg="You tried to visit a thread that doesn't exist.";
-    include_once "include/redirect.php";
-
-    // Wait two seconds before refreshing.
-    header("Refresh: 2; url=/index.php");
-    exit;
-}
-
 $thread = $thread[0];
 $user_id = $_SESSION["id"];
 
+// Submit a new comment to the sql database.
 if (isset($_POST["submit"])) {
     $text = htmlspecialchars(trim($_POST["text"]));
 
+    // Verify if the message is the correct size.
     validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 1]);
     validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
     
+    // Add the comment into the sql database.
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
     
+    // Add 1 to the comment count of the thread.
     $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
     query_execute($db, $sql, "i", $thread_id);
     
@@ -55,9 +50,11 @@ if (isset($_POST["submit"])) {
 
 $user = query_execute_unsafe($db, "SELECT * FROM users WHERE id='".$thread["user_id"]."'")[0];
 
+// Set a maximum of 50 comments in a single thread.
 $sql = "SELECT * FROM forum_posts WHERE thread_id=$thread_id ORDER BY date LIMIT 50";
 $posts = query_execute_unsafe($db, $sql);
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -87,7 +84,7 @@ $posts = query_execute_unsafe($db, $sql);
     $post_user_id = $post["user_id"];
     $post_user = query_execute_unsafe($db, "SELECT * FROM users where id=$post_user_id")[0];
 
-    // get profile picture of user
+    // Get the profile picture of the user.
     $profile_pic = @file_get_contents("./img/user" . $post_user_id . ".raw");
     $profile_pic_type = @file_get_contents("./img/user" . $post_user_id . ".info");
 
@@ -125,7 +122,7 @@ $posts = query_execute_unsafe($db, $sql);
 
 </body>
 
-<!-- scroll down to bottom of page if we have an error -->
+<!-- Scroll down to bottom of page if we have an error. -->
 <?php if (isset($_GET["error"])): ?>
 <script>
     let body_height = document.scrollingElement.scrollHeight;

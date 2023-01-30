@@ -29,6 +29,7 @@ if ($sortBy === "comments") {
 } else if ($sortBy === "date-desc") {
     $query .= " ORDER BY date DESC";
 }
+// Show a maximum of 20 posts.
 $query .= " LIMIT 20";
 
 $threads = query_execute_unsafe($db, $query);
@@ -46,7 +47,7 @@ $threads = query_execute_unsafe($db, $query);
         </p>
         <div class="search-sort">
             <input type="text" id="search-input">
-            <button id="search-button" style="background-color: #323232">Search content</button>
+            <input type="button" id="search-button" value="Search content"></button>
 
             <select id="sort-select" style="background-color: #323232; float: right">
                 <option value="comments-desc" <?= ($sortBy === "comments-desc") ? "selected" : "" ?>>Sort by most comments</option>
@@ -59,6 +60,7 @@ $threads = query_execute_unsafe($db, $query);
 
     <div class="box-row">
         <?php
+        // Search thrue all the threads.
         $search = '';
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
