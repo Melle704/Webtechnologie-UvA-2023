@@ -427,7 +427,7 @@ foreach ($cards as $card):
             <div class="box-left item-name">
                 <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
-            <div class="box-right item-price">€<?= $card_price ?></div>
+            <div class="box-right item-price"><?= format_eur($card_price) ?></div>
         </div>
 
         <div class="box-row item-set"><?= $card["set_name"] ?></div>

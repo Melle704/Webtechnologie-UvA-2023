@@ -5,15 +5,20 @@ include_once "include/db.php";
 
 session_start();
 
-$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
-
-// Ensure user is logged in and has items in their cart
-if (!isset($_SESSION["id"]) || $cart_empty) {
+// Ensure user is logged in
+if (!isset($_SESSION["id"])) {
     header("Location: index.php");
     exit;
 }
 
+$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_SESSION["id"])) {
+        // Ignore post if not logged in
+        exit();
+    }
+
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
         header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
@@ -28,20 +33,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$total = 0;
+$products = [];
 if (!$cart_empty) {
-    $keys_string = implode(',', array_keys($_SESSION["cart"]));
+    $raw_keys = array_keys($_SESSION["cart"]);
+    $keys = str_replace("f", "", $raw_keys);
+    $keys_string = implode(',', $keys);
 
     $sql = "SELECT * FROM cards WHERE id IN ($keys_string)";
-    $products = query_execute($db, $sql);
+    $cards = query_execute($db, $sql);
 
-    $total = 0;
-    foreach ($products as $product) {
-        $amount = $_SESSION["cart"][$product["id"]];
-        $total += $product["normal_price"] * $amount;
+    foreach ($cards as $card) {
+        if (in_array($card["id"], $raw_keys)) {
+            $amount = $_SESSION["cart"][$card["id"]];
+            $price = $card["normal_price"];
+            $name = $card["name"];
+            array_push($products, [
+                "amount" => $amount,
+                "price" => $price,
+                "name" => $name,
+                "id" => $card["id"]
+            ]);
+            $total += $price * $amount;
+        }
+        if (in_array($card["id"] . "f", $raw_keys)) {
+            $amount = $_SESSION["cart"][$card["id"] . "f"];
+            $price = $card["foil_price"];
+            $name = $card["name"] . " (foil)";
+            array_push($products, [
+                "amount" => $amount,
+                "price" => $price,
+                "name" => $name,
+                "id" => $card["id"]
+            ]);
+            $total += $price * $amount;
+        }
     }
-} else {
-    $products = [];
-    $total = 0;
 }
 ?>
 <!doctype html>
@@ -66,59 +93,67 @@ if (!$cart_empty) {
 
 <?php include_once "include/errors.php"; ?>
 
-<div class="box box-row box-container">
-    <div id="cart-list">
+<div class="box">
+    <div class="box-row box-light">
         <h1>Cart</h1>
-        <table class="box">
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Amount</th>
-                <th>Total Price</th>
-                <th width="30px"></th>
-            </tr>
-            <?php foreach($products as $product): ?>
-            <tr>
-                <td class="col-text">
-                    <a href="product.php?id=<?= $product["id"] ?>">
-                        <?= $product["name"] ?>
-                    </a>
-                </td>
-                <td class="col-num"><?= format_eur($product["normal_price"]) ?></td>
-                <td class="col-num"><?= $_SESSION["cart"][$product["id"]] ?></td>
-                <td class="col-num">
-                    <?= format_eur($_SESSION["cart"][$product["id"]] * $product["normal_price"]) ?>
-                </td>
-                <td>
-                    <form method="post" action="" class="form remove-form">
-                        <input type="hidden" name="action" value="remove">
-                        <input type="hidden" name="id" value="<?= $product["id"] ?>">
-                        <input type="submit" value="&#x2716;">
-                    </form>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            <?php if ($cart_empty): ?>
-            <tr>
-                <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
-                    Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
-                </td>
-            </tr>
-            <?php endif; ?>
-        </table>
     </div>
+    <div class="box-row box-container">
+        <div id="cart-list">
+            <table class="box">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Total Price</th>
+                    <th style="width: 30px;"></th>
+                </tr>
+                <?php foreach($products as $product): ?>
+                <tr>
+                    <td class="col-text">
+                        <a href="product.php?id=<?= $product["id"] ?>">
+                            <?= $product["name"] ?>
+                        </a>
+                    </td>
+                    <td class="col-num"><?= format_eur($product["price"]) ?></td>
+                    <td class="col-num"><?= $product["amount"] ?></td>
+                    <td class="col-num">
+                        <?= format_eur($product["amount"] * $product["price"]) ?>
+                    </td>
+                    <td>
+                        <form method="post" class="form remove-form">
+                            <input type="hidden" name="action" value="remove">
+                            <?php if (str_contains($product["name"], "(foil)")): ?>
+                            <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
+                            <?php else: ?>
+                            <input type="hidden" name="id" value="<?= $product["id"] ?>">
+                            <?php endif; ?>
+                            <input type="submit" value="&#x2716;">
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                <?php if ($cart_empty): ?>
+                <tr>
+                    <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
+                        Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
+                    </td>
+                </tr>
+                <?php endif; ?>
+            </table>
+        </div>
 
-    <div id="cart-details" class="box box-row ">
-        <h2>
-        Total: <?= format_eur($total) ?>
-        </h2>
+        <div id="cart-details" class="box box-row ">
+            <h2>
+            Total: <?= format_eur($total) ?>
+            </h2>
 
-        <?php if (!$cart_empty): ?>
-        <form method="post" class="form">
-            <input type="hidden" name="action" value="checkout">
-            <input type="submit" value="Checkout">
-        </form>
-        <?php endif; ?>
+            <?php if (!$cart_empty): ?>
+            <form method="post" class="form">
+                <input type="hidden" name="action" value="checkout">
+                <input type="submit" value="Checkout">
+            </form>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

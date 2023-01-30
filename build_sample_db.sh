@@ -55,6 +55,8 @@ CREATE TABLE products (
 CREATE TABLE purchases (
   id INT AUTO_INCREMENT PRIMARY KEY,
   uid INT NOT NULL,
+  mollie_id VARCHAR(32) NOT NULL,
+  status ENUM("open", "canceled", "expired", "failed", "paid") NOT NULL,
   name VARCHAR(80) NOT NULL,
   address VARCHAR(80) NOT NULL,
   postcode CHAR(7) NOT NULL,
