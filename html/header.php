@@ -31,6 +31,9 @@ if (isset($_SESSION["cart"])) {
                 <ul>
                     <li><a href="/index.php">Index</a></li>
                     <li><a href="/database.php">Database</a></li>
+<?php if (isset($_SESSION["id"])): ?>
+                    <li><a href="/forum.php">Forum</a></li>
+<?php endif; ?>
                 </ul>
             </div>
             <div class="box-right">

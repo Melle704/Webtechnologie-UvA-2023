@@ -400,12 +400,12 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 </div>
 
 <div class="box box-row box-container">
-    <?php
-    foreach ($cards as $card):
-        $card_front = $card["image"];
-        $card_back = $card["back_image"];
-        $card_price = $card["normal_price"];
-        $card_page = "/product.php?id=" . $card["id"];
+<?php
+foreach ($cards as $card):
+    $card_front = $card["image"];
+    $card_back = $card["back_image"];
+    $card_price = $card["normal_price"];
+    $card_page = "/product.php?id=" . $card["id"];
 
         if (!$card_front) {
             $card_front = "/img/no_image_available.png";

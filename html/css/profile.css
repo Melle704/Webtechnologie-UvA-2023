@@ -10,17 +10,17 @@
     max-width: 80%;
 }
 
+.form textarea {
+    width: 100%;
+}
+
 .form form {
     width: 100%;
     flex: 0 0 100%;
 }
 
 .form label {
-    width: 98%;
-}
-
-.form textarea {
-    width: 98%;
+    width: 100%;
 }
 
 .img-showcase {

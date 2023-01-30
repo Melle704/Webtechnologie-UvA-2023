@@ -63,18 +63,46 @@ CREATE TABLE purchases (
   time DATETIME NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
+CREATE TABLE forum_threads (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  date TIMESTAMP DEFAULT now(),
+  comments INT NOT NULL DEFAULT 0,
+  title TINYTEXT NOT NULL,
+  thread_content TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
+
+INSERT INTO forum_threads (user_id, comments, title, thread_content) VALUES (1, 2, "test thread 1", "test content 1");
+INSERT INTO forum_threads (user_id, comments, title, thread_content) VALUES (1, 1, "test thread 2", "test content 2");
+INSERT INTO forum_threads (user_id, comments, title, thread_content) VALUES (1, 1, "test thread 3", "test content 3");
+INSERT INTO forum_threads (user_id, comments, title, thread_content) VALUES (1, 1, "test thread 4", "test content 4");
+
+CREATE TABLE forum_posts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  thread_id INT NOT NULL,
+  user_id INT NOT NULL,
+  date TIMESTAMP DEFAULT now(),
+  text TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
+
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (1, 1, "test post 1");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (1, 1, "test post 2");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (2, 1, "test post 3");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (3, 1, "test post 4");
+INSERT INTO forum_posts (thread_id, user_id, text) VALUES (4, 1, "test post 5");
+
 COMMIT;
 EOF
 
 # Generate many test products
-str="USE test;"
-str+="INSERT INTO products (id, card_id, name, price, amount) VALUES "
+sql="USE test;"
+sql+="INSERT INTO products (id, card_id, name, price, amount) VALUES "
 for i in {1..199}; do
-    str+="($i, $i, \"Test product $i\", 2.56, 64), "
+    sql+="($i, $i, \"Test product $i\", 2.56, 64), "
 done
 i=200
-str+="($i, $i, \"Test product $i\", 2.56, 64); "
-echo $str | mysql -uroot || err
+sql+="($i, $i, \"Test product $i\", 2.56, 64); "
+echo $sql | mysql -uroot || err
 
 echo "=> Test database generated!"
 

@@ -1,13 +1,8 @@
 <?php
 
 function reload_err($err = "") {
-    $redirect = "Location: " . $_SERVER["PHP_SELF"];
-
-    if ($err != "") {
-        $redirect = "$redirect?error=\"$err\"";
-    }
-
-    header($redirect);
+    $_GET["error"] = $err;
+    header("Location: " . $_SERVER["PHP_SELF"] . "?". http_build_query($_GET));
     exit;
 }
 
@@ -55,8 +50,12 @@ function query_execute($db, $sql, $types="", ...$vars) {
 
 function query_execute_unsafe($db, $sql) {
     $query = mysqli_query($db, $sql);
-
     $rows = array();
+
+    if (!$query) {
+        return $rows;
+    }
+
     while ($row = mysqli_fetch_array($query)) {
         array_push($rows, $row);
     }
@@ -154,4 +153,8 @@ function format_eur($price) {
         return "€--";
     }
     return "€" . number_format($price, 2, ",", ".");
+}
+
+function format_datetime($sql_datetime) {
+    return date_format(date_create($sql_datetime), "Y-m-d h:i A");
 }
