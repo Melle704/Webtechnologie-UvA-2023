@@ -26,17 +26,6 @@
     display: block;
 }
 
-.form textarea {
-    border: 2px solid #373737;
-    background-color: #202020;
-    height: 80px;
-    resize: none;
-}
-
-.form textarea:focus {
-    outline: none;
-}
-
 .form input {
     border: 2px solid #373737;
     background-color: #202020;
