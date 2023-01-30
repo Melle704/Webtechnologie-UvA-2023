@@ -24,13 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     $card_id = $_POST["id"];
     $card_id .= $foil ? "f" : "";
 
-    // Additional GET variables for error redirect
-    $tail = "&id=" . $_POST["id"];
     // Check if foil/non-foil version of this card exists
     if ($card["normal_price"] == 0 && !$foil) {
-        reload_err("Non-foil version of this card is not for sale", $tail);
+        reload_err("Non-foil version of this card is not for sale");
     } elseif ($card["foil_price"] == 0 && $foil) {
-        reload_err("Foil version of this card is not for sale", $tail);
+        reload_err("Foil version of this card is not for sale");
     }
 
     if (!isset($_SESSION["cart"][$card_id])) {
@@ -51,14 +49,6 @@ $foil_price = $card["foil_price"];
 
 if (!$card_front) {
     $card_front = "/img/no_image_available.png";
-}
-
-if ($card["normal_price"] == 0) {
-    $card_price = "--";
-}
-
-if ($card["foil_price"] == 0) {
-    $foil_price = "--";
 }
 ?>
 <!doctype html>
@@ -81,19 +71,6 @@ if ($card["foil_price"] == 0) {
 <?php include_once "header.php"; ?>
 
 <?php include_once "include/errors.php"; ?>
-
-<?php
-$card_front = $card["image"];
-$card_back = $card["back_image"];
-$card_price = $card["normal_price"];
-$foil_price = $card["foil_price"];
-if ($card_front == NULL) {
-    $card_front = "https://mtgcardsmith.com/view/cards_ip/1674397095190494.png?t=014335";
-}
-if ($card_back == NULL) {
-    $card_back = "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Magic_the_gathering-card_back.jpg/220px-Magic_the_gathering-card_back.jpg";
-}
-?>
 
 <div class="box">
     <div class="box-row box-light">
