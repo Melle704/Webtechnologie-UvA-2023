@@ -2,7 +2,7 @@
 
 session_start();
 
-// ensure you can't reach the post page if you're not logged in
+// Ensure you can't reach the post page if you're not logged in.
 if (!isset($_SESSION["id"])) {
     header("Location: /index.php");
     exit;
@@ -13,7 +13,7 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     $redirect_msg="You tried to visit a thread that doesn't exist.";
     include_once "include/redirect.php";
 
-    // wait two seconds before refreshing
+    // Wait two seconds before refreshing.
     header("Refresh: 2; url=/index.php");
     exit;
 }
@@ -29,7 +29,7 @@ if (count($thread) != 1) {
     $redirect_msg="You tried to visit a thread that doesn't exist.";
     include_once "include/redirect.php";
 
-    // wait two seconds before refreshing
+    // Wait two seconds before refreshing.
     header("Refresh: 2; url=/index.php");
     exit;
 }
@@ -101,7 +101,7 @@ $posts = query_execute_unsafe($db, $sql);
         <a class="user" href="/profile.php?id=<?=$post_user_id?>">
             <div class="username"><?= $post_user["uname"] ?></div>
         </a>
-        <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
+        <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
     </div>
     <div class="comment">
         <div class="comment-header">
@@ -128,8 +128,8 @@ $posts = query_execute_unsafe($db, $sql);
 <!-- scroll down to bottom of page if we have an error -->
 <?php if (isset($_GET["error"])): ?>
 <script>
-let body_height = document.scrollingElement.scrollHeight;
-document.scrollingElement.scrollTo({ top: body_height })
+    let body_height = document.scrollingElement.scrollHeight;
+    document.scrollingElement.scrollTo({ top: body_height })
 </script>
 <?php endif; ?>
 
