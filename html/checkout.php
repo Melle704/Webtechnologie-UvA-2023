@@ -1,6 +1,7 @@
 <?php
 include_once "include/common.php";
 include_once "include/db.php";
+include_once "include/payment.php";
 
 session_start();
 
@@ -23,11 +24,15 @@ foreach ($products as $product) {
     $total += $product["normal_price"] * $amount;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = trim($_POST["name"]);
-    $address = trim($_POST["address"]);
-    $postcode = trim($_POST["postcode"]);
-    $city = trim($_POST["city"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
+    if ($cart_empty || $total == 0) {
+        reload_err("Cart should not be empty");
+    }
+
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $address = htmlspecialchars(trim($_POST["address"]));
+    $postcode = htmlspecialchars(trim($_POST["postcode"]));
+    $city = htmlspecialchars(trim($_POST["city"]));
 
     validate_not_empty(
         ["name", $name],
@@ -43,13 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 
-    $sql = "INSERT INTO purchases (uid, name, address, postcode, city, price, time)
-            VALUES (?, ?, ?, ?, ?, ?, now())";
+    $mollie_id = make_payment($total);
 
-    query_execute($db, $sql, "issssd", $_SESSION["id"],
-                  $name, $address, $postcode, $city, $total);
+    if ($mollie_id == false) {
+        header("Location: purchase.php?result=failure");
+    }
 
-    header("Location: purchase.php?result=success");
+    $sql = "INSERT INTO purchases (uid, mollie_id, status, name, address, postcode, city, price, time)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, now())";
+
+    query_execute($db, $sql, "issssssd", $_SESSION["id"],
+                  $mollie_id, "open", $name, $address, $postcode, $city, $total);
+
     exit;
 }
 ?>
@@ -73,48 +83,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include_once "header.php"; ?>
 <?php include_once "include/errors.php"; ?>
 
-<div class="box box-row ">
-    <h1>Checkout</h1>
-    <div class="box-row box-light" style="font-size: 1rem;">
-    Order total: <b><?= format_eur($total) ?></b>
+<div class="box">
+    <div class="box-row box-light">
+        <h1>Checkout</h1>
     </div>
-    <form method="post" class="form checkout">
-        <fieldset class="address">
-            <legend>Shipping address (currently Netherlands only)</legend>
+    <div class="box-row">
+        <div class="box-row" style="font-size: 1rem; background-color: #202020;">
+        Order total: <b><?= format_eur($total) ?></b>
+        </div>
+        <form method="post" class="form checkout">
+            <fieldset class="address">
+                <legend>Shipping address (currently Netherlands only)</legend>
 
-            <label>
-                <b>Name</b>
-                <input name="name" required>
-            </label>
+                <label>
+                    <b>Name</b>
+                    <input name="name" required>
+                </label>
 
-            <label>
-                <b>Address (Street and house number)</b>
-                <input name="address" placeholder="Science Park 900" required>
-            </label>
+                <label>
+                    <b>Address (Street and house number)</b>
+                    <input name="address" placeholder="Science Park 900" required>
+                </label>
 
-            <label>
-                <b>Postal code</b>
-                <input name="postcode" placeholder="1098 XH" required>
-            </label>
+                <label>
+                    <b>Postal code</b>
+                    <input name="postcode" placeholder="1098 XH" required>
+                </label>
 
-            <label>
-                <b>City</b>
-                <input name="city" placeholder="Amsterdam" required>
-            </label>
-        </fieldset>
+                <label>
+                    <b>City</b>
+                    <input name="city" placeholder="Amsterdam" required>
+                </label>
+            </fieldset>
 
-        <fieldset>
-            <legend>Payment (currently iDeal only)</legend>
+            <b>Important note</b>
+            <p>
+                Clicking pay now will lead to a page where a mock payment can be made.<br>
+                We do not currently sell any products, and you will also not be charged any money.
+            </p>
 
-            <label>
-                <b>Bank</b>
-                <select>
-                    <option>Example bank</option>
-                </select>
-            </label>
-        </fieldset>
-        <input type="submit" value="Pay now">
-    </form>
+            <br>
+            <input type="submit" value="Pay now">
+        </form>
+    </div>
 </div>
 
 <?php include_once "footer.php"; ?>

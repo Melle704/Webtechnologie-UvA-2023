@@ -356,6 +356,10 @@ textarea:focus {
     color: #CCAF0B;
 }
 
+#datetime {
+    font-variant-numeric: tabular-nums;
+}
+
 .popular-cards {
     display: flex;
     flex-direction: row;

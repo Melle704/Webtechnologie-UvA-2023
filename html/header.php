@@ -42,6 +42,7 @@ if (isset($_SESSION["cart"])) {
                     <li><a href="/cart.php">Cart (<?= $cart_size ?>)</a></li>
 <?php endif; ?>
 <?php if (isset($_SESSION["id"])): ?>
+                    <li><a href="/purchases.php">Purchases</a></li>
                     <li><a href="/profile.php?id=<?= $_SESSION["id"] ?>">Profile</a></li>
                     <li><a href="/logout.php">Logout</a></li>
 <?php else: ?>

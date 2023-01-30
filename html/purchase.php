@@ -37,6 +37,12 @@ if ($_GET["result"] == "success") {
         Your cart is still saved, so feel free to
         <a href="checkout.php">try again</a>.
     </p>
+    <?php elseif ($_GET["result"] == "canceled"): ?>
+    <h1>Purchase canceled.</h1>
+    <p>
+        Your cart is still saved, so feel free to
+        <a href="cart.php">change it</a>.
+    </p>
     <?php
     else:
         // Return to home when reached without result
