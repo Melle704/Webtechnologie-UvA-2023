@@ -6,19 +6,8 @@ function datetime() {
     let hour = date.getHours();
     let minute = String(date.getMinutes()).padStart(2, '0');
     let second = String(date.getSeconds()).padStart(2, '0');
-    let suffix = "am";
 
-    if (hour == 12) {
-        hour = 12;
-        suffix = "pm";
-    }
-
-    if (hour > 12) {
-        hour -= 12;
-        suffix = "pm";
-    }
-
-    return `${day}/${month}/${year} ${hour}:${minute}:${second} ${suffix}`;
+    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
 function update_datetime() {
