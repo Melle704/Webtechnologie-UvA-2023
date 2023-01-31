@@ -178,7 +178,7 @@ if (isset($_GET["card_order"])) {
         case "name": $sql_search .= " ORDER BY name"; break;
         case "n_price": $sql_search .= " AND NOT normal_price='0' ORDER BY normal_price"; break;
         case "f_price": $sql_search .= " AND NOT foil_price='0' ORDER BY foil_price"; break;
-        case "popularity": $sql_search .= " ORDER BY popularity"; break;
+        case "random": $sql_search .= " ORDER BY RAND()"; break;
         case "release": $sql_search .= " ORDER BY released_at"; break;
         case "rarity": $sql_search .= " AND NOT rarity_num='0' ORDER BY rarity_num"; break;
         case "set": $sql_search .= " ORDER BY set_code"; break;
@@ -373,8 +373,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >normal price</option>
                 <option value="f_price" <?php if(strcmp($_GET['card_order'], "f_price") == 0)
                                         echo "selected='selected'"; ?> >foil price</option>
-                <option value="popularity" <?php if(strcmp($_GET['card_order'], "popularity") == 0)
-                                        echo "selected='selected'"; ?> >popularity</option>
                 <option value="release" <?php if(strcmp($_GET['card_order'], "release") == 0)
                                         echo "selected='selected'"; ?> >release</option>
                 <option value="rarity" <?php if(strcmp($_GET['card_order'], "rarity") == 0)
@@ -387,6 +385,8 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >toughness</option>
                 <option value="loyalty" <?php if(strcmp($_GET['card_order'], "loyalty") == 0)
                                         echo "selected='selected'"; ?> >loyalty</option>
+                <option value="random" <?php if(strcmp($_GET['card_order'], "random") == 0)
+                                        echo "selected='selected'"; ?> >random</option>
             </select>
             <select name="asc_dsc">
                 <option value="asc" <?php if(strcmp($_GET["asc_dsc"], "asc") == 0)
