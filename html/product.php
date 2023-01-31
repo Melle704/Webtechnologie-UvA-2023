@@ -8,7 +8,7 @@ $sql = "SELECT * FROM cards WHERE id=?";
 $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 
 // Make sure the right part of the type line is used.
-if (str_contains($card["type_line"], "planeswalker")) {
+if (str_contains($card["type_line"], "Planeswalker")) {
     $card_type = "planeswalker";
 }
 else if (!strrchr($card["type_line"], "—")) {
