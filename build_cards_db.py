@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS cards (
     rarity_num INT,
     normal_price FLOAT,
     foil_price FLOAT,
-    popularity INT,
     collector_number TEXT,
     released_at DATE,
     set_code TEXT,
@@ -84,7 +83,6 @@ for card in bulk_file_data:
   else:
     card_fields["rarity_num"] = "0"
 
-  card_fields["popularity"] = "0"
   card_fields["collector_number"] = card["collector_number"]
   card_fields["released_at"] = card["released_at"]
   card_fields["set_code"] = card["set"]
