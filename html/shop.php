@@ -121,51 +121,53 @@ else if (strcmp($_GET["color_type"], "exact") == 0) {
 
 if (isset($_GET["legality"])) {
     switch ($_GET["legality"]) {
-        case "standard": $sql_search .= " AND standard_legal='legal'";
-        case "pioneer": $sql_search .= " AND pioneer_legal='legal'";
-        case "modern": $sql_search .= " AND modern_legal='legal'";
-        case "legacy": $sql_search .= " AND legacy_legal='legal'";
-        case "vintage": $sql_search .= " AND vintage_legal='legal'";
-        case "pauper": $sql_search .= " AND pauper_legal='legal'";
-        case "commander": $sql_search .= " AND commander_legal='legal'";
+        case "standard": $sql_search .= " AND standard_legal='legal'"; break;
+        case "pioneer": $sql_search .= " AND pioneer_legal='legal'"; break;
+        case "modern": $sql_search .= " AND modern_legal='legal'"; break;
+        case "legacy": $sql_search .= " AND legacy_legal='legal'"; break;
+        case "vintage": $sql_search .= " AND vintage_legal='legal'"; break;
+        case "pauper": $sql_search .= " AND pauper_legal='legal'"; break;
+        case "commander": $sql_search .= " AND commander_legal='legal'"; break;
     }
 }
 
 if (isset($_GET["cmc"])) {
+    $cmc = mysqli_real_escape_string($db, $_GET["cmc"]);
     if ($_GET["cmc_type"] == ">") {
-        $sql_search .= " AND cmc>'{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc>'$cmc'";
     }
     if ($_GET["cmc_type"] == "=") {
-        $sql_search .= " AND cmc='{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc='$cmc'";
     }
     if ($_GET["cmc_type"] == "<") {
-        $sql_search .= " AND cmc<'{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc<'$cmc'";
     }
 }
 
 if (isset($_GET["price"])) {
+    $price = mysqli_real_escape_string($db, $_GET["price"]);
     if ($_GET["price_type"] == ">") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price>'{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price>'{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
         }
     }
     if ($_GET["price_type"] == "=") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price='{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price='$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price='{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price='$price'";
         }
     }
     if ($_GET["price_type"] == "<") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price<'{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price<'{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
         }
     }
 }
