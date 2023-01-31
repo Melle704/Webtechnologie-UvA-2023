@@ -19,6 +19,14 @@ else {
     $card_type = ltrim($card_type, '— ');
 }
 
+if (!strrchr($card_type, " ")) {
+    $card_half_type = $card_type;
+}
+else {
+    $card_half_type = strrchr($card_type, " ");
+    $card_half_type = ltrim($card_half_type, ' ');
+}
+
     // Suggested cards are determined from multiple keywords.
     // If 7 cards arent found, a broader search is used.
 $base_sql = "SELECT * FROM cards
@@ -42,9 +50,8 @@ if (count($suggested_cards) < 7) {
 }
 if (count($suggested_cards) < 7) {
     $suggest_sql = $base_sql;
-    $suggest_sql .= "AND (type_line LIKE '%{$card_type}%'
-                     OR keywords LIKE '%{$card["keywords"]}%')
-                     AND color_identity='{$card["color_identity"]}'
+    $suggest_sql .= "AND type_line LIKE '%{$card_half_type}%'
+                     AND color_identity LIKE '%{$card["colors"]}%'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
