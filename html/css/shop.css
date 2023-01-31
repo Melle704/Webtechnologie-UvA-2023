@@ -7,6 +7,12 @@ table {
     width: 100%;
 }
 
+.info-table {
+    width: 100%;
+    height: 355px;
+    padding: 0 0.5rem;
+}
+
 th {
     background-color: #3d3c3b;
 }

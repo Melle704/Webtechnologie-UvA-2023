@@ -27,7 +27,7 @@ else {
     $card_half_type = ltrim($card_half_type, ' ');
 }
 
-    // Suggested cards are determined from multiple keywords.
+    // Suggested cards are determi  ned from multiple keywords.
     // If 7 cards arent found, a broader search is used.
 $base_sql = "SELECT * FROM cards
         WHERE real_card='1' AND NOT layout='emblem'
@@ -35,6 +35,7 @@ $base_sql = "SELECT * FROM cards
         AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
         AND NOT name=\"{$card["name"]}\"";
 
+// Search for the exact type line, color identity and cmc.
 $suggest_sql = $base_sql;
 $suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
                  AND color_identity='{$card["color_identity"]}'
@@ -42,6 +43,7 @@ $suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
                  ORDER BY id LIMIT 7";
 $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 if (count($suggested_cards) < 7) {
+    // Search for partial type line and exact color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_type}%'
                      AND color_identity='{$card["color_identity"]}'
@@ -49,9 +51,10 @@ if (count($suggested_cards) < 7) {
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
 if (count($suggested_cards) < 7) {
+    // Search for single type and partial color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_half_type}%'
-                     AND color_identity LIKE '%{$card["colors"]}%'
+                     AND color_identity LIKE '%{$card["color_identity"]}%'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
@@ -81,6 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
 }
+
+$formats = array("standard", "pioneer", "modern", "legacy",
+                             "vintage", "pauper", "commander");
 
 $card_front = $card["image"];
 $card_back  = $card["back_image"];
@@ -125,52 +131,117 @@ if ($card["foil_price"] == 0) {
         </h1>
     </div>
     <div class="box-row">
-        <br>
-<?php if (isset($card_back)): ?>
-            <div class="box-card-large">
-                <div class="box-card-flip">
-                    <div class="box-card-front">
-                        <a href="<?= $card_page ?>">
-                            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                        </a>
-                    </div>
-                    <div class="box-card-back">
-                        <a href="<?= $card_page ?>">
-                            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
-                        </a>
+    <br>
+        <div class="left-column">
+            <?php if (isset($card_back)): ?>
+                <div class="box-card-large">
+                    <div class="box-card-flip">
+                        <div class="box-card-front">
+                            <a href="<?= $card_page ?>">
+                                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                            </a>
+                        </div>
+                        <div class="box-card-back">
+                            <a href="<?= $card_page ?>">
+                                <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-<?php else: ?>
-            <div class="box-card-large">
-                <a href="<?= $card_page ?>">
-                    <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                </a>
-            </div>
-<?php endif; ?>
-        <div id="product-purchase">
-            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
-            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
-                <fieldset>
-                    <legend>
-                        Add item(s) to cart
-                    </legend>
-                    <span>Normal price: <?= format_eur($card_price) ?></span>
-                    <span>Foil price: <?= format_eur($foil_price) ?></span>
-                    <br>
-                    <label for=count>Amount</label>
-                    <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                    <br>
-                    <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
-                    <?php if (isset($_SESSION["id"])): ?>
-                    <input type="submit" value="Add to cart">
-                    <?php else: ?>
-                    <a href="/register.php">
-                        <input type="button" value="Add to cart">
+            <?php else: ?>
+                <div class="box-card-large">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
                     </a>
-                    <?php endif; ?>
-                </fieldset>
-            </form>
+                </div>
+            <?php endif; ?>
+            <br>
+        </div>
+        <div class="right-column">
+            <div id="product-info">
+                <table class="info-table">
+                <?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
+                <tr>
+                    <th>mana cost</th>
+                    <th><?= $card["mana_cost"] ?></th>
+                </tr>
+                <?php endif ?>
+                <tr>
+                    <th>type line</th>
+                    <th><?= $card["type_line"] ?></th>
+                </tr>
+                <?php if (isset($card["oracle_text"])): ?>
+                <tr>
+                    <th>oracle text</th>
+                    <th><?= nl2br($card["oracle_text"]) ?></th>
+                </tr>
+                <?php endif ?>
+                <?php if (isset($card["flavor_text"])): ?>
+                <tr>
+                    <th>flavor text</th>
+                    <th><?= nl2br($card["flavor_text"]) ?></th>
+                </tr>
+                <?php endif ?>
+                <?php if (isset($card["power"])): ?>
+                <tr>
+                    <th>power/toughness</th>
+                    <th><?= $card["power"] ?>/<?= $card["toughness"] ?></th>
+                </tr>
+                <?php endif ?>
+                <?php if (isset($card["loyalty"])): ?>
+                    <tr>
+                        <th>loyalty</th>
+                        <th><?= $card["loyalty"] ?></th>
+                    </tr>
+                    <?php endif ?>
+                    <th>legal in</th>
+                    <th>
+                    <?php
+                    $counter = 0;
+                    foreach ($formats as $format) {
+                        if ($card["{$format}_legal"] == "legal") {
+                            if ($counter != 0) {
+                                echo " - ";
+                            }
+                            echo $format;
+                            $counter++;
+                        }
+                    }
+                    ?>
+                </th>
+                <tr>
+                    <th>set</th>
+                    <th><?= $card["set_name"] ?></th>
+                </tr>
+                <tr>
+                    <th>artist</th>
+                    <th><?= $card["artist"] ?></th>
+                </tr>
+            </table>
+        </div>
+            <div id="product-purchase">
+                <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
+                    <fieldset>
+                        <legend>
+                            Add item(s) to cart
+                        </legend>
+                        <span>Normal price: <?= format_eur($card_price) ?></span>
+                        <span>Foil price: <?= format_eur($foil_price) ?></span>
+                        <br>
+                        <label for=count>Amount</label>
+                        <input id="amount" type="number" name="amount" value="1" min="1" max="50">
+                        <!-- <br> -->
+                        <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
+                        <?php if (isset($_SESSION["id"])): ?>
+                            <input type="submit" value="Add to cart">
+                        <?php else: ?>
+                            <a href="/register.php">
+                                <input type="button" value="Add to cart">
+                            </a>
+                        <?php endif; ?>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
 </div>
