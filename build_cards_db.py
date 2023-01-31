@@ -105,10 +105,10 @@ for card in bulk_file_data:
     card_fields["foil_price"] = "0"
 
   if "oracle_text" in card.keys():
-    card_fields["oracle_text"] = card["oracle_text"].replace('\"', '\\\"')
+    card_fields["oracle_text"] = card["oracle_text"].replace('\"', '\\\"').replace("\n", "\\n")
 
   if "flavor_text" in card.keys():
-    card_fields["flavor_text"] = card["flavor_text"].replace('\"', '\\\"')
+    card_fields["flavor_text"] = card["flavor_text"].replace('\"', '\\\"').replace("\n", "\\n")
 
   if "cmc" in card.keys():
     card_fields["cmc"] = str(card["cmc"])
@@ -139,6 +139,12 @@ for card in bulk_file_data:
         card_fields["image"] = card["card_faces"][0]["image_uris"]["normal"]
     if "image_uris" in card["card_faces"][1].keys():
         card_fields["back_image"] = card["card_faces"][1]["image_uris"]["normal"]
+    if "oracle_text" in card["card_faces"][0].keys():
+        card_fields["oracle_text"] = card["card_faces"][0]["oracle_text"].replace('\"', '\\\"').replace("\n", "\\n")
+    if "flavor_text" in card["card_faces"][0].keys():
+        card_fields["flavor_text"] = card["card_faces"][0]["flavor_text"].replace('\"', '\\\"').replace("\n", "\\n")
+    if "mana_cost" in card["card_faces"][0].keys():
+        card_fields["mana_cost"] = card["card_faces"][0]["mana_cost"]
   # Meld cards are checked seperately because they are a bit weird.
   elif (card["layout"] == "meld") :
     card_fields["image"] = card["image_uris"]["normal"]

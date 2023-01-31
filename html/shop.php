@@ -121,13 +121,13 @@ else if (strcmp($_GET["color_type"], "exact") == 0) {
 
 if (isset($_GET["legality"])) {
     switch ($_GET["legality"]) {
-        case "standard": $sql_search .= " AND standard_legal='legal'";
-        case "pioneer": $sql_search .= " AND pioneer_legal='legal'";
-        case "modern": $sql_search .= " AND modern_legal='legal'";
-        case "legacy": $sql_search .= " AND legacy_legal='legal'";
-        case "vintage": $sql_search .= " AND vintage_legal='legal'";
-        case "pauper": $sql_search .= " AND pauper_legal='legal'";
-        case "commander": $sql_search .= " AND commander_legal='legal'";
+        case "standard": $sql_search .= " AND standard_legal='legal'"; break;
+        case "pioneer": $sql_search .= " AND pioneer_legal='legal'"; break;
+        case "modern": $sql_search .= " AND modern_legal='legal'"; break;
+        case "legacy": $sql_search .= " AND legacy_legal='legal'"; break;
+        case "vintage": $sql_search .= " AND vintage_legal='legal'"; break;
+        case "pauper": $sql_search .= " AND pauper_legal='legal'"; break;
+        case "commander": $sql_search .= " AND commander_legal='legal'"; break;
     }
 }
 

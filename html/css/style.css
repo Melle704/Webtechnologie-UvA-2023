@@ -258,7 +258,7 @@ textarea:focus {
 }
 
 .box-card-large {
-    height: 480px;
+    height: 100%;
 }
 
 .box-card-small, .box-card-large {
@@ -429,6 +429,18 @@ textarea:focus {
     padding: 10px;
 }
 
+.left-column {
+    float: left;
+    width: 30%;
+    padding: 10px;
+}
+
+.right-column {
+    float: left;
+    width: 70%;
+    padding: 10px;
+}
+
 .row:after {
     content: "";
     display: table;
@@ -438,6 +450,12 @@ textarea:focus {
   @media screen and (max-width: 600px) {
     .column {
       width: 100%;
+    }
+    .left-column {
+        width: 100%;
+    }
+    .right-column {
+        width: 100%;
     }
   }
 
