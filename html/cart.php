@@ -70,6 +70,8 @@ if (!$cart_empty) {
         }
     }
 }
+
+$_SESSION["cart_total"] = $total;
 ?>
 <!doctype html>
 <html lang="en">
