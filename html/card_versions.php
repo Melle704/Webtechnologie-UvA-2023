@@ -60,6 +60,9 @@ $sql_amount .= $sql_search;
 $card_amount = mysqli_query($db, $sql_amount);
 $card_amount = mysqli_fetch_array($card_amount)[0];
 $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
+if (str_replace("\\'", "'",$card_name)) {
+    $card_name = str_replace("\\'", "'",$card_name);
+}
 ?>
 
 <!doctype html>
