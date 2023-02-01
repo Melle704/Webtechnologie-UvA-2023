@@ -42,24 +42,25 @@ $suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
                  AND cmc='{$card["cmc"]}'
                  ORDER BY id LIMIT 7";
 $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+// Search for partial type line and exact color identity if not enough cards are
+// found.
 if (count($suggested_cards) < 7) {
-    // Search for partial type line and exact color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_type}%'
                      AND color_identity='{$card["color_identity"]}'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+// Search for single type and partial color identity if not enough cards are found.
 if (count($suggested_cards) < 7) {
-    // Search for single type and partial color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_half_type}%'
                      AND color_identity LIKE '%{$card["color_identity"]}%'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+// Search for single type and color identity if not enough cards are found.
 if (count($suggested_cards) < 3) {
-    // Search for single type and partial color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND color_identity='{$card["color_identity"]}'
                      ORDER BY id LIMIT 7";
@@ -108,7 +109,8 @@ $card_front = $card["image"];
 $card_back  = $card["back_image"];
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
-$card_versions = "/card_versions.php?name={$card["name"]}";
+$card_name = str_replace(" ", "_", $card["name"]);
+$card_versions = "/card_versions.php?name={$card_name}";
 
 if (!$card_front) {
     $card_front = "/img/no_image_available.png";
@@ -213,21 +215,24 @@ if ($card["foil_price"] == 0) {
                         <th><?= $card["loyalty"] ?></th>
                     </tr>
                     <?php endif ?>
-                    <th>Legal in</th>
-                    <th>
-                    <?php
-                    $counter = 0;
-                    foreach ($formats as $format) {
-                        if ($card["{$format}_legal"] == "legal") {
-                            if ($counter != 0) {
-                                echo " - ";
+                    <tr>
+
+                        <th>Legal in</th>
+                        <th>
+                            <?php
+                            $counter = 0;
+                            foreach ($formats as $format) {
+                                if ($card["{$format}_legal"] == "legal") {
+                                    if ($counter != 0) {
+                                        echo " - ";
+                                    }
+                                    echo $format;
+                                    $counter++;
+                                }
                             }
-                            echo $format;
-                            $counter++;
-                        }
-                    }
-                    ?>
-                </th>
+                            ?>
+                        </th>
+                    </tr>
                 <tr>
                     <th>Set</th>
                     <th><?= $card["set_name"] ?></th>
