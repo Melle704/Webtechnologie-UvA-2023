@@ -10,8 +10,8 @@ if (!isset($_SESSION["id"])) {
 
 // Check if the specific page id exists.
 if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
-    $redirect_title="Incorrect posts";
-    $redirect_msg="You tried to visit a thread that doesn't exist.";
+    $redirect_title="Incorrect post id";
+    $redirect_msg="You entered an invalid post id.";
     include_once "include/redirect.php";
 
     // Wait two seconds before refreshing.
@@ -27,6 +27,16 @@ $is_admin = $visiting_user["role"] == "admin";
 
 $thread_id = intval($_GET["id"]);
 $thread = query_execute_unsafe($db, "SELECT * from forum_threads WHERE id=$thread_id");
+
+if (count($thread) === 0) {
+    $redirect_title="Post not found";
+    $redirect_msg="You tried to visit a thread that doesn't exist.";
+    include_once "include/redirect.php";
+
+    // Wait two seconds before refreshing.
+    header("Refresh: 2; url=/forum.php");
+    exit;
+}
 
 $thread = $thread[0];
 $user_id = $_SESSION["id"];
