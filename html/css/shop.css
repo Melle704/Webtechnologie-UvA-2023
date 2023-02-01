@@ -31,6 +31,10 @@ tr:nth-child(even) {
     display: inline;
 }
 
+.remove-form input[type=number] {
+    width: 8ch;
+}
+
 #product-image {
     flex-grow: 1;
 }
@@ -64,4 +68,8 @@ tr:nth-child(even) {
 
 .col-num {
     text-align: right;
+}
+
+.col-center {
+    text-align: center;
 }
