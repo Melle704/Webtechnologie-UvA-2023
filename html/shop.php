@@ -147,10 +147,10 @@ if (isset($_GET["price"])) {
     $price = mysqli_real_escape_string($db, $_GET["price"]);
     if ($_GET["price_type"] == ">") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
         }
     }
     if ($_GET["price_type"] == "=") {
@@ -163,10 +163,10 @@ if (isset($_GET["price"])) {
     }
     if ($_GET["price_type"] == "<") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
         }
     }
 }
@@ -411,18 +411,19 @@ foreach ($cards as $card):
     $card_price = $card["normal_price"];
     $card_page = "/product.php?id=" . $card["id"];
 
-        if (!$card_front) {
-            $card_front = "/img/no_image_available.png";
+    if (!$card_front) {
+        $card_front = "/img/no_image_available.png";
+    }
+    if ($card["normal_price"] == 0) {
+        if ($card["foil_price"] == 0) {
+            echo $card["normal_price"];
+            $card_price = "--";
         }
-        if ($card["normal_price"] == 0) {
-            if ($card["foil_price"] == 0) {
-                $card_price = "--";
-            }
-            else {
-                $card_price = $card["foil_price"];
-            }
+        else {
+            $card_price = $card["foil_price"];
         }
-        ?>
+    }
+    ?>
     <div class="box box-item">
         <div class="box-row item-header">
             <div class="box-left item-name">
