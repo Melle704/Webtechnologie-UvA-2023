@@ -15,7 +15,7 @@ function make_payment($price) {
     // actual URL must also be used during testing.
     $data = [
         'amount' => ['currency' => 'EUR', 'value' => $price_str],
-        'description' => 'Test payment',
+        'description' => 'Urza\'s Webshop',
         'redirectUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=success',
         'cancelUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=canceled',
         'webhookUrl' => 'https://webtech-in21.webtech-uva.nl/mollie_webhook.php',
