@@ -40,10 +40,10 @@ $sql = "SELECT * FROM cards
 $sql_search = "AND name=\"{$card_name}\"";
 
 if (isset($sql_search)) {
-    $_SESSION["search"] = $sql_search;
+    $_SESSION["version_search"] = $sql_search;
 }
 else if (isset($_SESSION["search"])) {
-    $sql_search = $_SESSION["search"];
+    $sql_search = $_SESSION["version_search"];
 }
 
 $sql .= $sql_search;
