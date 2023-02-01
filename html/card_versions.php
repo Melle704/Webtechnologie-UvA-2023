@@ -26,7 +26,7 @@ if (isset($_GET["page"])) {
     $page_offset = ($page - 1) * $cards_per_page;
 }
 
-$card_name = $_GET["name"];
+$card_name = mysqli_real_escape_string($db, $_GET["name"]);
 
 $sql = "SELECT * FROM cards
         WHERE real_card='1'
