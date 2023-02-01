@@ -58,6 +58,10 @@ tr:nth-child(even) {
     flex-grow: 1;
 }
 
+#cart-submit {
+    margin-top: 1.1rem;
+}
+
 .col-num {
     text-align: right;
 }
