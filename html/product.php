@@ -73,13 +73,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     if (!isset($_SESSION["cart"])) {
         $_SESSION["cart"] = array();
     }
 
     $amount = $_POST["amount"];
+    $foil = $_POST["foil"];
     $card_id = $_POST["id"];
+    $card_id .= $foil ? "f" : "";
+
+    // Check if foil/non-foil version of this card exists
+    if ($card["normal_price"] == 0 && !$foil) {
+        reload_err("Non-foil version of this card is not for sale");
+    } elseif ($card["foil_price"] == 0 && $foil) {
+        reload_err("Foil version of this card is not for sale");
+    }
 
     if (!isset($_SESSION["cart"][$card_id])) {
         $_SESSION["cart"][$card_id] = 0;
@@ -238,15 +247,19 @@ if ($card["foil_price"] == 0) {
                         <span>Normal price: <?= format_eur($card_price) ?></span>
                         <span>Foil price: <?= format_eur($foil_price) ?></span>
                         <br>
-                        <label for=count>Amount</label>
-                        <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                        <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                         <?php if (isset($_SESSION["id"])): ?>
-                            <input type="submit" value="Add to cart">
+                        <label>
+                            <b>Amount</b>
+                            <input type="number" name="amount" value="1" min="1" max="50">
+                        </label>
+                        <label>
+                            <b>Foil</b>
+                            <input id="foil" type="checkbox" name="foil">
+                        </label>
+                        <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
+                        <input id="cart-submit" type="submit" value="Add to cart">
                         <?php else: ?>
-                            <a href="/register.php">
-                                <input type="button" value="Add to cart">
-                            </a>
+                        Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
                         <?php endif; ?>
                     </fieldset>
                 </form>
