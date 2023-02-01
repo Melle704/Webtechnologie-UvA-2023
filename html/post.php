@@ -35,15 +35,15 @@ if (isset($_POST["submit"])) {
     // Verify if the message is the correct size.
     validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 1]);
     validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
-    
+
     // Add the comment into the sql database.
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
-    
+
     // Add 1 to the comment count of the thread.
     $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
     query_execute($db, $sql, "i", $thread_id);
-    
+
     header("Location: " . $_SERVER["REQUEST_URI"]);
     exit;
 }
@@ -89,7 +89,7 @@ $posts = query_execute_unsafe($db, $sql);
     $profile_pic_type = @file_get_contents("./img/user" . $post_user_id . ".info");
 
     if (!$profile_pic) {
-        $profile_pic = file_get_contents("./img/sample.raw");
+        $profile_pic = file_get_contents("./img/standard_pfp.raw");
         $profile_pic_type = "image/png";
     }
 ?>
