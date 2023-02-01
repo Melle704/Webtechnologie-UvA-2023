@@ -58,6 +58,13 @@ if (count($suggested_cards) < 7) {
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+if (count($suggested_cards) < 3) {
+    // Search for single type and partial color identity.
+    $suggest_sql = $base_sql;
+    $suggest_sql .= "AND color_identity='{$card["color_identity"]}'
+                     ORDER BY id LIMIT 7";
+    $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+}
 
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -159,7 +166,6 @@ if ($card["foil_price"] == 0) {
             <a href="<?= $card_versions ?>">
                 <button class="version-button">all variations</button>
             </a>
-            <!-- <br> -->
         </div>
         <div class="right-column">
             <div id="product-info">
