@@ -216,6 +216,7 @@ $sql_amount .= "WHERE real_card='1'
                 AND NOT layout='token'
                 AND NOT layout='emblem'
                 AND NOT type_line LIKE '%card%'";
+$sql_amount .= $sql_search;
 
 $card_amount = mysqli_query($db, $sql_amount);
 $card_amount = mysqli_fetch_array($card_amount)[0];
