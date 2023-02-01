@@ -22,6 +22,9 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
 include_once "include/common.php";
 include_once "include/db.php";
 
+$visiting_user = query_execute($db, "SELECT * FROM users WHERE id=?", "s", $_SESSION["id"])[0];
+$is_admin = $visiting_user["role"] == "admin";
+
 $thread_id = intval($_GET["id"]);
 $thread = query_execute_unsafe($db, "SELECT * from forum_threads WHERE id=$thread_id");
 
@@ -43,6 +46,18 @@ if (isset($_POST["submit"])) {
     // Add 1 to the comment count of the thread.
     $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
     query_execute($db, $sql, "i", $thread_id);
+
+    header("Location: " . $_SERVER["REQUEST_URI"]);
+    exit;
+} elseif (isset($_POST["remove"]) && $is_admin) {
+    // Decrement comment count of the thread.
+    $sql = "UPDATE forum_threads SET comments = comments - 1 WHERE id IN
+            (SELECT thread_id FROM forum_posts WHERE id=?)";
+    query_execute($db, $sql, "i", $_POST["id"]);
+
+    // Remove comment from database.
+    $sql = "DELETE FROM forum_posts WHERE id=?";
+    $res = query_execute($db, $sql, "i", $_POST["id"]);
 
     header("Location: " . $_SERVER["REQUEST_URI"]);
     exit;
@@ -101,6 +116,12 @@ $posts = query_execute_unsafe($db, $sql);
         </a>
         <span class="comment-timestamp">
             <?= format_datetime($post["date"]) ?>
+            <?php if($is_admin): ?>
+            <form method="post" class="form" style="display: inline;">
+                <input type="hidden" name="id" value="<?= $post["id"] ?>">
+                <input type="submit" name="remove" value="Remove comment">
+            </form>
+            <?php endif; ?>
         </span>
     </div>
     <div class="box-row">
