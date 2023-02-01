@@ -61,6 +61,7 @@ input {
 }
 
 .profile-pic img {
+    object-fit: cover;
     width: 100%;
     aspect-ratio: 9 / 11;
     background-size: cover;
