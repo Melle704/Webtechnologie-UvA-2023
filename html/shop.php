@@ -59,7 +59,7 @@ if (!empty($_GET["artist"])) {
 
 if (!empty($_GET["set"])) {
     $set = mysqli_real_escape_string($db, $_GET["set"]);
-    $sql_search .= " AND set_name LIKE '%$set%'";
+    $sql_search .= " AND (set_name LIKE '%$set%' OR set_code LIKE '%$set%')";
 }
 
 if (isset($_GET["white"])) {

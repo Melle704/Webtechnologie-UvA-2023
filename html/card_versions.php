@@ -27,6 +27,7 @@ if (isset($_GET["page"])) {
 }
 
 $card_name = mysqli_real_escape_string($db, $_GET["name"]);
+$card_name = str_replace("_", " ", $card_name);
 
 $sql = "SELECT * FROM cards
         WHERE real_card='1'
