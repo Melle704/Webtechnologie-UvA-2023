@@ -459,7 +459,14 @@ textarea:focus {
     clear: both;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 1000px) {
+    .column {
+      width: 50%;
+    }
+  }
+
+
+  @media screen and (max-width: 700px) {
     .column {
       width: 100%;
     }
