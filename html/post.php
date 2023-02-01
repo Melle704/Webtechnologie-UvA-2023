@@ -67,6 +67,7 @@ $posts = query_execute_unsafe($db, $sql);
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/forum.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
 </head>
 
 <body>
@@ -93,18 +94,24 @@ $posts = query_execute_unsafe($db, $sql);
         $profile_pic_type = "image/png";
     }
 ?>
-<div class="box box-row">
-    <div class="profile-pic">
-        <a class="user" href="/profile.php?id=<?=$post_user_id?>">
-            <div class="username"><?= $post_user["uname"] ?></div>
+<div class="box">
+    <div class="comment-header box-row">
+        <a href="/profile.php?id=<?= $post_user_id ?>" class="username">
+            <?= $post_user["uname"] ?>
         </a>
-        <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
+        <span class="comment-timestamp">
+            <?= format_datetime($post["date"]) ?>
+        </span>
     </div>
-    <div class="comment">
-        <div class="comment-header">
-            <p><?= format_datetime($post["date"]) ?></p>
+    <div class="box-row">
+        <div class="profile-pic">
+            <a href="/profile?id=<?= $post_user_id ?>">
+                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
+            </a>
         </div>
-        <p class="comment-content"><?= $post["text"] ?></p>
+        <div class="box-row box-light comment-content">
+            <?= $post["text"] ?>
+        </div>
     </div>
 </div>
 <?php endforeach ?>
@@ -112,7 +119,7 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "include/errors.php";?>
 
 <div class="box box-row">
-    <form action="/post.php?id=<?= $thread_id ?>" method="post" id="form">
+    <form class="form" action="/post.php?id=<?= $thread_id ?>" method="post">
         <textarea id="usermessage" name="text" style="margin-top: 0;"></textarea>
         <input type="submit" name="submit" value="Add comment">
     </form>
