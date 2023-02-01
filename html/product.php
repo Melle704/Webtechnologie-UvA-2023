@@ -164,7 +164,7 @@ if ($card["foil_price"] == 0) {
                 </div>
             <?php endif; ?>
             <a href="<?= $card_versions ?>">
-                <button class="version-button">all variations</button>
+                <button class="version-button">All variations</button>
             </a>
         </div>
         <div class="right-column">
@@ -172,39 +172,39 @@ if ($card["foil_price"] == 0) {
                 <table class="info-table">
                 <?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
                 <tr>
-                    <th>mana cost</th>
+                    <th>Mana cost</th>
                     <th><?= $card["mana_cost"] ?></th>
                 </tr>
                 <?php endif ?>
                 <tr>
-                    <th>type line</th>
+                    <th>Type line</th>
                     <th><?= $card["type_line"] ?></th>
                 </tr>
                 <?php if (isset($card["oracle_text"])): ?>
                 <tr>
-                    <th>oracle text</th>
+                    <th>Oracle text</th>
                     <th><?= nl2br($card["oracle_text"]) ?></th>
                 </tr>
                 <?php endif ?>
                 <?php if (isset($card["flavor_text"])): ?>
                 <tr>
-                    <th>flavor text</th>
+                    <th>Flavor text</th>
                     <th><?= nl2br($card["flavor_text"]) ?></th>
                 </tr>
                 <?php endif ?>
                 <?php if (isset($card["power"])): ?>
                 <tr>
-                    <th>power/toughness</th>
+                    <th>Power/Toughness</th>
                     <th><?= $card["power"] ?>/<?= $card["toughness"] ?></th>
                 </tr>
                 <?php endif ?>
                 <?php if (isset($card["loyalty"])): ?>
                     <tr>
-                        <th>loyalty</th>
+                        <th>Loyalty</th>
                         <th><?= $card["loyalty"] ?></th>
                     </tr>
                     <?php endif ?>
-                    <th>legal in</th>
+                    <th>Legal in</th>
                     <th>
                     <?php
                     $counter = 0;
@@ -220,11 +220,11 @@ if ($card["foil_price"] == 0) {
                     ?>
                 </th>
                 <tr>
-                    <th>set</th>
+                    <th>Set</th>
                     <th><?= $card["set_name"] ?></th>
                 </tr>
                 <tr>
-                    <th>artist</th>
+                    <th>Artist</th>
                     <th><?= $card["artist"] ?></th>
                 </tr>
             </table>
