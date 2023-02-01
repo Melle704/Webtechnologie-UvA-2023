@@ -63,58 +63,58 @@ if (!empty($_GET["set"])) {
 }
 
 if (isset($_GET["white"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%W%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%W%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%W%'";
 }
 if (isset($_GET["blue"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%U%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%U%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%U%'";
 }
 if (isset($_GET["black"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%B%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%B%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%B%'";
 }
 if (isset($_GET["red"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%R%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%R%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%R%'";
 }
 if (isset($_GET["green"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%G%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%G%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%G%'";
 }
 
@@ -365,33 +365,33 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             <br><br>
             <b>Order by</b>
             <select name="card_order">
-                <option value="ID" <?php if(strcmp($_GET["card_order"], "ID") == 0)
+                <option value="ID" <?php if($_GET["card_order"] == "ID")
                                         echo "selected='selected'"; ?> >id</option>
-                <option value="name" <?php if(strcmp($_GET["card_order"], "name") == 0)
+                <option value="name" <?php if($_GET["card_order"] =="name")
                                         echo "selected='selected'"; ?> >name</option>
-                <option value="n_price"  <?php if(strcmp($_GET["card_order"], "n_price") == 0)
+                <option value="n_price"  <?php if($_GET["card_order"] == "n_price")
                                         echo "selected='selected'"; ?> >normal price</option>
-                <option value="f_price" <?php if(strcmp($_GET['card_order'], "f_price") == 0)
+                <option value="f_price" <?php if($_GET['card_order'] == "f_price")
                                         echo "selected='selected'"; ?> >foil price</option>
-                <option value="release" <?php if(strcmp($_GET['card_order'], "release") == 0)
+                <option value="release" <?php if($_GET['card_order'] == "release")
                                         echo "selected='selected'"; ?> >release</option>
-                <option value="rarity" <?php if(strcmp($_GET['card_order'], "rarity") == 0)
+                <option value="rarity" <?php if($_GET['card_order'] == "rarity")
                                         echo "selected='selected'"; ?> >rarity</option>
-                <option value="set" <?php if(strcmp($_GET['card_order'], "set") == 0)
+                <option value="set" <?php if($_GET['card_order'] == "set")
                                         echo "selected='selected'"; ?> >set</option>
-                <option value="power" <?php if(strcmp($_GET['card_order'], "power") == 0)
+                <option value="power" <?php if($_GET['card_order'] == "power")
                                         echo "selected='selected'"; ?> >power</option>
-                <option value="toughness" <?php if(strcmp($_GET['card_order'], "toughness") == 0)
+                <option value="toughness" <?php if($_GET['card_order'] == "toughness")
                                         echo "selected='selected'"; ?> >toughness</option>
-                <option value="loyalty" <?php if(strcmp($_GET['card_order'], "loyalty") == 0)
+                <option value="loyalty" <?php if($_GET['card_order'] == "loyalty")
                                         echo "selected='selected'"; ?> >loyalty</option>
-                <option value="random" <?php if(strcmp($_GET['card_order'], "random") == 0)
+                <option value="random" <?php if($_GET['card_order'] == "random")
                                         echo "selected='selected'"; ?> >random</option>
             </select>
             <select name="asc_dsc">
-                <option value="asc" <?php if(strcmp($_GET["asc_dsc"], "asc") == 0)
+                <option value="asc" <?php if($_GET["asc_dsc"] == "asc")
                                         echo "selected='selected'"; ?> >ascending</option>
-                <option value="dsc" <?php if(strcmp($_GET["asc_dsc"], "dsc") == 0)
+                <option value="dsc" <?php if($_GET["asc_dsc"] == "dsc")
                                         echo "selected='selected'"; ?> >descending</option>
             </select>
             <br><br><br>
