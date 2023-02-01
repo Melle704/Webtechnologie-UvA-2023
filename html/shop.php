@@ -61,62 +61,62 @@ if (!empty($_GET["artist"])) {
 
 if (!empty($_GET["set"])) {
     $set = mysqli_real_escape_string($db, $_GET["set"]);
-    $sql_search .= " AND set_name LIKE '%$set%'";
+    $sql_search .= " AND (set_name LIKE '%$set%' OR set_code LIKE '%$set%')";
 }
 
 if (isset($_GET["white"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%W%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%W%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%W%'";
 }
 if (isset($_GET["blue"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%U%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%U%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%U%'";
 }
 if (isset($_GET["black"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%B%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%B%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%B%'";
 }
 if (isset($_GET["red"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%R%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%R%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%R%'";
 }
 if (isset($_GET["green"])) {
-    if (strcmp($_GET["color_type"], "excluding") == 0) {
+    if ($_GET["color_type"] == "excluding") {
         $sql_search .= " AND NOT color_identity LIKE '%G%'";
     }
     else {
         $sql_search .= " AND color_identity LIKE '%G%'";
     }
 }
-else if (strcmp($_GET["color_type"], "exact") == 0) {
+else if ($_GET["color_type"] == "exact") {
     $sql_search .= " AND NOT color_identity LIKE '%G%'";
 }
 
@@ -149,10 +149,10 @@ if (isset($_GET["price"])) {
     $price = mysqli_real_escape_string($db, $_GET["price"]);
     if ($_GET["price_type"] == ">") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
         }
     }
     if ($_GET["price_type"] == "=") {
@@ -165,10 +165,10 @@ if (isset($_GET["price"])) {
     }
     if ($_GET["price_type"] == "<") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
         }
     }
 }
@@ -184,10 +184,10 @@ if (isset($_GET["card_order"])) {
         case "rarity": $sql_search .= " AND NOT rarity_num='0' ORDER BY rarity_num"; break;
         case "set": $sql_search .= " ORDER BY set_code"; break;
         case "power": $sql_search .= " AND NOT power='' AND NOT power LIKE '%*%'
-              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY power"; break;
+              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY CAST(power as unsigned)"; break;
         case "toughness": $sql_search .= " AND NOT toughness='' AND NOT toughness LIKE '%*%'
-              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY toughness"; break;
-        case "loyalty": $sql_search .= "AND NOT loyalty='' ORDER BY loyalty"; break;
+              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY CAST(toughness as unsigned)"; break;
+        case "loyalty": $sql_search .= "AND NOT loyalty='' ORDER BY CAST(loyalty as unsigned)"; break;
     }
 }
 
@@ -218,15 +218,14 @@ $sql_amount .= "WHERE real_card='1'
                 AND NOT layout='token'
                 AND NOT layout='emblem'
                 AND NOT type_line LIKE '%card%'";
+$sql_amount .= $sql_search;
 
 $card_amount = mysqli_query($db, $sql_amount);
 $card_amount = mysqli_fetch_array($card_amount)[0];
 $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 ?>
-
 <!doctype html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -241,7 +240,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 </head>
 
 <body>
-
 <?php include_once "header.php"; ?>
 
 <div class="box">
@@ -249,159 +247,244 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         <b>Filter cards</b>
     </button>
     <div id="search_bar" class="collapsed-row">
-    <form action="/shop" method="get">
-        <div class="column">
-            <b>Card name</b>
-            <label>
-                <input type="text" name="card_name" maxlength="50"
-                value="<?php echo $_GET['card_name']??''; ?>" >
-            </label>
-            <br><br><br>
-            <b>Oracle text</b>
-            <label>
-                <input type="text" name="oracle_text" maxlength="50"
-                value="<?php echo $_GET['oracle_text']??''; ?>" >
-            </label>
-            <br><br><br>
-            <b>Card type</b>
-            <label>
-                <input type="text" name="card_type" maxlength="50"
-                value="<?php echo $_GET['card_type']??''; ?>" >
-            </label>
-        </div>
-        <div class="column">
-            <b>Flavor text</b>
-            <label>
-                <input type="text" name="flavor_text" maxlength="50"
-                value="<?php echo $_GET['flavor_text']??''; ?>" >
-            </label>
-            <br><br><br>
-            <b>Artist</b>
-            <label>
-                <input type="text" name="artist" maxlength="50"
-                value="<?php echo $_GET['artist']??''; ?>" >
-            </label>
-            <br><br><br>
-            <b>Set</b>
-            <label>
-                <input type="text" name="set" maxlength="50"
-                value="<?php echo $_GET['set']??''; ?>" >
-            </label>
-        </div>
-        <div class="column">
-            <b>Converted mana cost</b>
-            <select name="cmc_type">
-                <option value="--" <?php if(strcmp($_GET["cmc_type"], "--") == 0)
-                                        echo "selected='selected'"; ?> >--</option>
-                <option value="=" <?php if(strcmp($_GET["cmc_type"], "=") == 0)
-                                        echo "selected='selected'"; ?> >=</option>
-                <option value=">" <?php if(strcmp($_GET["cmc_type"], ">") == 0)
-                                        echo "selected='selected'"; ?> >&lt;</option>
-                <option value="<" <?php if(strcmp($_GET["cmc_type"], "<") == 0)
-                                        echo "selected='selected'"; ?> >&gt;</option>
-            </select>
-            <input type="number" name="cmc" min="-10" max="10" value="<?php echo $_GET['cmc']??''; ?>" >
-            <br><br><br>
-            <b>Color identity</b>
-            <div class="color-checkbox">
-                <input class="white_checkbox" type="checkbox" name="white"
-                <?php if(isset($_GET['white'])) echo "checked='checked'"; ?> >
-                <input class="blue_checkbox" type="checkbox" name="blue"
-                <?php if(isset($_GET['blue'])) echo "checked='checked'"; ?> >
-                <input class="black_checkbox" type="checkbox" name="black"
-                <?php if(isset($_GET['black'])) echo "checked='checked'"; ?> >
-                <input class="red_checkbox" type="checkbox" name="red"
-                <?php if(isset($_GET['red'])) echo "checked='checked'"; ?> >
-                <input class="green_checkbox" type="checkbox" name="green"
-                <?php if(isset($_GET['green'])) echo "checked='checked'"; ?> >
+        <form action="/shop" method="get">
+            <div class="shop-column">
+                <b>Card name</b>
+                <label>
+                    <input type="text" name="card_name" maxlength="50" value="<?= $_GET["card_name"] ?>">
+                </label>
+                <br><br><br>
+                <b>Oracle text</b>
+                <label>
+                    <input type="text" name="oracle_text" maxlength="50" value="<?= $_GET["oracle_text"] ?>">
+                </label>
+                <br><br><br>
+                <b>Card type</b>
+                <label>
+                    <input type="text" name="card_type" maxlength="50" value="<?= $_GET["card_type"] ?>">
+                </label>
             </div>
-            <select name="color_type">
-                <option value="including" <?php if(strcmp($_GET["color_type"], "including") == 0)
-                                        echo "selected='selected'"; ?> >including</option>
-                <option value="exact" <?php if(strcmp($_GET["color_type"], "exact") == 0)
-                                        echo "selected='selected'"; ?> >exact</option>
-                <option value="excluding" <?php if(strcmp($_GET["color_type"], "excluding") == 0)
-                                        echo "selected='selected'"; ?> >excluding</option>
-            </select>
-        </div>
-        <div class="column">
-            <b>Legal in</b>
-            <select name="legality">
-                <option value="" <?php if(strcmp($_GET["legality"], "") == 0)
-                                        echo "selected='selected'"; ?> >--</option>
-                <option value="standard" <?php if(strcmp($_GET["legality"], "standard") == 0)
-                                        echo "selected='selected'"; ?> >standard</option>
-                <option value="pioneer" <?php if(strcmp($_GET["legality"], "pioneer") == 0)
-                                        echo "selected='selected'"; ?> >pioneer</option>
-                <option value="modern" <?php if(strcmp($_GET["legality"], "modern") == 0)
-                                        echo "selected='selected'"; ?> >modern</option>
-                <option value="legacy" <?php if(strcmp($_GET["legality"], "legacy") == 0)
-                                        echo "selected='selected'"; ?> >legacy</option>
-                <option value="vintage" <?php if(strcmp($_GET["legality"], "vintage") == 0)
-                                        echo "selected='selected'"; ?> >vintage</option>
-                <option value="pauper" <?php if(strcmp($_GET["legality"], "pauper") == 0)
-                                        echo "selected='selected'"; ?> >pauper</option>
-                <option value="commander" <?php if(strcmp($_GET["legality"], "commander") == 0)
-                                        echo "selected='selected'"; ?> >commander</option>
-            </select>
-            <br><br>
-            <b>Price</b>
-            <select name="card_price_type">
-                <option value="normal" <?php if(strcmp($_GET["card_price_type"], "normal") == 0)
-                                        echo "selected='selected'"; ?> >normal</option>
-                <option value="foil" <?php if(strcmp($_GET["card_price_type"], "foil") == 0)
-                                        echo "selected='selected'"; ?> >foil</option>
-            </select>
-            <select name="price_type">
-                <option value="--" <?php if(strcmp($_GET["price_type"], "--") == 0)
-                                        echo "selected='selected'"; ?> >--</option>
-                <option value="=" <?php if(strcmp($_GET["price_type"], "=") == 0)
-                                        echo "selected='selected'"; ?> >=</option>
-                <option value=">" <?php if(strcmp($_GET["price_type"], ">") == 0)
-                                        echo "selected='selected'"; ?> >&lt;</option>
-                <option value="<" <?php if(strcmp($_GET["price_type"], "<") == 0)
-                                        echo "selected='selected'"; ?> >&gt;</option>
-            </select>
-            <input type="number" name="price" min="0" max="99999" step="0.01"
-                                 value="<?php echo $_GET['price']??''; ?>" >
-            <br><br>
-            <b>Order by</b>
-            <select name="card_order">
-                <option value="ID" <?php if(strcmp($_GET["card_order"], "ID") == 0)
-                                        echo "selected='selected'"; ?> >id</option>
-                <option value="name" <?php if(strcmp($_GET["card_order"], "name") == 0)
-                                        echo "selected='selected'"; ?> >name</option>
-                <option value="n_price"  <?php if(strcmp($_GET["card_order"], "n_price") == 0)
-                                        echo "selected='selected'"; ?> >normal price</option>
-                <option value="f_price" <?php if(strcmp($_GET['card_order'], "f_price") == 0)
-                                        echo "selected='selected'"; ?> >foil price</option>
-                <option value="release" <?php if(strcmp($_GET['card_order'], "release") == 0)
-                                        echo "selected='selected'"; ?> >release</option>
-                <option value="rarity" <?php if(strcmp($_GET['card_order'], "rarity") == 0)
-                                        echo "selected='selected'"; ?> >rarity</option>
-                <option value="set" <?php if(strcmp($_GET['card_order'], "set") == 0)
-                                        echo "selected='selected'"; ?> >set</option>
-                <option value="power" <?php if(strcmp($_GET['card_order'], "power") == 0)
-                                        echo "selected='selected'"; ?> >power</option>
-                <option value="toughness" <?php if(strcmp($_GET['card_order'], "toughness") == 0)
-                                        echo "selected='selected'"; ?> >toughness</option>
-                <option value="loyalty" <?php if(strcmp($_GET['card_order'], "loyalty") == 0)
-                                        echo "selected='selected'"; ?> >loyalty</option>
-                <option value="random" <?php if(strcmp($_GET['card_order'], "random") == 0)
-                                        echo "selected='selected'"; ?> >random</option>
-            </select>
-            <select name="asc_dsc">
-                <option value="asc" <?php if(strcmp($_GET["asc_dsc"], "asc") == 0)
-                                        echo "selected='selected'"; ?> >ascending</option>
-                <option value="dsc" <?php if(strcmp($_GET["asc_dsc"], "dsc") == 0)
-                                        echo "selected='selected'"; ?> >descending</option>
-            </select>
-            <br><br><br>
-        </div>
-        <div class="center">
-            <b><?php echo $card_amount??''; ?> Results</b>
-            <input type="submit" name="submit" value="Search">
-        </div>
+            <div class="shop-column">
+                <b>Flavor text</b>
+                <label>
+                    <input type="text" name="flavor_text" maxlength="50" value="<?= $_GET["flavor_text"] ?>">
+                </label>
+                <br><br><br>
+                <b>Artist</b>
+                <label>
+                    <input type="text" name="artist" maxlength="50" value="<?= $_GET["artist"] ?>">
+                </label>
+                <br><br><br>
+                <b>Set</b>
+                <label>
+                    <input type="text" name="set" maxlength="50" value="<?= $_GET["set"] ?>">
+                </label>
+            </div>
+            <div class="shop-column">
+                <b>Converted mana cost</b>
+                <select name="cmc_type">
+                    <option value="--" <?= ($_GET["cmc_type"] == "--") ? "selected" : "" ?>>--</option>
+                    <option value="=" <?= ($_GET["cmc_type"] == "=") ? "selected" : "" ?>>=</option>
+                    <option value=">" <?= ($_GET["cmc_type"] == ">") ? "selected" : "" ?>>&lt;</option>
+                    <option value="<" <?= ($_GET["cmc_type"] == "<") ? "selected" : "" ?>>&gt;</option>
+                </select>
+                <input type="number" name="cmc" min="-10" max="10" value="<?= $_GET["cmc"] ?>">
+                <br><br><br>
+                <b>Color identity</b>
+                <div class="color-checkbox">
+                    <input
+                        class="white_checkbox"
+                        type="checkbox"
+                        name="white"
+                        <?= isset($_GET["white"]) ? "checked" : "" ?>
+                    >
+                    <input
+                        class="blue_checkbox"
+                        type="checkbox"
+                        name="blue"
+                        <?= isset($_GET["blue"]) ? "checked" : "" ?>
+                    >
+                    <input
+                        class="black_checkbox"
+                        type="checkbox"
+                        name="black"
+                        <?= isset($_GET["black"]) ? "checked" : "" ?>
+                    >
+                    <input
+                        class="red_checkbox"
+                        type="checkbox"
+                        name="red"
+                        <?= isset($_GET["red"]) ? "checked" : "" ?>
+                    >
+                    <input
+                        class="green_checkbox"
+                        type="checkbox"
+                        name="green"
+                        <?= isset($_GET["green"]) ? "checked" : "" ?>
+                    >
+                </div>
+                <select name="color_type">
+                    <option
+                        value="including"
+                        <?= ($_GET["color_type"] == "including") ? "selected" : "" ?>
+                    >
+                        including
+                    </option>
+                    <option
+                        value="exact"
+                        <?= ($_GET["color_type"] == "exact") ? "selected" : "" ?>
+                    >
+                        exact
+                    </option>
+                    <option
+                        value="excluding"
+                        <?= ($_GET["color_type"] == "excluding") ? "selected" : "" ?>
+                    >
+                        excluding
+                    </option>
+                </select>
+            </div>
+            <div class="shop-column">
+                <b>Legal in</b>
+                <select name="legality">
+                    <option
+                        value=""
+                        <?= ($_GET["legality"] == "") ? "selected" : "" ?>
+                    >
+                        --
+                    </option>
+                    <option
+                        value="standard"
+                        <?= ($_GET["legality"] == "standard") ? "selected" : "" ?>
+                    >
+                        standard
+                    </option>
+                    <option
+                        value="pioneer"
+                        <?= ($_GET["legality"] == "poineer") ? "selected" : "" ?>
+                    >
+                        pioneer
+                    </option>
+                    <option
+                        value="modern"
+                        <?= ($_GET["legality"] == "modern") ? "selected" : "" ?>
+                    >
+                        modern
+                    </option>
+                    <option
+                        value="legacy"
+                        <?= ($_GET["legality"] == "legacy") ? "selected" : "" ?>
+                    >
+                        legacy
+                    </option>
+                    <option
+                        value="vintage"
+                        <?= ($_GET["legality"] == "vintage") ? "selected" : "" ?>
+                    >
+                        vintage
+                    </option>
+                    <option
+                        value="pauper"
+                        <?= ($_GET["legality"] == "pauper") ? "selected" : "" ?>
+                    >
+                        pauper
+                    </option>
+                    <option
+                        value="commander"
+                        <?= ($_GET["legality"] == "commander") ? "selected" : "" ?>
+                    >
+                        commander
+                    </option>
+                </select>
+                <br><br>
+                <b>Price</b>
+                <select name="card_price_type">
+                    <option
+                        value="normal"
+                        <?= ($_GET["card_price_type"] == "normal") ? "selected" : "" ?>
+                    >
+                        normal
+                    </option>
+                    <option
+                        value="foil"
+                        <?= ($_GET["card_price_type"] == "foil") ? "selected" : "" ?>
+                    >
+                        foil
+                    </option>
+                </select>
+                <select name="price_type">
+                    <option value="--" <?= ($_GET["price_type"] == "--") ? "selected" : "" ?>>
+                        --
+                    </option>
+                    <option value="=" <?= ($_GET["price_type"] == "=") ? "selected" : "" ?>>
+                        =
+                    </option>
+                    <option value=">" <?= ($_GET["price_type"] == ">") ? "selected" : "" ?>>
+                        &lt;
+                    </option>
+                    <option value="<" <?= ($_GET["price_type"] == "<") ? "selected" : "" ?>>
+                        &gt;
+                    </option>
+                </select>
+                <input
+                    type="number"
+                    name="price"
+                    min="0"
+                    max="99999"
+                    step="0.01"
+                    value="<?= $_GET["price"] ?>"
+                >
+                <br><br>
+                <b>Order by</b>
+                <select name="card_order">
+                    <option value="ID" <?= ($_GET["card_order"] == "ID") ? "selected" : "" ?>>
+                        id
+                    </option>
+                    <option value="name" <?= ($_GET["card_order"] == "name") ? "selected" : "" ?>>
+                        name
+                    </option>
+                    <option value="n_price" <?= ($_GET["card_order"] == "n_price") ? "selected" : "" ?>>
+                        normal price
+                    </option>
+                    <option value="f_price" <?= ($_GET["card_order"] == "f_price") ? "selected" : "" ?>>
+                        normal price
+                    </option>
+                    <option value="release" <?= ($_GET["card_order"] == "release") ? "selected" : "" ?>>
+                        release
+                    </option>
+                    <option value="rarity" <?= ($_GET["card_order"] == "rarity") ? "selected" : "" ?>>
+                        rarity
+                    </option>
+                    <option value="set" <?= ($_GET["card_order"] == "set") ? "selected" : "" ?>>
+                        set
+                    </option>
+                    <option value="power" <?= ($_GET["card_order"] == "power") ? "selected" : "" ?>>
+                        power
+                    </option>
+                    <option value="toughness" <?= ($_GET["card_order"] == "toughness") ? "selected" : "" ?>>
+                        toughness
+                    </option>
+                    <option value="loyality" <?= ($_GET["card_order"] == "loyality") ? "selected" : "" ?>>
+                        loyality
+                    </option>
+                    <option value="random" <?= ($_GET["card_order"] == "random") ? "selected" : "" ?>>
+                        random
+                    </option>
+                </select>
+                <select name="asc_dsc">
+                    <option value="asc" <?= ($_GET["asc_dsc"] == "asc") ? "selected" : "" ?>>
+                        ascending
+                    </option>
+                    <option value="dsc" <?= ($_GET["asc_dsc"] == "dsc") ? "selected" : "" ?>>
+                        descending
+                    </option>
+                </select>
+                <br><br><br>
+            </div>
+            <div class="center">
+                <b><?= $card_amount ?> Results </b>
+                <input type="submit" name="submit" value="Search">
+            </div>
         </form>
     </div>
 </div>
@@ -409,23 +492,21 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 <div class="box box-row box-container">
 <?php
 foreach ($cards as $card):
-    $card_front = $card["image"];
+    $card_front = $card["image"] ? $card["image"] : "/img/no_image_available.png";
     $card_back = $card["back_image"];
     $card_price = $card["normal_price"];
     $card_page = "/product?id=" . $card["id"];
 
-        if (!$card_front) {
-            $card_front = "/img/no_image_available.png";
+    if ($card["normal_price"] == 0) {
+        if ($card["foil_price"] == 0) {
+            echo $card["normal_price"];
+            $card_price = "--";
         }
-        if ($card["normal_price"] == 0) {
-            if ($card["foil_price"] == 0) {
-                $card_price = "--";
-            }
-            else {
-                $card_price = $card["foil_price"];
-            }
+        else {
+            $card_price = $card["foil_price"];
         }
-        ?>
+    }
+?>
     <div class="box box-item">
         <div class="box-row item-header">
             <div class="box-left item-name">
@@ -519,18 +600,18 @@ foreach ($cards as $card):
 <?php endif; ?>
 </div>
 
-<?php include_once "footer.php"; ?>
-
-    <script>
-        function collapse() {
-            if (document.getElementById('search_bar').classList == "collapsible-row form") {
-                document.getElementById('search_bar').setAttribute("class", "collapsed-row");
-            }
-            else {
-                document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
-            }
+<script>
+    function collapse() {
+        if (document.getElementById('search_bar').classList == "collapsible-row form") {
+            document.getElementById('search_bar').setAttribute("class", "collapsed-row");
         }
-    </script>
+        else {
+            document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
+        }
+    }
+</script>
+
+<?php include_once "footer.php"; ?>
 
 </body>
 

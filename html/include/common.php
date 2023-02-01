@@ -149,7 +149,7 @@ function update_user_desc($db, $uid, $desc) {
 }
 
 function format_eur($price) {
-    if ($price < 0.05) {
+    if ($price < 0.005) {
         return "€--";
     }
     return "€" . number_format($price, 2, ",", ".");

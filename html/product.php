@@ -42,24 +42,25 @@ $suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
                  AND cmc='{$card["cmc"]}'
                  ORDER BY id LIMIT 7";
 $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+// Search for partial type line and exact color identity if not enough cards are
+// found.
 if (count($suggested_cards) < 7) {
-    // Search for partial type line and exact color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_type}%'
                      AND color_identity='{$card["color_identity"]}'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+// Search for single type and partial color identity if not enough cards are found.
 if (count($suggested_cards) < 7) {
-    // Search for single type and partial color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND type_line LIKE '%{$card_half_type}%'
                      AND color_identity LIKE '%{$card["color_identity"]}%'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+// Search for single type and color identity if not enough cards are found.
 if (count($suggested_cards) < 3) {
-    // Search for single type and partial color identity.
     $suggest_sql = $base_sql;
     $suggest_sql .= "AND color_identity='{$card["color_identity"]}'
                      ORDER BY id LIMIT 7";
@@ -109,7 +110,8 @@ $card_front = $card["image"];
 $card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card.webp";
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
-$card_versions = "/card_versions.php?name={$card["name"]}";
+$card_name = str_replace(" ", "_", $card["name"]);
+$card_versions = "/card_versions.php?name={$card_name}";
 
 if (!$card_front) {
     $card_front = "/img/no_image_available.png";
@@ -158,8 +160,8 @@ foreach ($formats as $format) {
         <h1><?= $card["name"] ?></h1>
     </div>
     <div class="box-row" style="margin-top: 1%">
-        <div class="column">
-            <div class="left-column">
+        <div class="product-column">
+            <div class="left-product-column">
                 <div class="card-window">
                     <div class="floating-card">
                         <div class="card-face">
@@ -179,7 +181,7 @@ foreach ($formats as $format) {
                 </a>
             </div>
             <div class="flex-break"></div>
-            <div class="right-column">
+            <div class="right-product-column">
                 <div id="product-info">
                     <table class="info-table">
 <?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
@@ -229,32 +231,30 @@ foreach ($formats as $format) {
                         </tr>
                     </table>
                 </div>
-                <div id="product-purchase">
-                    <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
-                        <fieldset>
-                            <legend>
-                                Add item(s) to cart
-                            </legend>
-                            <span>Normal price: <?= format_eur($card_price) ?></span>
-                            <span>Foil price: <?= format_eur($foil_price) ?></span>
-        <?php if (isset($_SESSION["id"])): ?>
-                            <label>
-                                <b>Amount</b>
-                                <input type="number" name="amount" value="1" min="1" max="50">
-                            </label>
-                            <label>
-                                <b>Foil</b>
-                                <input id="foil" type="checkbox" name="foil">
-                            </label>
-                            <br><br><br>
-                            <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
-                            <input type="submit" value="Add to cart">
-        <?php else: ?>
-        Please <a href="/login">login</a> or <a href="/register">register</a> to add this item to your cart.
-        <?php endif; ?>
-                        </fieldset>
-                    </form>
-                </div>
+                <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
+                    <fieldset>
+                        <legend>
+                            Add item(s) to cart
+                        </legend>
+                        <span>Normal price: <?= format_eur($card_price) ?></span>
+                        <span>Foil price: <?= format_eur($foil_price) ?></span>
+                        <br>
+                        <?php if (isset($_SESSION["id"])): ?>
+                        <label>
+                            <b>Amount</b>
+                            <input type="number" name="amount" value="1" min="1" max="50">
+                        </label>
+                        <label>
+                            <b>Foil</b>
+                            <input id="foil" type="checkbox" name="foil">
+                        </label>
+                        <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
+                        <input id="cart-submit" type="submit" value="Add to cart">
+                        <?php else: ?>
+                        Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
+                        <?php endif; ?>
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>
@@ -268,13 +268,9 @@ foreach ($formats as $format) {
     <div class="box-row popular-cards">
 <?php
 foreach ($suggested_cards as $suggest_card):
-    $card_front = $suggest_card["image"];
+    $card_front = $suggest_card["image"] ? $suggest_card["image"] : "/img/no_image_available.png";
     $card_back = $suggest_card["back_image"];
     $card_page = "/product.php?id=" . $suggest_card["id"];
-
-    if (!$card_front) {
-        $card_front = "/img/no_image_available.png";
-    }
 ?>
 <?php if (isset($card_back)): ?>
         <div class="box-card-small">

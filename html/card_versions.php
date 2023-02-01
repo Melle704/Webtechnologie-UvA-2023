@@ -26,7 +26,8 @@ if (isset($_GET["page"])) {
     $page_offset = ($page - 1) * $cards_per_page;
 }
 
-$card_name = $_GET["name"];
+$card_name = mysqli_real_escape_string($db, $_GET["name"]);
+$card_name = str_replace("_", " ", $card_name);
 
 $sql = "SELECT * FROM cards
         WHERE real_card='1'
@@ -60,6 +61,9 @@ $sql_amount .= $sql_search;
 $card_amount = mysqli_query($db, $sql_amount);
 $card_amount = mysqli_fetch_array($card_amount)[0];
 $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
+if (str_replace("\\'", "'",$card_name)) {
+    $card_name = str_replace("\\'", "'",$card_name);
+}
 ?>
 
 <!doctype html>
