@@ -16,12 +16,13 @@ $cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION["id"])) {
         // Ignore post if not logged in
-        exit();
+        exit;
     }
 
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
         header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+        exit;
     }
 
     if ($_POST["action"] == "checkout") {
@@ -30,6 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
         }
+
+        exit;
     }
 }
 
@@ -41,7 +44,7 @@ if (!$cart_empty) {
     $keys_string = implode(',', $keys);
 
     $sql = "SELECT * FROM cards WHERE id IN ($keys_string)";
-    $cards = query_execute($db, $sql);
+    $cards = query_execute_unsafe($db, $sql);
 
     foreach ($cards as $card) {
         if (in_array($card["id"], $raw_keys)) {

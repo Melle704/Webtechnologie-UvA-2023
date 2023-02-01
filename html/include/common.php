@@ -52,7 +52,7 @@ function query_execute_unsafe($db, $sql) {
     $query = mysqli_query($db, $sql);
     $rows = array();
 
-    if (!$query) {
+    if ($query === false || $query === true) {
         return $rows;
     }
 
@@ -89,15 +89,15 @@ function find_user_by_uid($db, $uid) {
     return $user;
 }
 
-function user_create($db, $username, $email, $dob, $passwd) {
-    $sql = "INSERT INTO users (uname, email, dob, passwd, last_activity)
-            VALUES (?, ?, ?, ?, now())";
+function user_create($db, $username, $email, $dob, $passwd, $verification_code) {
+    $sql = "INSERT INTO users (uname, email, dob, passwd, last_activity, verification_code)
+            VALUES (?, ?, ?, ?, now(), ?)";
 
     $stmt = mysqli_stmt_init($db);
     $hash = password_hash($passwd, PASSWORD_BCRYPT);
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $dob, $hash);
+    mysqli_stmt_bind_param($stmt, "sssss", $username, $email, $dob, $hash, $verification_code);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }

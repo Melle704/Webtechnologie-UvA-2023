@@ -70,6 +70,7 @@ if (count($suggested_cards) < 3) {
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
         header("Location: /shop");
+        exit;
     }
 }
 
@@ -99,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     }
 
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+    exit;
 }
 
 $formats = array("standard", "pioneer", "modern", "legacy", "vintage", "pauper", "commander");

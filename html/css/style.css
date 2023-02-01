@@ -42,8 +42,8 @@ p {
 }
 
 li {
-  list-style-position: inside;
-  line-height: 1.25rem;
+    /*list-style-position: inside;*/
+    line-height: 1.25rem;
 }
 
 textarea {

@@ -1,6 +1,8 @@
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
+
 if (!isset($_SESSION)) {
     session_start();
 }

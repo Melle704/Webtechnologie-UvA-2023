@@ -41,7 +41,7 @@ if (isset($_POST["submit"])) {
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
     
     // Add 1 to the comment count of the thread.
-    $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
+    $sql = "UPDATE forum_threads SET comments=comments + 1 WHERE i=?";
     query_execute($db, $sql, "i", $thread_id);
     
     header("Location: " . $_SERVER["REQUEST_URI"]);

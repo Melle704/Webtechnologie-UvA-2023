@@ -13,14 +13,14 @@ $page = 1;
 if (isset($_GET["page"])) {
     // reload the page without a page specified if the page isn't a number
     if (!is_numeric($_GET["page"])) {
-        header("Location: /shop.php");
+        header("Location: /shop");
     }
 
     $page = intval($_GET["page"]);
 
     // reload the page without a page specified if the page number is invalid
     if ($page < 1) {
-        header("Location: /shop.php");
+        header("Location: /shop");
     }
 
     $page_offset = ($page - 1) * $cards_per_page;
@@ -88,29 +88,29 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             </h1>
     </div>
     <div class="box-row box-container">
-        <?php
-    foreach ($cards as $card):
-    $card_front = $card["image"];
-    $card_back = $card["back_image"];
-    $card_price = $card["normal_price"];
-    $card_page = "/product.php?id=" . $card["id"];
+<?php
+foreach ($cards as $card):
+$card_front = $card["image"];
+$card_back = $card["back_image"];
+$card_price = $card["normal_price"];
+$card_page = "/product?id=" . $card["id"];
 
-    if (!$card_front) {
-        $card_front = "/img/no_image_available.png";
+if (!$card_front) {
+    $card_front = "/img/no_image_available.png";
+}
+if ($card["normal_price"] == 0) {
+    if ($card["foil_price"] == 0) {
+        $card_price = "--";
     }
-    if ($card["normal_price"] == 0) {
-        if ($card["foil_price"] == 0) {
-            $card_price = "--";
-        }
-        else {
-            $card_price = $card["foil_price"];
-        }
+    else {
+        $card_price = $card["foil_price"];
     }
-    ?>
+}
+?>
     <div class="box box-item">
         <div class="box-row item-header">
             <div class="box-left item-name">
-                <a href="product.php?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
+                <a href="/product?id=<?= $card["id"] ?>"><?= $card["name"] ?></a>
             </div>
             <div class="box-right item-price"><?= format_eur($card_price) ?></div>
         </div>
@@ -152,48 +152,48 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 
 <div class="pageinator">
     <?php if ($page > 2): ?>
-        <a class="first-page" href="/shop.php?page=1";>
+        <a class="first-page" href="/shop?page=1";>
             <i class="fa-solid fa-chevron-left"></i>
             <i class="fa-solid fa-chevron-left"></i>
         </a>
         <?php endif; ?>
         <?php if ($page > 1): ?>
-            <a href="/shop.php?page=<?= $page - 1 ?>">
+            <a href="/shop?page=<?= $page - 1 ?>">
                 <i class="fa-solid fa-chevron-left"></i>
             </a>
             <?php endif; ?>
 <?php
-    function window($page, $last_page) {
-        if ($page < 4) {
-            return range(1, 7);
-        }
-
-        if ($last_page - $page < 4) {
-            return range($last_page - 6, $last_page);
-        }
-
-        return range($page - 3, $page + 3);
+function window($page, $last_page) {
+    if ($page < 4) {
+        return range(1, 7);
     }
 
-    foreach (window($page, $last_page) as $page_ref) {
-        $tag = '<a href="/shop.php?page=' . strval($page_ref). '"';
-
-        $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
-        $tag .= strval($page_ref);
-        $tag .= "</a>";
-
-        if (strval($page_ref) <= $last_page And strval($page_ref) > 0) {
-            echo "\t$tag\n";
-        }
+    if ($last_page - $page < 4) {
+        return range($last_page - 6, $last_page);
     }
-    ?>
+
+    return range($page - 3, $page + 3);
+}
+
+foreach (window($page, $last_page) as $page_ref) {
+    $tag = '<a href="/shop?page=' . strval($page_ref). '"';
+
+    $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
+    $tag .= strval($page_ref);
+    $tag .= "</a>";
+
+    if (strval($page_ref) <= $last_page And strval($page_ref) > 0) {
+        echo "\t$tag\n";
+    }
+}
+?>
 <?php if ($last_page != $page): ?>
-    <a href="/shop.php?page=<?= $page + 1 ?>">
+    <a href="/shop?page=<?= $page + 1 ?>">
         <i class="fa-solid fa-chevron-right"></i>
     </a>
 <?php endif; ?>
 <?php if ($last_page - $page > 1): ?>
-    <a class="last-page" href="/shop.php?page=<?= $last_page ?>">
+    <a class="last-page" href="/shop?page=<?= $last_page ?>">
         <i class="fa-solid fa-chevron-right"></i>
         <i class="fa-solid fa-chevron-right"></i>
     </a>

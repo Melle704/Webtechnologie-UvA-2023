@@ -1,6 +1,7 @@
 <?php
 
 include_once "common.php";
+include_once "messaging.php";
 
 session_start();
 
@@ -81,25 +82,18 @@ if ($_GET["action"] == "register") {
         ["User '$username' already exists", !find_user($db, $username)]
     );
 
-    user_create($db, $username, $email, "$year-$month-$day", $passwd1);
-    $user = find_user($db, $username);
+    $charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $verification_code = substr(str_shuffle($charset), 0, 22);
 
-    $_SESSION["id"] = $user["id"];
-    $_SESSION["uname"] = $user["uname"];
-    $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
-    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
-
-    $now = time();
-    $_SESSION["last_activity"] = new DateTime("@$now");
-
-    logout_user_on_inactivity($db, $user["id"]);
+    user_create($db, $username, $email, "$year-$month-$day", $passwd1, $verification_code);
+    send_confirmation_email($email, $username, $verification_code);
 
     $redirect_title="Registering";
-    $redirect_msg="You are being registered.";
+    $redirect_msg="You are being registered.<br>Make sure to check your email for a confirmation message.";
     include_once "redirect.php";
 
-    // wait two seconds before refreshing
-    header("Refresh: 2; url=/");
+    // wait four seconds before refreshing
+    header("Refresh: 4; url=/");
     exit;
 }
 
@@ -124,13 +118,10 @@ if ($_GET["action"] == "login") {
 
     $user = find_user($db, $username);
 
-    if (!$user) {
-        reload_err("Incorrect username and/or password");
-    }
-
-    if (!password_verify($passwd, $user["passwd"])) {
-        reload_err("Incorrect username and/or password");
-    }
+    validate_predicates(
+        ["Incorrect username and/or password", $user && password_verify($passwd, $user["passwd"])],
+        ["Check '" . $user["email"] . "' for your account registration email", $user["email_verified"]]
+    );
 
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
