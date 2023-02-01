@@ -47,14 +47,12 @@ $purchases = query_execute($db, $sql, "i", $_SESSION["id"])
             <tr>
                 <th>Purchase id</th>
                 <th>Price</th>
-                <th>Status</th>
                 <th>Timestamp</th>
             </tr>
             <?php foreach($purchases as $purchase): ?>
             <tr>
                 <td class="col-text"><?= $purchase["id"] ?></td>
                 <td class="col-num"><?= format_eur($purchase["price"]) ?></td>
-                <td class="col-text"><?= $purchase["status"] ?></td>
                 <td><?= $purchase["time"] ?></td>
             </tr>
             <?php endforeach; ?>
