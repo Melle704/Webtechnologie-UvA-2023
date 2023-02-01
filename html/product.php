@@ -66,22 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION["cart"])) {
         $_SESSION["cart"] = array();
     }
 
     $amount = $_POST["amount"];
-    $foil = $_POST["foil"];
     $card_id = $_POST["id"];
-    $card_id .= $foil ? "f" : "";
-
-    // Check if foil/non-foil version of this card exists
-    if ($card["normal_price"] == 0 && !$foil) {
-        reload_err("Non-foil version of this card is not for sale");
-    } elseif ($card["foil_price"] == 0 && $foil) {
-        reload_err("Foil version of this card is not for sale");
-    }
 
     if (!isset($_SESSION["cart"][$card_id])) {
         $_SESSION["cart"][$card_id] = 0;
@@ -101,9 +92,18 @@ $card_front = $card["image"];
 $card_back  = $card["back_image"];
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
+$card_versions = "/card_versions.php?name={$card["name"]}";
 
 if (!$card_front) {
     $card_front = "/img/no_image_available.png";
+}
+
+if ($card["normal_price"] == 0) {
+    $card_price = "--";
+}
+
+if ($card["foil_price"] == 0) {
+    $foil_price = "--";
 }
 ?>
 <!doctype html>
@@ -124,8 +124,6 @@ if (!$card_front) {
 
 <body>
 <?php include_once "header.php"; ?>
-
-<?php include_once "include/errors.php"; ?>
 
 <div class="box">
     <div class="box-row box-light">
@@ -158,7 +156,10 @@ if (!$card_front) {
                     </a>
                 </div>
             <?php endif; ?>
-            <br>
+            <a href="<?= $card_versions ?>">
+                <button class="version-button">all variations</button>
+            </a>
+            <!-- <br> -->
         </div>
         <div class="right-column">
             <div id="product-info">
@@ -233,7 +234,6 @@ if (!$card_front) {
                         <br>
                         <label for=count>Amount</label>
                         <input id="amount" type="number" name="amount" value="1" min="1" max="50">
-                        <!-- <br> -->
                         <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                         <?php if (isset($_SESSION["id"])): ?>
                             <input type="submit" value="Add to cart">

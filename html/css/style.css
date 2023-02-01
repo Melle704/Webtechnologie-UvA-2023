@@ -427,6 +427,14 @@ textarea:focus {
     text-align: left;
 }
 
+.version-button {
+    border: 3px solid #373737;
+    background-color: #202020;
+    vertical-align: middle;
+    width: 100%;
+    font-size: medium;
+}
+
 .column {
     float: left;
     width: 25%;
