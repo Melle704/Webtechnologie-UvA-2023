@@ -182,10 +182,10 @@ if (isset($_GET["card_order"])) {
         case "rarity": $sql_search .= " AND NOT rarity_num='0' ORDER BY rarity_num"; break;
         case "set": $sql_search .= " ORDER BY set_code"; break;
         case "power": $sql_search .= " AND NOT power='' AND NOT power LIKE '%*%'
-              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY power"; break;
+              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY CAST(power as unsigned)"; break;
         case "toughness": $sql_search .= " AND NOT toughness='' AND NOT toughness LIKE '%*%'
-              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY toughness"; break;
-        case "loyalty": $sql_search .= "AND NOT loyalty='' ORDER BY loyalty"; break;
+              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY CAST(toughness as unsigned)"; break;
+        case "loyalty": $sql_search .= "AND NOT loyalty='' ORDER BY CAST(loyalty as unsigned)"; break;
     }
 }
 
