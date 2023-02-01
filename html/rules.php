@@ -16,7 +16,7 @@
 
     <div class="box">
         <div class="box-row box-light">
-            <b>Forum rules</b>
+            <b>Our rules</b>
         </div>
         <ol type="1">
             <li>Be respectfull to eachother, our forum is a place of community, not a place of hate.</li>

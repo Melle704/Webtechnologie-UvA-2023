@@ -243,50 +243,50 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 
 <div class="box">
     <button class="collapsible-button" onclick="collapse()">
-        <b>filter cards</b>
+        <b>Filter cards</b>
     </button>
     <div id="search_bar" class="collapsed-row">
     <form action="shop.php" method="GET">
         <div class="column">
-            <b>card name</b>
+            <b>Card name</b>
             <label>
                 <input type="text" name="card_name" maxlength="50"
                 value="<?php echo $_GET['card_name']??''; ?>" >
             </label>
             <br><br><br>
-            <b>oracle text</b>
+            <b>Oracle text</b>
             <label>
                 <input type="text" name="oracle_text" maxlength="50"
                 value="<?php echo $_GET['oracle_text']??''; ?>" >
             </label>
             <br><br><br>
-            <b>card type</b>
+            <b>Card type</b>
             <label>
                 <input type="text" name="card_type" maxlength="50"
                 value="<?php echo $_GET['card_type']??''; ?>" >
             </label>
         </div>
         <div class="column">
-            <b>flavor text</b>
+            <b>Flavor text</b>
             <label>
                 <input type="text" name="flavor_text" maxlength="50"
                 value="<?php echo $_GET['flavor_text']??''; ?>" >
             </label>
             <br><br><br>
-            <b>artist</b>
+            <b>Artist</b>
             <label>
                 <input type="text" name="artist" maxlength="50"
                 value="<?php echo $_GET['artist']??''; ?>" >
             </label>
             <br><br><br>
-            <b>set</b>
+            <b>Set</b>
             <label>
                 <input type="text" name="set" maxlength="50"
                 value="<?php echo $_GET['set']??''; ?>" >
             </label>
         </div>
         <div class="column">
-            <b>converted mana cost</b>
+            <b>Converted mana cost</b>
             <select name="cmc_type">
                 <option value="--" <?php if(strcmp($_GET["cmc_type"], "--") == 0)
                                         echo "selected='selected'"; ?> >--</option>
@@ -299,7 +299,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             </select>
             <input type="number" name="cmc" min="-10" max="10" value="<?php echo $_GET['cmc']??''; ?>" >
             <br><br><br>
-            <b>color identity</b>
+            <b>Color identity</b>
             <div class="color-checkbox">
                 <input class="white_checkbox" type="checkbox" name="white"
                 <?php if(isset($_GET['white'])) echo "checked='checked'"; ?> >
@@ -322,7 +322,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             </select>
         </div>
         <div class="column">
-            <b>legal in</b>
+            <b>Legal in</b>
             <select name="legality">
                 <option value="" <?php if(strcmp($_GET["legality"], "") == 0)
                                         echo "selected='selected'"; ?> >--</option>
@@ -342,7 +342,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >commander</option>
             </select>
             <br><br>
-            <b>price</b>
+            <b>Price</b>
             <select name="card_price_type">
                 <option value="normal" <?php if(strcmp($_GET["card_price_type"], "normal") == 0)
                                         echo "selected='selected'"; ?> >normal</option>
@@ -362,10 +362,10 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             <input type="number" name="price" min="0" max="99999" step="0.01"
                                  value="<?php echo $_GET['price']??''; ?>" >
             <br><br>
-            <b>order by</b>
+            <b>Order by</b>
             <select name="card_order">
                 <option value="ID" <?php if(strcmp($_GET["card_order"], "ID") == 0)
-                                        echo "selected='selected'"; ?> >ID</option>
+                                        echo "selected='selected'"; ?> >id</option>
                 <option value="name" <?php if(strcmp($_GET["card_order"], "name") == 0)
                                         echo "selected='selected'"; ?> >name</option>
                 <option value="n_price"  <?php if(strcmp($_GET["card_order"], "n_price") == 0)
@@ -396,7 +396,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
             <br><br><br>
         </div>
         <div class="center">
-            <b><?php echo $card_amount??''; ?> results</b>
+            <b><?php echo $card_amount??''; ?> Results</b>
             <input type="submit" name="submit" value="Search">
         </div>
         </form>
