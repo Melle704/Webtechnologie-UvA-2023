@@ -49,7 +49,7 @@ $threads = query_execute_unsafe($db, $query);
             <input type="text" id="search-input">
             <input type="button" id="search-button" value="Search content"></button>
 
-            <select id="sort-select" style="background-color: #323232; float: right">
+            <select id="sort-select" style="background-color: black; border-color: #373737; border-width: 2px; float: right">
                 <option value="comments-desc" <?= ($sortBy === "comments-desc") ? "selected" : "" ?>>Sort by most comments</option>
                 <option value="comments" <?= ($sortBy === "comments") ? "selected" : "" ?>>Sort by least comments</option>
                 <option value="date-desc" <?= ($sortBy === "date-desc") ? "selected" : "" ?>>Sort by newest</option>
