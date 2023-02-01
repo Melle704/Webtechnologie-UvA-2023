@@ -35,6 +35,7 @@ $sql = "SELECT * FROM cards
         AND NOT layout='emblem'
         AND NOT layout='planar'
         AND NOT set_name='Jumpstart Front Cards'
+        AND NOT set_name LIKE '%token%'
         AND NOT name LIKE '%Substitute Card%'";
 
 $sql_search = "AND name=\"{$card_name}\"";

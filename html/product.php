@@ -33,6 +33,7 @@ $base_sql = "SELECT * FROM cards
         WHERE real_card='1' AND NOT layout='emblem'
         AND NOT layout='art_series' AND NOT layout='token'
         AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+        AND NOT set_name LIKE '%token%'
         AND NOT name=\"{$card["name"]}\"";
 
 // Search for the exact type line, color identity and cmc.
