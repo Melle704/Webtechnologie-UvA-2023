@@ -43,7 +43,7 @@ $threads = query_execute_unsafe($db, $query);
         <p>
             A space to ask questions and discuss Magic!
             <br>
-            <a href="forumrules.php">Forum rules</a>
+            <a href="rules.php">Forum rules</a>
         </p>
         <div class="search-sort">
             <input type="text" id="search-input">
