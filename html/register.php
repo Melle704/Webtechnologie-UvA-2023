@@ -29,7 +29,7 @@
         <form action="/register?action=register" method="post">
             <fieldset>
                 <legend>
-                    A username between 1 and 25 characters (with no embedded sql code)
+                    Enter your preferred username.
                 </legend>
                 <b>Username</b>
                 <label>
@@ -38,7 +38,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Enter a password of at least length 8 that includes at least one symbol
+                    Your password must be at least 8 chatacters in length and contain 1 special symbol.
                 </legend>
                 <label>
                     <b>Password</b>
@@ -58,7 +58,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Please specify an email address you have access to
+                    Please specify your valid email address.
                 </legend>
                 <b>Email</b>
                 <label>
@@ -67,7 +67,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Insert your DOB (this will not show on your profile by default)
+                    Please enter your date of birth.
                 </legend>
                 <b>Date of Birth</b>
                 <label>

@@ -28,18 +28,12 @@
     <div class="box-row form">
         <form action="/login?action=login" method="post">
             <fieldset>
-                <legend>
-                    Insert your username
-                </legend>
                 <b>Username</b>
                 <label>
                     <input id="uname" type="text" name="uname" size="25" maxlength="25">
                 </label>
             </fieldset>
             <fieldset>
-                <legend>
-                    Enter your password
-                </legend>
                 <label>
                     <b>Password</b>
                     <input type="password" name="passwd" id="password1" size="18" maxlength="500">

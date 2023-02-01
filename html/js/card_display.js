@@ -158,7 +158,7 @@ function Viewport(data) {
         self.mouseY = e.pageY;
     });
 
-    bindEvent(cardWindow, 'touchstart', function(e) {
+    bindEvent(window, 'touchstart', function(e) {
         self.down = true;
         e.touches ? e = e.touches[0] : null;
         self.mouseX = e.pageX / self.touchSensivity;
@@ -317,11 +317,11 @@ function Card(data) {
 Card.prototype.rotateSides = function() {
     var viewport = this.viewport;
     if (viewport.positionY > 90 && viewport.positionY < 270) {
-        this.sides[4].style[userPrefix.js + 'Transform'] = 'rotate(' + (viewport.positionX + viewport.torqueX) + 'deg)';
-        this.sides[5].style[userPrefix.js + 'Transform'] = 'rotate(' + -(viewport.positionX + 180 + viewport.torqueX) + 'deg)';
+        this.sides[4].style['Transform'] = 'rotate(' + (viewport.positionX + viewport.torqueX) + 'deg)';
+        this.sides[5].style['Transform'] = 'rotate(' + -(viewport.positionX + 180 + viewport.torqueX) + 'deg)';
     } else {
-        this.sides[4].style[userPrefix.js + 'Transform'] = 'rotate(' + (viewport.positionX - viewport.torqueX) + 'deg)';
-        this.sides[5].style[userPrefix.js + 'Transform'] = 'rotate(' + -(viewport.positionX + 180 - viewport.torqueX) + 'deg)';
+        this.sides[4].style['Transform'] = 'rotate(' + (viewport.positionX - viewport.torqueX) + 'deg)';
+        this.sides[5].style['Transform'] = 'rotate(' + -(viewport.positionX + 180 - viewport.torqueX) + 'deg)';
     }
 }
 

@@ -32,7 +32,7 @@ else {
 $base_sql = "SELECT * FROM cards
         WHERE real_card='1' AND NOT layout='emblem'
         AND NOT layout='art_series' AND NOT layout='token'
-        AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+        AND NOT layout='planar' AND NOT type_line LIKE '%card%'
         AND NOT name=\"{$card["name"]}\"";
 
 // Search for the exact type line, color identity and cmc.
@@ -58,6 +58,13 @@ if (count($suggested_cards) < 7) {
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+if (count($suggested_cards) < 3) {
+    // Search for single type and partial color identity.
+    $suggest_sql = $base_sql;
+    $suggest_sql .= "AND color_identity='{$card["color_identity"]}'
+                     ORDER BY id LIMIT 7";
+    $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+}
 
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -66,13 +73,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     if (!isset($_SESSION["cart"])) {
         $_SESSION["cart"] = array();
     }
 
     $amount = $_POST["amount"];
+    $foil = $_POST["foil"];
     $card_id = $_POST["id"];
+    $card_id .= $foil ? "f" : "";
+
+    // Check if foil/non-foil version of this card exists
+    if ($card["normal_price"] == 0 && !$foil) {
+        reload_err("Non-foil version of this card is not for sale");
+    } elseif ($card["foil_price"] == 0 && $foil) {
+        reload_err("Foil version of this card is not for sale");
+    }
 
     if (!isset($_SESSION["cart"][$card_id])) {
         $_SESSION["cart"][$card_id] = 0;
@@ -88,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $formats = array("standard", "pioneer", "modern", "legacy", "vintage", "pauper", "commander");
 
 $card_front = $card["image"];
-$card_back  = $card["back_image"];
+$card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card.webp";
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 $card_versions = "/card_versions.php?name={$card["name"]}";
@@ -147,15 +163,9 @@ foreach ($formats as $format) {
                         <div class="card-face">
                             <img draggable="false" src="<?= $card_front ?>"></img>
                         </div>
-<?php if (isset($card_back)): ?>
                         <div class="card-face">
                             <img draggable="false" src="<?= $card_back ?>"></img>
                         </div>
-<?php else: ?>
-                        <div class="card-face">
-                            <img draggable="false" src="/img/default_mtg_card.webp"></img>
-                        </div>
-<?php endif; ?>
                         <div class="card-face"></div>
                         <div class="card-face"></div>
                         <div class="card-face"></div>
@@ -225,7 +235,7 @@ foreach ($formats as $format) {
                             </legend>
                             <span>Normal price: <?= format_eur($card_price) ?></span>
                             <span>Foil price: <?= format_eur($foil_price) ?></span>
-<?php if (isset($_SESSION["id"])): ?>
+        <?php if (isset($_SESSION["id"])): ?>
                             <label>
                                 <b>Amount</b>
                                 <input type="number" name="amount" value="1" min="1" max="50">
@@ -237,9 +247,9 @@ foreach ($formats as $format) {
                             <br><br><br>
                             <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                             <input type="submit" value="Add to cart">
-<?php else: ?>
-    Please <a href="/login">login</a> or <a href="/register">register</a> to add this item to your cart.
-<?php endif; ?>
+        <?php else: ?>
+        Please <a href="/login">login</a> or <a href="/register">register</a> to add this item to your cart.
+        <?php endif; ?>
                         </fieldset>
                     </form>
                 </div>

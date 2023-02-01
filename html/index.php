@@ -33,14 +33,14 @@
 <?php if (!isset($_SESSION["id"])): ?>
 <div class="box">
     <div class="box-row box-light">
-        <b>Welcome</b>
+        <b>Welcome to Uzra's Workshop!</b>
     </div>
     <div class="box-row">
-        <p>Ensure you thoroughly read the <a href="/rules">rules</a> before proceeding.</p>
-        <p>There will be a deck builder (hopefully), a forum (soon) and more potentially.</p>
-        <p>Please be patient as we try to improve the current site.</p>
+    	<p>The place to buy Magic the Gathering cards and discuss questions or strategies on our forum!</p>
+        <p>Our database of Magic cards is over 78.000 large. With options to filter, sort and search through all of them!</p>
+        <p>Ensure you thoroughly read the <a href="/rules">rules</a> before proceeding to our webshop and userforum.</p>
         <br>
-        <p>Thx in advance.</p>
+        <p>We hope you have a great time on our website, and we are always open for feedback!</p>
     </div>
 </div>
 <?php endif; ?>

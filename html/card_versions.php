@@ -34,16 +34,15 @@ $sql = "SELECT * FROM cards
         AND NOT layout='token'
         AND NOT layout='emblem'
         AND NOT layout='planar'
-        AND NOT set_name='Jumpstart Front Cards'
-        AND NOT name LIKE '%Substitute Card%'";
+        AND NOT type_line LIKE '%card%'";
 
 $sql_search = "AND name=\"{$card_name}\"";
 
 if (isset($sql_search)) {
-    $_SESSION["search"] = $sql_search;
+    $_SESSION["version_search"] = $sql_search;
 }
 else if (isset($_SESSION["search"])) {
-    $sql_search = $_SESSION["search"];
+    $sql_search = $_SESSION["version_search"];
 }
 
 $sql .= $sql_search;
@@ -85,7 +84,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 <div class="box">
     <div class="box-row box-light">
             <h1>
-                <?= $card_name ?> variants
+                <?= $card_name ?> Variants
             </h1>
     </div>
     <div class="box-row box-container">

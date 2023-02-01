@@ -6,7 +6,8 @@ include_once "include/payment.php";
 
 session_start();
 
-$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
+$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
+$total = $_SESSION["cart_total"];
 
 // Ensure user is logged in and has items in their cart
 if (!isset($_SESSION["id"]) || $cart_empty) {
@@ -14,22 +15,7 @@ if (!isset($_SESSION["id"]) || $cart_empty) {
     exit;
 }
 
-$keys_string = implode(',', array_keys($_SESSION["cart"]));
-
-$sql = "SELECT * FROM cards WHERE id IN ($keys_string)";
-$products = query_execute($db, $sql);
-
-$total = 0;
-foreach ($products as $product) {
-    $amount = $_SESSION["cart"][$product["id"]];
-    $total += $product["normal_price"] * $amount;
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
-    if ($cart_empty || $total == 0) {
-        reload_err("Cart should not be empty");
-    }
-
     $name = htmlspecialchars(trim($_POST["name"]));
     $address = htmlspecialchars(trim($_POST["address"]));
     $postcode = htmlspecialchars(trim($_POST["postcode"]));
