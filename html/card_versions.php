@@ -85,7 +85,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 <div class="box">
     <div class="box-row box-light">
             <h1>
-                <?= $card_name ?> variants
+                <?= $card_name ?> Variants
             </h1>
     </div>
     <div class="box-row box-container">
