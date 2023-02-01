@@ -33,7 +33,7 @@ $sql = "SELECT * FROM cards
         AND NOT layout='emblem'
         AND NOT layout='planar'
         AND NOT set_name='Jumpstart Front Cards'
-        AND NOT name LIKE 'Substitute Card'";
+        AND NOT name LIKE '%Substitute Card%'";
 
 if (!empty($_GET["card_name"])) {
     $card_name = mysqli_real_escape_string($db, $_GET["card_name"]);
