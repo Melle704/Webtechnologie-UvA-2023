@@ -1,9 +1,9 @@
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
-if (!isset($_SESSION)) {
-    session_start();
-}
+
+session_start();
 
 $cards_per_page = 60;
 $page_offset = 0;
@@ -87,9 +87,7 @@ if (str_replace("\\'", "'",$card_name)) {
 
 <div class="box">
     <div class="box-row box-light">
-            <h1>
-                <?= $card_name ?> Variants
-            </h1>
+        <h1><?= $card_name ?> Variants</h1>
     </div>
     <div class="box-row box-container">
 <?php
@@ -120,52 +118,53 @@ if ($card["normal_price"] == 0) {
         </div>
 
         <div class="box-row item-set"><?= $card["set_name"] ?></div>
+
         <div class="box-row">
-            <?php if (isset($card_back)): ?>
-                <div class="box-card-small">
-                    <div class="box-card-flip">
-                        <div class="box-card-front">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                            </a>
-                        </div>
-                        <div class="box-card-back">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <?php else: ?>
-                <div class="box-card-small">
+<?php if (isset($card_back)): ?>
+            <div class="box-card-small">
+                <div class="box-card-flip">
+                    <div class="box-card-front">
                         <a href="<?= $card_page ?>">
                             <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
                         </a>
                     </div>
-                    <?php endif; ?>
+                    <div class="box-card-back">
+                        <a href="<?= $card_page ?>">
+                            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
+                        </a>
+                    </div>
                 </div>
+            </div>
+<?php else: ?>
+            <div class="box-card-small">
+                <a href="<?= $card_page ?>">
+                    <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
+                </a>
+            </div>
+<?php endif; ?>
         </div>
-        <?php endforeach; ?>
-        <?php if ($card_amount == 0): ?>
+    </div>
+<?php endforeach; ?>
+<?php if ($card_amount == 0): ?>
             <div class="center-img box-row box-card-small">
         <img src="/img/no_cards_found.png" alt="no cards found">
         </div>
-        <?php endif; ?>
-    </div>
+<?php endif; ?>
 </div>
 
+<?php if ($card_amount > $cards_per_page): ?>
 <div class="pageinator">
-    <?php if ($page > 2): ?>
-        <a class="first-page" href="/shop?page=1";>
-            <i class="fa-solid fa-chevron-left"></i>
-            <i class="fa-solid fa-chevron-left"></i>
-        </a>
-        <?php endif; ?>
-        <?php if ($page > 1): ?>
-            <a href="/shop?page=<?= $page - 1 ?>">
-                <i class="fa-solid fa-chevron-left"></i>
-            </a>
-            <?php endif; ?>
+<?php if ($page > 2): ?>
+    <a class="first-page" href="/shop?page=1";>
+        <i class="fa-solid fa-chevron-left"></i>
+        <i class="fa-solid fa-chevron-left"></i>
+    </a>
+<?php endif; ?>
+<?php if ($page > 1): ?>
+    <a href="/shop?page=<?= $page - 1 ?>">
+        <i class="fa-solid fa-chevron-left"></i>
+    </a>
+<?php endif; ?>
 <?php
 function window($page, $last_page) {
     if ($page < 4) {
@@ -203,19 +202,9 @@ foreach (window($page, $last_page) as $page_ref) {
     </a>
 <?php endif; ?>
 </div>
+<?php endif; ?>
 
 <?php include_once "footer.php"; ?>
-
-    <script>
-        function collapse() {
-            if (document.getElementById('search_bar').classList == "collapsible-row form") {
-                document.getElementById('search_bar').setAttribute("class", "collapsed-row");
-            }
-            else {
-                document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
-            }
-        }
-    </script>
 
 </body>
 

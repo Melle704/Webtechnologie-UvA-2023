@@ -1,4 +1,5 @@
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
 

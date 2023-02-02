@@ -555,6 +555,7 @@ foreach ($cards as $card):
 <?php endif; ?>
 </div>
 
+<?php if ($card_amount > $cards_per_page): ?>
 <div class="pageinator">
 <?php if ($page > 2): ?>
     <a class="first-page" href="/shop?page=1";>
@@ -604,16 +605,17 @@ foreach ($cards as $card):
     </a>
 <?php endif; ?>
 </div>
+<?php endif; ?>
 
 <script>
-    function collapse() {
-        if (document.getElementById('search_bar').classList == "collapsible-row form") {
-            document.getElementById('search_bar').setAttribute("class", "collapsed-row");
-        }
-        else {
-            document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
-        }
+function collapse() {
+    if (document.getElementById('search_bar').classList == "collapsible-row form") {
+        document.getElementById('search_bar').setAttribute("class", "collapsed-row");
     }
+    else {
+        document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
+    }
+}
 </script>
 
 <?php include_once "footer.php"; ?>

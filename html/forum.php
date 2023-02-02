@@ -1,9 +1,9 @@
 <?php
 
-session_start();
-
 include_once "include/common.php";
 include_once "include/db.php";
+
+session_start();
 
 // Ensure you can't reach the forum page if you're not logged in.
 if (!isset($_SESSION["id"])) {

@@ -83,6 +83,10 @@ tr:nth-child(even) {
     text-align: left;
 }
 
+.collapsible-button:hover {
+    cursor: pointer;
+}
+
 .version-button {
     font-size: medium;
     text-align: center;

@@ -111,7 +111,7 @@ $card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 $card_name = str_replace(" ", "_", $card["name"]);
-$card_versions = "/card_versions.php?name={$card_name}";
+$card_versions = "/card_versions?name={$card_name}";
 
 if ($card["normal_price"] == 0) {
     $card_price = "--";
