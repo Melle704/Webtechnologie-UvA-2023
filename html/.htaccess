@@ -13,5 +13,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
 # Return a 404 on accessing any .php pages
-RewriteCond %{THE_REQUEST} "^[^ ]*.*?\.php[? ].*$"
-RewriteRule .* - [L,R=404]
+# RewriteCond %{THE_REQUEST} "^[^ ]*.*?\.php[? ].*$"
+# RewriteRule .* - [L,R=404]

@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <script type="text/javascript" src="/js/ShowPassword.js"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 
 <body>
@@ -47,6 +48,16 @@
                     <input type="checkbox" onclick="ShowPassword()">
                     Display password characters entered
                 </label>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    Verify your humanity
+                </legend>
+                <div
+                    class="h-captcha"
+                    data-theme="dark"
+                    data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                </div>
             </fieldset>
             <input type="checkbox" name="stay_logged" value="1" tabindex="3">
             Remain logged in for the remainder of the session

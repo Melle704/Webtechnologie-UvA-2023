@@ -137,3 +137,5 @@ if ($_GET["action"] == "desc") {
 
     update_user_desc($db, $_SESSION["id"], $profile_desc);
 }
+
+http_response_code(500);

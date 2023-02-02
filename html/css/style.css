@@ -1,3 +1,7 @@
+:root {
+    color-scheme: dark
+}
+
 * {
     color: #CECECE;
     box-sizing: border-box;
@@ -309,7 +313,6 @@ textarea:focus {
     height: 100%;
     border: 2px solid #373737;
     background-color: #202020;
-    color-scheme: dark;
 
     overflow-y: auto;
     overflow-x: hidden;

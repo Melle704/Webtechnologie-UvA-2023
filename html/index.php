@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +15,6 @@
 <?php include_once "header.php";?>
 
 <?php if (isset($_SESSION["id"])): ?>
-
 <div class="box">
     <div class="box-row box-light">
         <b>Chatbox</b>
@@ -34,7 +31,6 @@
 <?php endif; ?>
 
 <?php if (!isset($_SESSION["id"])): ?>
-
 <div class="box">
     <div class="box-row box-light">
         <b>Welcome</b>
@@ -175,7 +171,7 @@ message_box.addEventListener("keydown", async function(keypress) {
     if (keypress.code == "Enter" && message_box.value != "") {
         // send message to server
         let id = await checked_fetch("/broadcast_message?action=send", {
-            method: "POST",
+            method: "post",
             body: message_box.value,
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
         });

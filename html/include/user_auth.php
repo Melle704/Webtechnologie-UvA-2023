@@ -10,9 +10,37 @@ if (isset($_SESSION["id"])) {
     exit;
 }
 
-// ensure it's form submissions
-if (!isset($_POST["submit"])) {
+// continue if it's a valid form submissions
+if (!isset($_POST["submit"]) || !isset($_POST["h-captcha-response"])) {
     return;
+}
+
+// ensure hcaptcha was sucessful
+if ($_GET["action"] == "register" || $_GET["action"] == "login") {
+    $hcaptcha_query = array(
+        "secret" => "0x0000000000000000000000000000000000000000",
+        "response" => $_POST["h-captcha-response"],
+        "remoteip" => $_SERVER["REMOTE_ADDR"]
+    );
+
+    $request = curl_init();
+    curl_setopt($request, CURLOPT_POST, true);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($request, CURLOPT_URL, "https://hcaptcha.com/siteverify");
+    curl_setopt($request, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_query));
+    $response = curl_exec($request);
+
+    if (curl_getinfo($request, CURLINFO_HTTP_CODE) != 200) {
+        curl_close($request);
+        reload_err("Failed to complete a valid captcha");
+    }
+
+    if (!json_decode($response, true)["success"]) {
+        curl_close($request);
+        reload_err("Failed to complete a valid captcha");
+    }
+
+    curl_close($request);
 }
 
 // handle register button submit from `/register`
@@ -122,3 +150,5 @@ if ($_GET["action"] == "login") {
     header("Refresh: 2; url=/");
     exit;
 }
+
+http_response_code(500);
