@@ -4,7 +4,7 @@ session_start();
 
 // Ensure you can't reach the post page if you're not logged in.
 if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
@@ -15,7 +15,7 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     include_once "include/redirect.php";
 
     // Wait two seconds before refreshing.
-    header("Refresh: 2; url=/forum.php");
+    header("Refresh: 2; url=/forum");
     exit;
 }
 
@@ -46,15 +46,17 @@ if (isset($_POST["submit"])) {
     $text = htmlspecialchars(trim($_POST["text"]));
 
     // Verify if the message is the correct size.
-    validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 1]);
-    validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
+    validate_predicates(
+        ["Messages should be of at least 2 characters", strlen($text) >= 1],
+        ["Messages should not exceed 4096 characters", strlen($text) < 4096]
+    );
 
     // Add the comment into the sql database.
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
 
     // Add 1 to the comment count of the thread.
-    $sql = "UPDATE forum_threads SET comments = comments + 1 WHERE id = ?";
+    $sql = "UPDATE forum_threads SET comments=comments + 1 WHERE id=?";
     query_execute($db, $sql, "i", $thread_id);
 
     header("Location: " . $_SERVER["REQUEST_URI"]);
@@ -90,7 +92,6 @@ $user = query_execute_unsafe($db, "SELECT * FROM users WHERE id='".$thread["user
 $sql = "SELECT * FROM forum_posts WHERE thread_id=$thread_id ORDER BY date LIMIT 50";
 $posts = query_execute_unsafe($db, $sql);
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -104,6 +105,15 @@ $posts = query_execute_unsafe($db, $sql);
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/forum.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <script>
+// update's textarea size on text input
+function grow_box(self) {
+    if (self.scrollHeight > 84) {
+        self.style.height = "99px";
+        self.style.height = (self.scrollHeight + 4) + "px";
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -135,39 +145,41 @@ $posts = query_execute_unsafe($db, $sql);
         $profile_pic_type = "image/png";
     }
 ?>
+
 <div class="box">
     <div class="comment-header box-row">
-        <a href="/profile.php?id=<?= $post_user_id ?>" class="username">
-            <?= $post_user["uname"] ?>
-        </a>
+        <a href="/profile?id=<?= $post_user_id ?>" class="username"><?= $post_user["uname"] ?></a>
         <span class="comment-timestamp">
             <?= format_datetime($post["date"]) ?>
-            <?php if($is_admin): ?>
+<?php if($is_admin): ?>
             <form method="post" class="form" style="display: inline;">
                 <input type="hidden" name="id" value="<?= $post["id"] ?>">
                 <input type="submit" name="remove-post" value="Remove comment">
             </form>
-            <?php endif; ?>
+<?php endif; ?>
         </span>
     </div>
-    <div class="box-row">
+    <div class="box-row post">
         <div class="profile-pic">
             <a href="/profile?id=<?= $post_user_id ?>">
                 <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
             </a>
         </div>
-        <div class="box-row box-light comment-content">
-            <?= $post["text"] ?>
-        </div>
+        <div class="box-row box-light comment-content"><?= $post["text"] ?></div>
     </div>
 </div>
 <?php endforeach ?>
-
 <?php include_once "include/errors.php";?>
 
 <div class="box box-row">
-    <form class="form" action="/post.php?id=<?= $thread_id ?>" method="post">
-        <textarea id="usermessage" name="text" style="margin-top: 0;"></textarea>
+    <form class="form" action="/post?id=<?= $thread_id ?>" method="post">
+        <textarea
+            name="text"
+            class="textarea-content"
+            maxlength="10000"
+            oninput="grow_box(this)"
+            placeholder="Write a message!"
+        ></textarea>
         <input type="submit" name="submit" value="Add comment">
     </form>
 </div>
@@ -175,9 +187,8 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "footer.php"; ?>
 
 </body>
-
-<!-- Scroll down to bottom of page if we have an error. -->
 <?php if (isset($_GET["error"])): ?>
+<!-- Scroll down to bottom of page if we have an error. -->
 <script>
     let body_height = document.scrollingElement.scrollHeight;
     document.scrollingElement.scrollTo({ top: body_height })

@@ -11,8 +11,9 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script type="text/javascript" src="/js/MatchPassword.js"></script>
-    <script type="text/javascript" src="/js/ShowPassword.js"></script>
+    <script type="text/javascript" src="/js/match_password.js"></script>
+    <script type="text/javascript" src="/js/show_password.js"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 
 <body>
@@ -25,7 +26,7 @@
     </div>
 
     <div class="box-row form">
-        <form action="/register.php?action=register" method="post">
+        <form action="/register?action=register" method="post">
             <fieldset>
                 <legend>
                     Enter your preferred username.
@@ -51,7 +52,7 @@
                     <b class="password-match" id="message"></b>
                 </label>
                 <label class="form-after">
-                    <input type="checkbox" onclick="ShowPassword()">
+                    <input type="checkbox" onclick="show_password()">
                     Display password characters entered
                 </label>
             </fieldset>
@@ -124,7 +125,19 @@
                     <input name="year" placeholder="year" size="4" maxlength="4">
                 </label>
             </fieldset>
-            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>.
+            <fieldset>
+                <legend>
+                    Verify your humanity
+                </legend>
+                <div class="hcaptcha">
+                    <div
+                        class="h-captcha"
+                        data-theme="dark"
+                        data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                    </div>
+                </div>
+            </fieldset>
+            By registering, you agree to accept our <a href="/cookies">cookie policy</a>.
             <br>
             <br>
             <input type="submit" name="submit" value="Register">

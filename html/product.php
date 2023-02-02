@@ -70,7 +70,8 @@ if (count($suggested_cards) < 3) {
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
-        header("Location: /shop.php");
+        header("Location: /shop");
+        exit;
     }
 }
 
@@ -100,6 +101,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     }
 
     header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+    exit;
+}
+
+$formats = array("standard", "pioneer", "modern", "legacy", "vintage", "pauper", "commander");
+
+$card_front = $card["image"] ? $card["image"] : "/img/no_image_available.png";
+$card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card.webp";
+$card_price = $card["normal_price"];
+$foil_price = $card["foil_price"];
+$card_name = str_replace(" ", "_", $card["name"]);
+$card_versions = "/card_versions?name={$card_name}";
+
+if ($card["normal_price"] == 0) {
+    $card_price = "--";
+}
+
+if ($card["foil_price"] == 0) {
+    $foil_price = "--";
+}
+
+$legal_cards = "";
+$counter = 0;
+foreach ($formats as $format) {
+    if ($card["{$format}_legal"] == "legal") {
+        if ($counter != 0) {
+            $legal_cards .= " - ";
+        }
+        $legal_cards .= $format;
+        $counter++;
+    }
 }
 
 $formats = array("standard", "pioneer", "modern", "legacy",
@@ -137,7 +168,6 @@ if ($card["foil_price"] == 0) {
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/shop.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -147,105 +177,80 @@ if ($card["foil_price"] == 0) {
 
 <div class="box">
     <div class="box-row box-light">
-        <h1>
-            <?= $card["name"] ?>
-        </h1>
+        <h1><?= $card["name"] ?></h1>
     </div>
-    <div class="box-row">
-    <br>
-        <div class="left-column">
-            <?php if (isset($card_back)): ?>
-                <div class="box-card-large">
-                    <div class="box-card-flip">
-                        <div class="box-card-front">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                            </a>
+    <div class="box-row" style="margin-top: 1%">
+        <div class="product-column">
+            <div class="left-product-column">
+                <div class="card-window">
+                    <div class="floating-card">
+                        <div class="card-face">
+                            <img draggable="false" src="<?= $card_front ?>"></img>
                         </div>
-                        <div class="box-card-back">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
-                            </a>
+                        <div class="card-face">
+                            <img draggable="false" src="<?= $card_back ?>"></img>
                         </div>
+                        <div class="card-face"></div>
+                        <div class="card-face"></div>
+                        <div class="card-face"></div>
+                        <div class="card-face"></div>
                     </div>
                 </div>
-            <?php else: ?>
-                <div class="box-card-large">
-                    <a href="<?= $card_page ?>">
-                        <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                    </a>
+                <div class="version-button">
+                    <a href="<?= $card_versions ?>">all variations</a>
                 </div>
-            <?php endif; ?>
-            <a href="<?= $card_versions ?>">
-                <button class="version-button">All variations</button>
-            </a>
-        </div>
-        <div class="right-column">
-            <div id="product-info">
-                <table class="info-table">
-                <?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
-                <tr>
-                    <th>Mana cost</th>
-                    <th><?= $card["mana_cost"] ?></th>
-                </tr>
-                <?php endif ?>
-                <tr>
-                    <th>Type line</th>
-                    <th><?= $card["type_line"] ?></th>
-                </tr>
-                <?php if (isset($card["oracle_text"])): ?>
-                <tr>
-                    <th>Oracle text</th>
-                    <th><?= nl2br($card["oracle_text"]) ?></th>
-                </tr>
-                <?php endif ?>
-                <?php if (isset($card["flavor_text"])): ?>
-                <tr>
-                    <th>Flavor text</th>
-                    <th><?= nl2br($card["flavor_text"]) ?></th>
-                </tr>
-                <?php endif ?>
-                <?php if (isset($card["power"])): ?>
-                <tr>
-                    <th>Power/Toughness</th>
-                    <th><?= $card["power"] ?>/<?= $card["toughness"] ?></th>
-                </tr>
-                <?php endif ?>
-                <?php if (isset($card["loyalty"])): ?>
-                    <tr>
-                        <th>Loyalty</th>
-                        <th><?= $card["loyalty"] ?></th>
-                    </tr>
-                    <?php endif ?>
-                    <tr>
-
-                        <th>Legal in</th>
-                        <th>
-                            <?php
-                            $counter = 0;
-                            foreach ($formats as $format) {
-                                if ($card["{$format}_legal"] == "legal") {
-                                    if ($counter != 0) {
-                                        echo " - ";
-                                    }
-                                    echo $format;
-                                    $counter++;
-                                }
-                            }
-                            ?>
-                        </th>
-                    </tr>
-                <tr>
-                    <th>Set</th>
-                    <th><?= $card["set_name"] ?></th>
-                </tr>
-                <tr>
-                    <th>Artist</th>
-                    <th><?= $card["artist"] ?></th>
-                </tr>
-            </table>
-        </div>
-            <div id="product-purchase">
+            </div>
+            <div class="flex-break"></div>
+            <div class="right-product-column">
+                <div id="product-info">
+                    <table class="info-table">
+<?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
+                        <tr>
+                            <th>mana cost</th>
+                            <th><?= $card["mana_cost"] ?></th>
+                        </tr>
+<?php endif ?>
+                        <tr>
+                            <th>type line</th>
+                            <th><?= $card["type_line"] ?></th>
+                        </tr>
+<?php if (isset($card["oracle_text"])): ?>
+                        <tr>
+                            <th>oracle text</th>
+                            <th><?= nl2br($card["oracle_text"]) ?></th>
+                        </tr>
+<?php endif ?>
+<?php if (isset($card["flavor_text"])): ?>
+                        <tr>
+                            <th>flavor text</th>
+                            <th><?= nl2br($card["flavor_text"]) ?></th>
+                        </tr>
+<?php endif ?>
+<?php if (isset($card["power"])): ?>
+                        <tr>
+                            <th>power/toughness</th>
+                            <th><?= $card["power"] ?>/<?= $card["toughness"] ?></th>
+                        </tr>
+<?php endif ?>
+<?php if (isset($card["loyalty"])): ?>
+                            <tr>
+                                <th>loyalty</th>
+                                <th><?= $card["loyalty"] ?></th>
+                            </tr>
+<?php endif ?>
+                        <tr>
+                            <th>legal in</th>
+                            <th><?= $legal_cards ?></th>
+                        </tr>
+                            <th>set</th>
+                            <th><?= $card["set_name"] ?></th>
+                        </tr>
+                        <tr>
+                            <th>artist</th>
+                            <th><?= $card["artist"] ?></th>
+                        </tr>
+                    </table>
+                </div>
                 <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
                     <fieldset>
                         <legend>
@@ -254,7 +259,7 @@ if ($card["foil_price"] == 0) {
                         <span>Normal price: <?= format_eur($card_price) ?></span>
                         <span>Foil price: <?= format_eur($foil_price) ?></span>
                         <br>
-                        <?php if (isset($_SESSION["id"])): ?>
+<?php if (isset($_SESSION["id"])): ?>
                         <label>
                             <b>Amount</b>
                             <input type="number" name="amount" value="1" min="1" max="50">
@@ -265,9 +270,9 @@ if ($card["foil_price"] == 0) {
                         </label>
                         <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                         <input id="cart-submit" type="submit" value="Add to cart">
-                        <?php else: ?>
+<?php else: ?>
                         Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
-                        <?php endif; ?>
+<?php endif; ?>
                     </fieldset>
                 </form>
             </div>
@@ -275,54 +280,51 @@ if ($card["foil_price"] == 0) {
     </div>
 </div>
 
-
 <div class="box">
     <div class="box-row box-light">
         <b>Similar cards</b>
     </div>
     <div class="box-row popular-cards">
-        <?php
-        foreach ($suggested_cards as $suggest_card):
-            $card_front = $suggest_card["image"];
-            $card_back = $suggest_card["back_image"];
-            $card_page = "/product.php?id=" . $suggest_card["id"];
-
-            if (!$card_front) {
-                $card_front = "/img/no_image_available.png";
-            }
-        ?>
-        <?php if (isset($card_back)): ?>
-                <div class="box-card-small">
-                    <div class="box-card-flip">
-                        <div class="box-card-front">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_front ?>" alt="<?= $suggest_card["name"] ?>">
-                            </a>
-                        </div>
-                        <div class="box-card-back">
-                            <a href="<?= $card_page ?>">
-                                <img src="<?= $card_back ?>" alt="<?= $suggest_card["name"] ?>">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-        <?php else: ?>
-                <div class="box-card-small">
+<?php
+foreach ($suggested_cards as $suggest_card):
+    $card_front = $suggest_card["image"] ? $suggest_card["image"] : "/img/no_image_available.png";
+    $card_back = $suggest_card["back_image"];
+    $card_page = "/product.php?id=" . $suggest_card["id"];
+?>
+<?php if (isset($card_back)): ?>
+        <div class="box-card-small">
+            <div class="box-card-flip">
+                <div class="box-card-front">
                     <a href="<?= $card_page ?>">
                         <img src="<?= $card_front ?>" alt="<?= $suggest_card["name"] ?>">
                     </a>
                 </div>
-        <?php endif; ?>
-        <?php endforeach ?>
-        <?php if ($suggested_cards == NULL): ?>
-            <div class="box-card-small">
-                <img src="/img/no_cards_found.png" alt="no cards found">
+                <div class="box-card-back">
+                    <a href="<?= $card_page ?>">
+                        <img src="<?= $card_back ?>" alt="<?= $suggest_card["name"] ?>">
+                    </a>
+                </div>
             </div>
-        <?php endif; ?>
+        </div>
+<?php else: ?>
+        <div class="box-card-small">
+            <a href="<?= $card_page ?>">
+                <img src="<?= $card_front ?>" alt="<?= $suggest_card["name"] ?>">
+            </a>
+        </div>
+<?php endif; ?>
+<?php endforeach ?>
+<?php if (!$suggested_cards): ?>
+        <div class="box-card-small">
+            <img src="/img/no_cards_found.png" alt="no cards found">
+        </div>
+<?php endif; ?>
     </div>
 </div>
 
 <?php include_once "footer.php"; ?>
+
+<script type="text/javascript" src="/js/card_display.js"></script>
 
 </body>
 

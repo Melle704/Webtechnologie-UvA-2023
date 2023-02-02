@@ -11,6 +11,10 @@ input {
     vertical-align: middle;
 }
 
+.textarea-title, .textarea-content {
+    padding: 4px;
+}
+
 .textarea-title {
     height: 25px;
     margin-bottom: 5px;
@@ -40,6 +44,12 @@ input {
     color: white;
 }
 
+.post {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+}
+
 .post-timestamp {
     margin-top: 5px;
     padding-right: 10px;
@@ -48,6 +58,11 @@ input {
 .post-content, .comment-content {
     font-size: 14px;
     word-wrap: break-word;
+}
+
+.comment-content {
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .comment-timestamp {

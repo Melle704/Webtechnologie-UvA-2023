@@ -8,5 +8,5 @@ session_start();
 session_destroy();
 
 // wait two seconds before refreshing
-header("Refresh: 2; url=/index.php");
+header("Refresh: 2; url=/");
 exit;

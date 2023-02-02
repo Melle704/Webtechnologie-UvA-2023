@@ -7,7 +7,7 @@ session_start();
 
 // ensure you can't reach the profile page if you're not logged in
 if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
@@ -20,7 +20,7 @@ if ($_SESSION["id"] != $_GET["id"]) {
         include_once "redirect.php";
 
         // wait two seconds before refreshing
-        header("Refresh: 2; url=/index.php");
+        header("Refresh: 2; url=/");
         exit;
     }
 }
@@ -34,7 +34,7 @@ if (!$user) {
     include_once "redirect.php";
 
     // wait two seconds before refreshing
-    header("Refresh: 2; url=/index.php");
+    header("Refresh: 2; url=/");
     exit;
 }
 
@@ -137,3 +137,5 @@ if ($_GET["action"] == "desc") {
 
     update_user_desc($db, $_SESSION["id"], $profile_desc);
 }
+
+http_response_code(500);

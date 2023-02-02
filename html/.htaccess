@@ -1,0 +1,17 @@
+# Rick roll on 404's and 403's
+ErrorDocument 404 https://www.youtube.com/watch?v=dQw4w9WgXcQ
+ErrorDocument 403 https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+# Disable showing structure of /var/www folder
+Options -Indexes
+
+# Any ability to 'redirect'
+ReWriteEngine on
+
+# Redirect /page to /page.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Return a 404 on accessing any .php pages
+# RewriteCond %{THE_REQUEST} "^[^ ]*.*?\.php[? ].*$"
+# RewriteRule .* - [L,R=404]

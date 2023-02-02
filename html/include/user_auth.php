@@ -1,21 +1,50 @@
 <?php
 
 include_once "common.php";
+include_once "messaging.php";
 
 session_start();
 
 // ensure you can't reach the registration or login page if you're logged in
 if (isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
-// ensure it's form submissions
-if (!isset($_POST["submit"])) {
+// continue if it's a valid form submissions
+if (!isset($_POST["submit"]) || !isset($_POST["h-captcha-response"])) {
     return;
 }
 
-// handle register button submit from `register.php`
+// ensure hcaptcha was sucessful
+if ($_GET["action"] == "register" || $_GET["action"] == "login") {
+    $hcaptcha_query = array(
+        "secret" => "0x0000000000000000000000000000000000000000",
+        "response" => $_POST["h-captcha-response"],
+        "remoteip" => $_SERVER["REMOTE_ADDR"]
+    );
+
+    $request = curl_init();
+    curl_setopt($request, CURLOPT_POST, true);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($request, CURLOPT_URL, "https://hcaptcha.com/siteverify");
+    curl_setopt($request, CURLOPT_POSTFIELDS, http_build_query($hcaptcha_query));
+    $response = curl_exec($request);
+
+    if (curl_getinfo($request, CURLINFO_HTTP_CODE) != 200) {
+        curl_close($request);
+        reload_err("Failed to complete a valid captcha");
+    }
+
+    if (!json_decode($response, true)["success"]) {
+        curl_close($request);
+        reload_err("Failed to complete a valid captcha");
+    }
+
+    curl_close($request);
+}
+
+// handle register button submit from `/register`
 if ($_GET["action"] == "register") {
     $username = trim($_POST["uname"]);
     $passwd1 = trim($_POST["passwd1"]);
@@ -53,29 +82,22 @@ if ($_GET["action"] == "register") {
         ["User '$username' already exists", !find_user($db, $username)]
     );
 
-    user_create($db, $username, $email, "$year-$month-$day", $passwd1);
-    $user = find_user($db, $username);
+    $charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $verification_code = substr(str_shuffle($charset), 0, 22);
 
-    $_SESSION["id"] = $user["id"];
-    $_SESSION["uname"] = $user["uname"];
-    $_SESSION["stay_logged"] = isset($_POST["stay_logged"]) ? $_POST["stay_logged"] == "1" : false;
-    $_SESSION["role"] = isset($user["role"]) ? $user["role"] : "default";
-
-    $now = time();
-    $_SESSION["last_activity"] = new DateTime("@$now");
-
-    logout_user_on_inactivity($db, $user["id"]);
+    user_create($db, $username, $email, "$year-$month-$day", $passwd1, $verification_code);
+    send_confirmation_email($email, $username, $verification_code);
 
     $redirect_title="Registering";
-    $redirect_msg="You are being registered.";
+    $redirect_msg="You are being registered.<br>Make sure to check your email for a confirmation message.";
     include_once "redirect.php";
 
-    // wait two seconds before refreshing
-    header("Refresh: 2; url=/index.php");
+    // wait four seconds before refreshing
+    header("Refresh: 4; url=/");
     exit;
 }
 
-// handle login button submit from `login.php`
+// handle login button submit from `/login`
 if ($_GET["action"] == "login") {
     $username = trim($_POST["uname"]);
     $passwd = trim($_POST["passwd"]);
@@ -96,13 +118,10 @@ if ($_GET["action"] == "login") {
 
     $user = find_user($db, $username);
 
-    if (!$user) {
-        reload_err("Incorrect username and/or password");
-    }
-
-    if (!password_verify($passwd, $user["passwd"])) {
-        reload_err("Incorrect username and/or password");
-    }
+    validate_predicates(
+        ["Incorrect username and/or password", $user && password_verify($passwd, $user["passwd"])],
+        ["Check '" . $user["email"] . "' for your account registration email", $user["email_verified"]]
+    );
 
     $_SESSION["id"] = $user["id"];
     $_SESSION["uname"] = $user["uname"];
@@ -119,6 +138,8 @@ if ($_GET["action"] == "login") {
     include_once "redirect.php";
 
     // wait two seconds before refreshing
-    header("Refresh: 2; url=/index.php");
+    header("Refresh: 2; url=/");
     exit;
 }
+
+http_response_code(500);

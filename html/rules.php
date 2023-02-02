@@ -14,11 +14,11 @@
 <body>
     <?php include_once "header.php";?>
 
-    <div class="box">
+    <div class="box bullets">
         <div class="box-row box-light">
             <b>Our rules</b>
         </div>
-        <ol type="1">
+        <ol>
             <li>Be respectfull to eachother, our forum is a place of community, not a place of hate.</li>
             <li>No ban evasion, spamming or fraud.</li>
             <li>Respect the privacy of other users. No posting of personal information without consent.</li>

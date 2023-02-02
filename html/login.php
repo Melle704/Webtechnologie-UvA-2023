@@ -11,7 +11,8 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script type="text/javascript" src="/js/ShowPassword.js"></script>
+    <script type="text/javascript" src="/js/show_password.js"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 
 <body>
@@ -25,7 +26,7 @@
         <b>Login</b>
     </div>
     <div class="box-row form">
-        <form action="/login.php?action=login" method="post">
+        <form action="/login?action=login" method="post">
             <fieldset>
                 <b>Username</b>
                 <label>
@@ -38,9 +39,21 @@
                     <input type="password" name="passwd" id="password1" size="18" maxlength="500">
                 </label>
                 <label class="form-after">
-                    <input type="checkbox" onclick="ShowPassword()">
+                    <input type="checkbox" onclick="show_password()">
                     Display password characters entered
                 </label>
+            </fieldset>
+            <fieldset>
+                <legend>
+                    Verify your humanity
+                </legend>
+                <div class="hcaptcha">
+                    <div
+                        class="h-captcha"
+                        data-theme="dark"
+                        data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                    </div>
+                </div>
             </fieldset>
             <input type="checkbox" name="stay_logged" value="1" tabindex="3">
             Remain logged in for the remainder of the session

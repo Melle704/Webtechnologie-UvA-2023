@@ -19,7 +19,7 @@
     <div class="box-row box-light">
         <b>Cookie policy</b>
     </div>
-    <div class="box-row">
+    <div class="box-row bullets">
         <ul>
             <li>We use cookies on our website. By registering you consent to our use of cookies in accordance with our terms of policy.</li>
             <li>We only use session cookies on our website. We use these cookies to recognise your computer when you visit our website, in order to recognise whether you are logged in or not.</li>
