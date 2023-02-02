@@ -9,9 +9,9 @@
     <title>MTG | Deck building</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/profile.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/form.css">
 </head>
 
 <body>
@@ -103,8 +103,8 @@ file_input.addEventListener("change", function() {
 // update's textarea size on text input
 function grow_box(self) {
     if (self.scrollHeight > 84) {
-        self.style.height = "32px";
-        self.style.height = (self.scrollHeight)+"px";
+        self.style.height = "36px";
+        self.style.height = (self.scrollHeight + 4) + "px";
     }
 }
 </script>

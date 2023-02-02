@@ -40,7 +40,7 @@
         <b>Welcome</b>
     </div>
     <div class="box-row">
-        <p>Ensure you thoroughly read the <a href="/rules.php">rules</a> before proceeding.</p>
+        <p>Ensure you thoroughly read the <a href="/rules">rules</a> before proceeding.</p>
         <p>There will be a deck builder (hopefully), a forum (soon) and more potentially.</p>
         <p>Please be patient as we try to improve the current site.</p>
         <br>
@@ -71,7 +71,7 @@ $cards = query_execute_unsafe($db, $sql);
 foreach ($cards as $card):
     $card_front = $card["image"];
     $card_back = $card["back_image"];
-    $card_page = "/product.php?id=" . $card["id"];
+    $card_page = "/product?id=" . $card["id"];
 
     if (!$card_front) {
         $card_front = "/img/no_image_available.png";
@@ -118,7 +118,7 @@ foreach ($cards as $card):
     $now = new DateTime("@$now");
 
     while ($row = mysqli_fetch_array($query)) {
-        $tag = 'href="/profile.php?id=' . $row["id"] . '">' . $row["uname"] . '</a>';
+        $tag = 'href="/profile?id=' . $row["id"] . '">' . $row["uname"] . '</a>';
 
         // TODO: different display for admins
         if (isset($row["role"]) && $row["role"] == "admin") {
@@ -167,14 +167,14 @@ let handled_messages = new Set();
 
 // reset queue of new messages and request message log
 (async function() {
-    await checked_fetch("/broadcast_message.php?action=reset");
+    await checked_fetch("/broadcast_message?action=reset");
     await request_messages();
 })();
 
 message_box.addEventListener("keydown", async function(keypress) {
     if (keypress.code == "Enter" && message_box.value != "") {
         // send message to server
-        let id = await checked_fetch("/broadcast_message.php?action=send", {
+        let id = await checked_fetch("/broadcast_message?action=send", {
             method: "POST",
             body: message_box.value,
             headers: { "Content-Type": "text/plain; charset=UTF-8" }
@@ -206,7 +206,7 @@ message_box.addEventListener("keydown", async function(keypress) {
 });
 
 async function request_messages() {
-    let messages = await checked_fetch_json("/broadcast_message.php?action=receive");
+    let messages = await checked_fetch_json("/broadcast_message?action=receive");
 
     messages.forEach(message => {
         // remove handled messages as they've now been acknowledged
@@ -236,7 +236,7 @@ async function checked_fetch(resource, options = {}) {
         return await request.text();
     }
 
-    window.location.replace("/index.php");
+    window.location.replace("/index");
 }
 
 async function checked_fetch_json(resource, options = {}) {
@@ -252,7 +252,7 @@ async function checked_fetch_json(resource, options = {}) {
         return await request.json();
     }
 
-    window.location.replace("/index.php");
+    window.location.replace("/index");
 }
 </script>
 <?php endif; ?>

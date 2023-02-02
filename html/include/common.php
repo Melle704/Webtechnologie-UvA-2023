@@ -114,7 +114,7 @@ function logout_user_on_inactivity($db) {
     // logout user after 10 minutes of inactivity
     if ($mins_logged_in >= 10 && !$_SESSION["stay_logged"]) {
         session_destroy();
-        header("Location: /index.php");
+        header("Location: /");
         exit;
     }
 

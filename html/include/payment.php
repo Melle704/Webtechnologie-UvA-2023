@@ -16,9 +16,9 @@ function make_payment($price) {
     $data = [
         'amount' => ['currency' => 'EUR', 'value' => $price_str],
         'description' => 'Test payment',
-        'redirectUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=success',
-        'cancelUrl' => 'https://webtech-in21.webtech-uva.nl/purchase.php?result=canceled',
-        'webhookUrl' => 'https://webtech-in21.webtech-uva.nl/mollie_webhook.php',
+        'redirectUrl' => 'https://webtech-in21.webtech-uva.nl/purchase?result=success',
+        'cancelUrl' => 'https://webtech-in21.webtech-uva.nl/purchase?result=canceled',
+        'webhookUrl' => 'https://webtech-in21.webtech-uva.nl/mollie_webhook',
         'method' => 'ideal'
     ];
 

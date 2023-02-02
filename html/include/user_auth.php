@@ -6,7 +6,7 @@ session_start();
 
 // ensure you can't reach the registration or login page if you're logged in
 if (isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
@@ -15,7 +15,7 @@ if (!isset($_POST["submit"])) {
     return;
 }
 
-// handle register button submit from `register.php`
+// handle register button submit from `/register`
 if ($_GET["action"] == "register") {
     $username = trim($_POST["uname"]);
     $passwd1 = trim($_POST["passwd1"]);
@@ -71,11 +71,11 @@ if ($_GET["action"] == "register") {
     include_once "redirect.php";
 
     // wait two seconds before refreshing
-    header("Refresh: 2; url=/index.php");
+    header("Refresh: 2; url=/");
     exit;
 }
 
-// handle login button submit from `login.php`
+// handle login button submit from `/login`
 if ($_GET["action"] == "login") {
     $username = trim($_POST["uname"]);
     $passwd = trim($_POST["passwd"]);
@@ -119,6 +119,6 @@ if ($_GET["action"] == "login") {
     include_once "redirect.php";
 
     // wait two seconds before refreshing
-    header("Refresh: 2; url=/index.php");
+    header("Refresh: 2; url=/");
     exit;
 }

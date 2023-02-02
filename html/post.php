@@ -4,7 +4,7 @@ session_start();
 
 // Ensure you can't reach the post page if you're not logged in.
 if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
@@ -15,7 +15,7 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
     include_once "include/redirect.php";
 
     // Wait two seconds before refreshing.
-    header("Refresh: 2; url=/index.php");
+    header("Refresh: 2; url=/");
     exit;
 }
 
@@ -95,7 +95,7 @@ $posts = query_execute_unsafe($db, $sql);
 ?>
 <div class="box box-row">
     <div class="profile-pic">
-        <a class="user" href="/profile.php?id=<?=$post_user_id?>">
+        <a class="user" href="/profile?id=<?=$post_user_id?>">
             <div class="username"><?= $post_user["uname"] ?></div>
         </a>
         <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
@@ -112,7 +112,7 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "include/errors.php";?>
 
 <div class="box box-row">
-    <form action="/post.php?id=<?= $thread_id ?>" method="post" id="form">
+    <form action="/post?id=<?= $thread_id ?>" method="post" id="form">
         <textarea id="usermessage" name="text" style="margin-top: 0;"></textarea>
         <input type="submit" name="submit" value="Add comment">
     </form>

@@ -5,6 +5,12 @@ err() {
   exit 1
 }
 
+echo -e "<Directory /var/www/>" >> /etc/apache2/apache2.conf
+echo -e "\tOptions Indexes FollowSymLinks" >> /etc/apache2/apache2.conf
+echo -e "\tAllowOverride All" >> /etc/apache2/apache2.conf
+echo -e "\tRequire all granted" >> /etc/apache2/apache2.conf
+echo -e "</Directory>" >> /etc/apache2/apache2.conf
+
 set -m
 /run.sh &
 

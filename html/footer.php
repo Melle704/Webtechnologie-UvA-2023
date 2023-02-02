@@ -6,9 +6,9 @@
     <b>Ceylan Siegertsz</b> and
     <b>Kas Visser</b>
     <br>
-    <a href="/about.php">About us</a>
+    <a href="/about">About us</a>
     /
-    <a href="/cookies.php">Cookie policy</a>
+    <a href="/cookies">Cookie policy</a>
     <br>
 </div>
 

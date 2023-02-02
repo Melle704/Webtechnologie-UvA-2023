@@ -1,3 +1,0 @@
-ErrorDocument 404 https://www.youtube.com/watch?v=dQw4w9WgXcQ
-ErrorDocument 403 https://www.youtube.com/watch?v=dQw4w9WgXcQ
-Options -Indexes

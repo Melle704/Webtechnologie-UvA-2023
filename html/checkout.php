@@ -1,15 +1,16 @@
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
 include_once "include/payment.php";
 
 session_start();
 
-$cart_empty = (!isset($_SESSION["cart"]) && count($_SESSION["cart"]) === 0);
+$cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
 
 // Ensure user is logged in and has items in their cart
 if (!isset($_SESSION["id"]) || $cart_empty) {
-    header("Location: index.php");
+    header("Location: /");
     exit;
 }
 
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     $mollie_id = make_payment($total);
 
     if ($mollie_id == false) {
-        header("Location: purchase.php?result=failure");
+        header("Location: /purchase?result=failure");
     }
 
     $sql = "INSERT INTO purchases (uid, mollie_id, status, name, address, postcode, city, price, time)

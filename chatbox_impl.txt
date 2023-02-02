@@ -8,14 +8,14 @@ TABLE messages [
 ]
 
 ON MESSAGE SEND (client):
-1. send POST request to `broadcast_message.php` containing the message using AJAX.
+1. send POST request to `/broadcast_message` containing the message using AJAX.
 
 ON MESSAGE SEND (server):
 1. determine whether the `PHPSESSID` cookie is set on POST request.
 2. record date and add message to `messages` table.
 
 CLIENT LOOP:
-1. send GET request to `broadcast_message.php` using AJAX.
+1. send GET request to `/broadcast_message` using AJAX.
 2. append new messages to message log.
 2. sleep for 0.5 seconds.
 3. repeat.

@@ -25,7 +25,7 @@
     </div>
 
     <div class="box-row form">
-        <form action="/register.php?action=register" method="post">
+        <form action="/register?action=register" method="post">
             <fieldset>
                 <legend>
                     A username between 1 and 25 characters (with no embedded sql code)
@@ -124,7 +124,7 @@
                     <input name="year" placeholder="year" size="4" maxlength="4">
                 </label>
             </fieldset>
-            By registering, you agree to accept our <a href="/cookies.php">cookie policy</a>.
+            By registering, you agree to accept our <a href="/cookies">cookie policy</a>.
             <br>
             <br>
             <input type="submit" name="submit" value="Register">

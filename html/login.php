@@ -25,7 +25,7 @@
         <b>Login</b>
     </div>
     <div class="box-row form">
-        <form action="/login.php?action=login" method="post">
+        <form action="/login?action=login" method="post">
             <fieldset>
                 <legend>
                     Insert your username

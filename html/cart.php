@@ -7,7 +7,7 @@ session_start();
 
 // Ensure user is logged in
 if (!isset($_SESSION["id"])) {
-    header("Location: index.php");
+    header("Location: /");
     exit;
 }
 
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($_POST["action"] == "checkout") {
         if (!$cart_empty) {
-            header("Location: checkout.php");
+            header("Location: /checkout");
         } else {
             header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
         }
@@ -110,7 +110,7 @@ if (!$cart_empty) {
                 <?php foreach($products as $product): ?>
                 <tr>
                     <td class="col-text">
-                        <a href="product.php?id=<?= $product["id"] ?>">
+                        <a href="/product?id=<?= $product["id"] ?>">
                             <?= $product["name"] ?>
                         </a>
                     </td>
@@ -135,7 +135,7 @@ if (!$cart_empty) {
                 <?php if ($cart_empty): ?>
                 <tr>
                     <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
-                        Your cart is empty, consider going to the <a href="shop.php">shop</a> to add items.
+                        Your cart is empty, consider going to the <a href="/shop">shop</a> to add items.
                     </td>
                 </tr>
                 <?php endif; ?>

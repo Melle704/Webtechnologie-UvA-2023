@@ -10,7 +10,7 @@ $card = query_execute($db, $sql, "i", $_GET["id"])[0];
 // Redirect to shop if page is reached without id
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if(!isset($_GET["id"])) {
-        header("Location: /shop.php");
+        header("Location: /shop");
     }
 }
 
@@ -103,8 +103,8 @@ if (!$card_front) {
             </div>
 <?php endif; ?>
         <div id="product-purchase">
-            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
-            <form method="post" action="/product.php?id=<?= $_GET["id"] ?>" class="form">
+            <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
+            <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
                     <legend>
                         Add item(s) to cart
@@ -124,7 +124,7 @@ if (!$card_front) {
                     <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                     <input type="submit" value="Add to cart">
                     <?php else: ?>
-                    Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
+                    Please <a href="/login">login</a> or <a href="/register">register</a> to add this item to your cart.
                     <?php endif; ?>
                 </fieldset>
             </form>

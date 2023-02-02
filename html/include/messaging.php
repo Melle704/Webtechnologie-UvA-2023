@@ -35,7 +35,7 @@ function format_message($db, $message) {
 
     // add a link to the profile's of other users
     if ($_SESSION["id"] != $message["uid"]) {
-        $s .= '<a target="_blank" href="/profile.php?id=' . $message["uid"]. '">';
+        $s .= '<a target="_blank" href="/profile?id=' . $message["uid"]. '">';
     }
 
     $s .= '<b class="message-content" id="'

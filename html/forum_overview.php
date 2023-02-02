@@ -4,7 +4,7 @@ session_start();
 
 // Ensure you can't reach the forum page if you're not logged in.
 if (!isset($_SESSION["id"])) {
-    header("Location: /index.php");
+    header("Location: /");
     exit;
 }
 
@@ -38,12 +38,12 @@ $threads = query_execute_unsafe($db, $query);
 <div class="box">
     <div class="box-row box-light" style="margin-bottom: -10px">
         <div class="post-title box-title">
-            <a href="/forum.php">Magic the Gathering forum</a>
+            <a href="/forum">Magic the Gathering forum</a>
         </div>
         <p>
             A space to ask questions and discuss Magic!
             <br>
-            <a href="forumrules.php">Forum rules</a>
+            <a href="/forumrules">Forum rules</a>
         </p>
         <div class="search-sort">
             <input type="text" id="search-input">
@@ -83,7 +83,7 @@ $threads = query_execute_unsafe($db, $query);
             $comment_count = $thread["comments"];
         ?>
         <div class="preview-box">
-            <a href="/post.php?id=<?= $thread_id ?>">
+            <a href="/post?id=<?= $thread_id ?>">
                 <div class="preview-title"><b><?= $thread["title"] ?></b></div>
                 <div class="bottom-text">
                     <p class="post-timestamp"><?= $date ?></p>
@@ -98,12 +98,12 @@ $threads = query_execute_unsafe($db, $query);
 <script>
     const select = document.getElementById("sort-select");
     select.addEventListener("change", function() {
-        window.location.href = "/forum.php?sortBy=" + select.value;
+        window.location.href = "/forum?sortBy=" + select.value;
     });
 
     const input = document.getElementById("search-input");
     const button = document.getElementById("search-button");
     button.addEventListener("click", function() {
-        window.location.href = "/forum.php?sortby=" + select.value + "&search=" + input.value;
+        window.location.href = "/forum?sortby=" + select.value + "&search=" + input.value;
     });
 </script>
