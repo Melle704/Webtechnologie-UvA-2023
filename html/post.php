@@ -36,15 +36,17 @@ if (isset($_POST["submit"])) {
     $text = htmlspecialchars(trim($_POST["text"]));
 
     // Verify if the message is the correct size.
-    validate_predicates(["Messages should be of at least 2 characters", strlen($text) >= 1]);
-    validate_predicates(["Messages should not exceed 4096 characters", strlen($text) < 4096]);
+    validate_predicates(
+        ["Messages should be of at least 2 characters", strlen($text) >= 1],
+        ["Messages should not exceed 4096 characters", strlen($text) < 4096]
+    );
 
     // Add the comment into the sql database.
     $sql = "INSERT INTO forum_posts (thread_id, user_id, text) VALUES (?, ?, ?)";
     query_execute($db, $sql, "iis", $thread_id, $user_id, $text);
 
     // Add 1 to the comment count of the thread.
-    $sql = "UPDATE forum_threads SET comments=comments + 1 WHERE i=?";
+    $sql = "UPDATE forum_threads SET comments=comments + 1 WHERE id=?";
     query_execute($db, $sql, "i", $thread_id);
 
     header("Location: " . $_SERVER["REQUEST_URI"]);
@@ -69,7 +71,6 @@ $user = query_execute_unsafe($db, "SELECT * FROM users WHERE id='".$thread["user
 $sql = "SELECT * FROM forum_posts WHERE thread_id=$thread_id ORDER BY date LIMIT 50";
 $posts = query_execute_unsafe($db, $sql);
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -109,9 +110,10 @@ $posts = query_execute_unsafe($db, $sql);
         $profile_pic_type = "image/png";
     }
 ?>
+
 <div class="box">
     <div class="comment-header box-row">
-        <a href="/profile.php?id=<?= $post_user_id ?>" class="username"><?= $post_user["uname"] ?></a>
+        <a href="/profile?id=<?= $post_user_id ?>" class="username"><?= $post_user["uname"] ?></a>
         <span class="comment-timestamp">
             <?= format_datetime($post["date"]) ?>
 <?php if($is_admin): ?>
@@ -134,7 +136,6 @@ $posts = query_execute_unsafe($db, $sql);
     </div>
 </div>
 <?php endforeach ?>
-
 <?php include_once "include/errors.php";?>
 
 <div class="box box-row">
@@ -147,9 +148,8 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "footer.php"; ?>
 
 </body>
-
-<!-- Scroll down to bottom of page if we have an error. -->
 <?php if (isset($_GET["error"])): ?>
+<!-- Scroll down to bottom of page if we have an error. -->
 <script>
     let body_height = document.scrollingElement.scrollHeight;
     document.scrollingElement.scrollTo({ top: body_height })

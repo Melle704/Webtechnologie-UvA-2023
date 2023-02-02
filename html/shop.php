@@ -252,7 +252,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
         <b>Filter cards</b>
     </button>
     <div id="search_bar" class="collapsed-row">
-        <form action="/shop" method="get">
+        <form action="/shop" method="GET">
             <div class="shop-column">
                 <b>Card name</b>
                 <label>

@@ -106,16 +106,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
 
 $formats = array("standard", "pioneer", "modern", "legacy", "vintage", "pauper", "commander");
 
-$card_front = $card["image"];
+$card_front = $card["image"] ? $card["image"] : "/img/no_image_available.png";
 $card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card.webp";
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 $card_name = str_replace(" ", "_", $card["name"]);
 $card_versions = "/card_versions.php?name={$card_name}";
-
-if (!$card_front) {
-    $card_front = "/img/no_image_available.png";
-}
 
 if ($card["normal_price"] == 0) {
     $card_price = "--";
@@ -239,7 +235,7 @@ foreach ($formats as $format) {
                         <span>Normal price: <?= format_eur($card_price) ?></span>
                         <span>Foil price: <?= format_eur($foil_price) ?></span>
                         <br>
-                        <?php if (isset($_SESSION["id"])): ?>
+<?php if (isset($_SESSION["id"])): ?>
                         <label>
                             <b>Amount</b>
                             <input type="number" name="amount" value="1" min="1" max="50">
@@ -250,16 +246,15 @@ foreach ($formats as $format) {
                         </label>
                         <input type="hidden" id="id" name="id" value="<?= $_GET["id"] ?>">
                         <input id="cart-submit" type="submit" value="Add to cart">
-                        <?php else: ?>
+<?php else: ?>
                         Please <a href="login.php">login</a> or <a href="register.php">register</a> to add this item to your cart.
-                        <?php endif; ?>
+<?php endif; ?>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="box">
     <div class="box-row box-light">

@@ -36,14 +36,17 @@ ul {
     display: inline;
 }
 
+.bullets ol, .bullets ul {
+    line-height: 1.25rem;
+}
+
+.bullets ul {
+    list-style-position: inside;
+}
+
 p {
     margin: 0;
     padding: 0.1rem 0;
-}
-
-li {
-    /*list-style-position: inside;*/
-    line-height: 1.25rem;
 }
 
 textarea {

@@ -1,6 +1,5 @@
 <?php
 include_once "include/common.php";
-include_once "include/errors.php";
 include_once "include/db.php";
 
 session_start();
@@ -14,11 +13,6 @@ if (!isset($_SESSION["id"])) {
 $cart_empty = (!isset($_SESSION["cart"]) || count($_SESSION["cart"]) === 0);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_SESSION["id"])) {
-        // Ignore post if not logged in
-        exit;
-    }
-
     if ($_POST["action"] == "remove" && isset($_POST["id"])) {
         unset($_SESSION["cart"][$_POST["id"]]);
         header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
@@ -34,6 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         exit;
     }
+
+    http_response_code(500);
+    exit;
 }
 
 $total = 0;
@@ -93,9 +90,7 @@ $_SESSION["cart_total"] = $total;
 </head>
 
 <body>
-
 <?php include_once "header.php"; ?>
-
 <?php include_once "include/errors.php"; ?>
 
 <div class="box">
@@ -112,7 +107,7 @@ $_SESSION["cart_total"] = $total;
                     <th>Total Price</th>
                     <th style="width: 30px;"></th>
                 </tr>
-                <?php foreach($products as $product): ?>
+<?php foreach($products as $product): ?>
                 <tr>
                     <td class="col-text">
                         <a href="/product?id=<?= $product["id"] ?>">
@@ -127,23 +122,23 @@ $_SESSION["cart_total"] = $total;
                     <td>
                         <form method="post" class="form remove-form">
                             <input type="hidden" name="action" value="remove">
-                            <?php if (str_contains($product["name"], "(foil)")): ?>
+<?php if (str_contains($product["name"], "(foil)")): ?>
                             <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
-                            <?php else: ?>
+<?php else: ?>
                             <input type="hidden" name="id" value="<?= $product["id"] ?>">
-                            <?php endif; ?>
+<?php endif; ?>
                             <input type="submit" value="&#x2716;">
                         </form>
                     </td>
                 </tr>
-                <?php endforeach; ?>
-                <?php if ($cart_empty): ?>
+<?php endforeach; ?>
+<?php if ($cart_empty): ?>
                 <tr>
                     <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
                         Your cart is empty, consider going to the <a href="/shop">shop</a> to add items.
                     </td>
                 </tr>
-                <?php endif; ?>
+<?php endif; ?>
             </table>
         </div>
 
@@ -152,12 +147,12 @@ $_SESSION["cart_total"] = $total;
             Total: <?= format_eur($total) ?>
             </h2>
 
-            <?php if (!$cart_empty): ?>
-            <form method="post" class="form">
+<?php if (!$cart_empty): ?>
+            <form method="POST" class="form">
                 <input type="hidden" name="action" value="checkout">
                 <input type="submit" value="Checkout">
             </form>
-            <?php endif; ?>
+<?php endif; ?>
         </div>
     </div>
 </div>

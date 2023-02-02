@@ -11,6 +11,10 @@ input {
     vertical-align: middle;
 }
 
+.textarea-title, .textarea-content {
+    padding: 4px;
+}
+
 .textarea-title {
     height: 25px;
     margin-bottom: 5px;

@@ -33,9 +33,7 @@ $purchases = query_execute($db, $sql, "i", $_SESSION["id"])
 </head>
 
 <body>
-
 <?php include_once "header.php"; ?>
-
 <?php include_once "include/errors.php"; ?>
 
 <div class="box">
@@ -49,20 +47,20 @@ $purchases = query_execute($db, $sql, "i", $_SESSION["id"])
                 <th>Price</th>
                 <th>Timestamp</th>
             </tr>
-            <?php foreach($purchases as $purchase): ?>
+<?php foreach($purchases as $purchase): ?>
             <tr>
                 <td class="col-text"><?= $purchase["id"] ?></td>
                 <td class="col-num"><?= format_eur($purchase["price"]) ?></td>
                 <td><?= $purchase["time"] ?></td>
             </tr>
-            <?php endforeach; ?>
-            <?php if (count($purchases) === 0): ?>
+<?php endforeach; ?>
+<?php if (count($purchases) === 0): ?>
             <tr>
                 <td colspan="5" style="text-align: center; font-size: 1rem; padding: 1rem;">
                     You have not made any purchases yet.
                 </td>
             </tr>
-            <?php endif; ?>
+<?php endif; ?>
         </table>
     </div>
 </div>
