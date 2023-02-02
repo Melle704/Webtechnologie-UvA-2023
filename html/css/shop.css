@@ -55,3 +55,84 @@ tr:nth-child(even) {
 .col-num {
     text-align: right;
 }
+
+.card-window {
+    width: 40%;
+    perspective: 1000px;
+}
+
+.floating-card {
+    /* aspect-ratio ratio of 244 by 340 */
+     --depth: 10px;
+     --height: 340px;
+     --width: 244px;
+
+    height: var(--height);
+    width: var(--width);
+
+    position: relative;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--depth) / -2));
+    animation: animate 5000ms linear infinite;
+}
+
+.floating-card > div {
+    position: absolute;
+}
+
+/* card faces */
+.floating-card .card-face:nth-child(1), .floating-card .card-face:nth-child(2) {
+    border-radius: 5%;
+    border: solid 6px black;
+    background-size: contain;
+    height: calc(var(--height) * 1.03);
+    width: calc(var(--width) * 1.03);
+}
+
+.floating-card .card-face:nth-child(1) {
+    transform: translateZ(calc(var(--depth) / 2));
+}
+
+.floating-card .card-face:nth-child(2) {
+    transform: rotateY(180deg) translateZ(calc(var(--depth) / 2));
+}
+
+.floating-card .card-face:nth-child(3), .floating-card .card-face:nth-child(4) {
+    background-color: black;
+    height: var(--height);
+    width: var(--depth);
+    left: calc(var(--width) / 2);
+}
+
+.floating-card .card-face:nth-child(3) {
+    transform: rotateY(90deg) translateZ(calc(var(--width) / 2));
+}
+
+.floating-card .card-face:nth-child(4) {
+    transform: rotateY(-90deg) translateZ(calc(var(--width) / 2));
+}
+
+.floating-card .card-face:nth-child(5), .floating-card .card-face:nth-child(6) {
+    background-color: black;
+    height: var(--depth);
+    width: var(--width);
+    top: calc(var(--height) / 2);
+}
+
+.floating-card .card-face:nth-child(5) {
+    transform: rotateX(90deg) translateZ(calc(var(--height) / 2));
+}
+
+.floating-card .card-face:nth-child(6) {
+    transform: rotateX(-90deg) translateZ(calc(var(--height) / 2));
+}
+
+@keyframes animate {
+    from {
+        transform: rotateY(-180deg);
+    }
+
+    to {
+        transform: rotateY(180deg);
+    }
+}

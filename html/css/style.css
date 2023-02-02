@@ -261,9 +261,11 @@ textarea:focus {
     height: 300px;
 }
 
+/*
 .box-card-large {
     height: 480px;
 }
+*/
 
 .box-card-small, .box-card-large {
     aspect-ratio: 488 / 680;

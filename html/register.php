@@ -11,8 +11,8 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script type="text/javascript" src="/js/MatchPassword.js"></script>
-    <script type="text/javascript" src="/js/ShowPassword.js"></script>
+    <script type="text/javascript" src="/js/match_password.js"></script>
+    <script type="text/javascript" src="/js/show_password.js"></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 
@@ -52,7 +52,7 @@
                     <b class="password-match" id="message"></b>
                 </label>
                 <label class="form-after">
-                    <input type="checkbox" onclick="ShowPassword()">
+                    <input type="checkbox" onclick="show_password()">
                     Display password characters entered
                 </label>
             </fieldset>

@@ -64,7 +64,6 @@ if (!$card_front) {
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/shop.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -74,36 +73,25 @@ if (!$card_front) {
 
 <div class="box">
     <div class="box-row box-light">
-        <h1>
-            <?= $card["name"] ?>
-        </h1>
+        <h1><?= $card["name"] ?></h1>
     </div>
     <div class="box-row">
         <br>
+            <div class="card-window">
+                <div class="floating-card">
+                    <div class="card-face" style="background-image: url('<?= $card_front ?>')"></div>
 <?php if (isset($card_back)): ?>
-            <div class="box-card-large">
-                <div class="box-card-flip">
-                    <div class="box-card-front">
-                        <a href="<?= $card_page ?>">
-                            <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                        </a>
-                    </div>
-                    <div class="box-card-back">
-                        <a href="<?= $card_page ?>">
-                            <img src="<?= $card_back ?>" alt="<?= $card["name"] ?>">
-                        </a>
-                    </div>
+                    <div class="card-face" style="background-image: url('<?= $card_back ?>')"></div>
+<?php else: ?>
+                    <div class="card-face" style="background-image: url('<?= $card_front ?>')"></div>
+<?php endif; ?>
+                    <div class="card-face"></div>
+                    <div class="card-face"></div>
+                    <div class="card-face"></div>
+                    <div class="card-face"></div>
                 </div>
             </div>
-<?php else: ?>
-            <div class="box-card-large">
-                <a href="<?= $card_page ?>">
-                    <img src="<?= $card_front ?>" alt="<?= $card["name"] ?>">
-                </a>
-            </div>
-<?php endif; ?>
         <div id="product-purchase">
-            <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
             <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
                     <legend>
