@@ -52,14 +52,6 @@ CREATE TABLE messages (
     date TIMESTAMP NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
 
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    card_id INT NOT NULL,
-    name VARCHAR(30) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    amount INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci AUTO_INCREMENT = 1;
-
 CREATE TABLE purchases (
     id INT AUTO_INCREMENT PRIMARY KEY,
     uid INT NOT NULL,
@@ -103,16 +95,6 @@ INSERT INTO forum_posts (thread_id, user_id, text) VALUES (4, 1, "test post 5");
 
 COMMIT;
 EOF
-
-# Generate many test products
-sql="USE test;"
-sql+="INSERT INTO products (id, card_id, name, price, amount) VALUES "
-for i in {1..199}; do
-    sql+="($i, $i, \"Test product $i\", 2.56, 64), "
-done
-i=200
-sql+="($i, $i, \"Test product $i\", 2.56, 64); "
-echo $sql | mysql -uroot || err
 
 echo "=> Test database generated!"
 
