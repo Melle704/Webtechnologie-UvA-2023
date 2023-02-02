@@ -18,11 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         unset($_SESSION["cart"][$_POST["id"]]);
         header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
         exit;
-    }
+    } elseif ($_POST["action"] == "change-amount" && isset($_POST["id"])) {
+        if (!is_numeric($_POST["amount"])) {
+            reload_err("Amount is not numeric");
+        }
 
-    if ($_POST["action"] == "checkout") {
+        if ($_POST["amount"] <= 0) {
+            unset($_SESSION["cart"][$_POST["id"]]);
+        } else {
+            $_SESSION["cart"][$_POST["id"]] = $_POST["amount"];
+        }
+        header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
+        exit;
+    } elseif ($_POST["action"] == "checkout") {
         if (!$cart_empty) {
-            header("Location: /checkout");
+            header("Location: checkout.php");
         } else {
             header("Location: " . $_SERVER["REQUEST_URI"], true, 303);
         }
@@ -116,7 +126,18 @@ $_SESSION["cart_total"] = $total;
                         </a>
                     </td>
                     <td class="col-num"><?= format_eur($product["price"]) ?></td>
-                    <td class="col-num"><?= $product["amount"] ?></td>
+                    <td class="col-center">
+                        <form method="post" class="form remove-form">
+                            <input type="hidden" name="action" value="change-amount">
+                            <input type="number" name="amount" value="<?= $product["amount"] ?>" aria-label="amount">
+                            <?php if (str_contains($product["name"], "(foil)")): ?>
+                            <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
+                            <?php else: ?>
+                            <input type="hidden" name="id" value="<?= $product["id"] ?>">
+                            <?php endif; ?>
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
                     <td class="col-num">
                         <?= format_eur($product["amount"] * $product["price"]) ?>
                     </td>

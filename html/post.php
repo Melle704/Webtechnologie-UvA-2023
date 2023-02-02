@@ -10,12 +10,12 @@ if (!isset($_SESSION["id"])) {
 
 // Check if the specific page id exists.
 if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
-    $redirect_title="Incorrect posts";
-    $redirect_msg="You tried to visit a thread that doesn't exist.";
+    $redirect_title="Incorrect post id";
+    $redirect_msg="You entered an invalid post id.";
     include_once "include/redirect.php";
 
     // Wait two seconds before refreshing.
-    header("Refresh: 2; url=/");
+    header("Refresh: 2; url=/forum");
     exit;
 }
 
@@ -27,6 +27,16 @@ $is_admin = $visiting_user["role"] == "admin";
 
 $thread_id = intval($_GET["id"]);
 $thread = query_execute_unsafe($db, "SELECT * from forum_threads WHERE id=$thread_id");
+
+if (count($thread) === 0) {
+    $redirect_title="Post not found";
+    $redirect_msg="You tried to visit a thread that doesn't exist.";
+    include_once "include/redirect.php";
+
+    // Wait two seconds before refreshing.
+    header("Refresh: 2; url=/forum.php");
+    exit;
+}
 
 $thread = $thread[0];
 $user_id = $_SESSION["id"];
@@ -51,7 +61,7 @@ if (isset($_POST["submit"])) {
 
     header("Location: " . $_SERVER["REQUEST_URI"]);
     exit;
-} elseif (isset($_POST["remove"]) && $is_admin) {
+} elseif (isset($_POST["remove-post"]) && $is_admin) {
     // Decrement comment count of the thread.
     $sql = "UPDATE forum_threads SET comments = comments - 1 WHERE id IN
             (SELECT thread_id FROM forum_posts WHERE id=?)";
@@ -59,9 +69,20 @@ if (isset($_POST["submit"])) {
 
     // Remove comment from database.
     $sql = "DELETE FROM forum_posts WHERE id=?";
-    $res = query_execute($db, $sql, "i", $_POST["id"]);
+    query_execute($db, $sql, "i", $_POST["id"]);
 
     header("Location: " . $_SERVER["REQUEST_URI"]);
+    exit;
+} elseif (isset($_POST["remove-thread"]) && $is_admin) {
+    // Delete thread
+    $sql = "DELETE FROM forum_threads WHERE id=?";
+    query_execute($db, $sql, "i", $_GET["id"]);
+
+    // Delete posts from this thread
+    $sql = "DELETE FROM forum_posts WHERE thread_id=?";
+    query_execute($db, $sql, "i", $_GET["id"]);
+
+    header("Location: /forum.php");
     exit;
 }
 
@@ -90,6 +111,11 @@ $posts = query_execute_unsafe($db, $sql);
 <?php include_once "header.php";?>
 
 <div class="box box-row">
+    <?php if($is_admin): ?>
+    <form method="post" class="form" style="display: inline; float: right">
+        <input type="submit" name="remove-thread" value="Remove thread">
+    </form>
+    <?php endif; ?>
     <div class="post-title"><?= $thread["title"] ?></div>
     <div class="bottom-text">
         <p><?= $user["uname"] ?> - <?= format_datetime($thread["date"]) ?></p>
@@ -119,7 +145,7 @@ $posts = query_execute_unsafe($db, $sql);
 <?php if($is_admin): ?>
             <form method="post" class="form" style="display: inline;">
                 <input type="hidden" name="id" value="<?= $post["id"] ?>">
-                <input type="submit" name="remove" value="Remove comment">
+                <input type="submit" name="remove-post" value="Remove comment">
             </form>
 <?php endif; ?>
         </span>

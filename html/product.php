@@ -151,6 +151,8 @@ foreach ($formats as $format) {
 <body>
 <?php include_once "header.php"; ?>
 
+<?php include_once "include/errors.php"; ?>
+
 <div class="box">
     <div class="box-row box-light">
         <h1><?= $card["name"] ?></h1>
