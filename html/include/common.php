@@ -156,5 +156,6 @@ function format_eur($price) {
 }
 
 function format_datetime($sql_datetime) {
-    return date_format(date_create($sql_datetime), "Y-m-d h:i A");
+    date_default_timezone_set('Europe/Amsterdam');
+    return date('Y-m-d H:i', strtotime("$sql_datetime UTC"));
 }

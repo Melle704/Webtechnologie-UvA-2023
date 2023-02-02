@@ -33,7 +33,7 @@ $sql = "SELECT * FROM cards
         AND NOT layout='emblem'
         AND NOT layout='planar'
         AND NOT set_name='Jumpstart Front Cards'
-        AND NOT name LIKE 'Substitute Card'";
+        AND NOT name LIKE '%Substitute Card%'";
 
 if (!empty($_GET["card_name"])) {
     $card_name = mysqli_real_escape_string($db, $_GET["card_name"]);
@@ -121,51 +121,53 @@ else if (strcmp($_GET["color_type"], "exact") == 0) {
 
 if (isset($_GET["legality"])) {
     switch ($_GET["legality"]) {
-        case "standard": $sql_search .= " AND standard_legal='legal'";
-        case "pioneer": $sql_search .= " AND pioneer_legal='legal'";
-        case "modern": $sql_search .= " AND modern_legal='legal'";
-        case "legacy": $sql_search .= " AND legacy_legal='legal'";
-        case "vintage": $sql_search .= " AND vintage_legal='legal'";
-        case "pauper": $sql_search .= " AND pauper_legal='legal'";
-        case "commander": $sql_search .= " AND commander_legal='legal'";
+        case "standard": $sql_search .= " AND standard_legal='legal'"; break;
+        case "pioneer": $sql_search .= " AND pioneer_legal='legal'"; break;
+        case "modern": $sql_search .= " AND modern_legal='legal'"; break;
+        case "legacy": $sql_search .= " AND legacy_legal='legal'"; break;
+        case "vintage": $sql_search .= " AND vintage_legal='legal'"; break;
+        case "pauper": $sql_search .= " AND pauper_legal='legal'"; break;
+        case "commander": $sql_search .= " AND commander_legal='legal'"; break;
     }
 }
 
 if (isset($_GET["cmc"])) {
+    $cmc = mysqli_real_escape_string($db, $_GET["cmc"]);
     if ($_GET["cmc_type"] == ">") {
-        $sql_search .= " AND cmc>'{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc>'$cmc'";
     }
     if ($_GET["cmc_type"] == "=") {
-        $sql_search .= " AND cmc='{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc='$cmc'";
     }
     if ($_GET["cmc_type"] == "<") {
-        $sql_search .= " AND cmc<'{$_GET["cmc"]}'";
+        $sql_search .= " AND cmc<'$cmc'";
     }
 }
 
 if (isset($_GET["price"])) {
+    $price = mysqli_real_escape_string($db, $_GET["price"]);
     if ($_GET["price_type"] == ">") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price>'{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price>'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price>'{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price>'$price'";
         }
     }
     if ($_GET["price_type"] == "=") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price='{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price='$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price='{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price='$price'";
         }
     }
     if ($_GET["price_type"] == "<") {
         if ($_GET["card_price_type"] == "normal") {
-            $sql_search .= " AND NOT normal_price='0' AND normal_price<'{$_GET["price"]}'";
+            $sql_search .= " AND NOT normal_price='0' AND normal_price<'$price'";
         }
         else {
-            $sql_search .= " AND NOT foil_price='0' AND foil_price<'{$_GET["price"]}'";
+            $sql_search .= " AND NOT foil_price='0' AND foil_price<'$price'";
         }
     }
 }
@@ -176,7 +178,7 @@ if (isset($_GET["card_order"])) {
         case "name": $sql_search .= " ORDER BY name"; break;
         case "n_price": $sql_search .= " AND NOT normal_price='0' ORDER BY normal_price"; break;
         case "f_price": $sql_search .= " AND NOT foil_price='0' ORDER BY foil_price"; break;
-        case "popularity": $sql_search .= " ORDER BY popularity"; break;
+        case "random": $sql_search .= " ORDER BY RAND()"; break;
         case "release": $sql_search .= " ORDER BY released_at"; break;
         case "rarity": $sql_search .= " AND NOT rarity_num='0' ORDER BY rarity_num"; break;
         case "set": $sql_search .= " ORDER BY set_code"; break;
@@ -233,6 +235,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 
@@ -371,8 +374,6 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >normal price</option>
                 <option value="f_price" <?php if(strcmp($_GET['card_order'], "f_price") == 0)
                                         echo "selected='selected'"; ?> >foil price</option>
-                <option value="popularity" <?php if(strcmp($_GET['card_order'], "popularity") == 0)
-                                        echo "selected='selected'"; ?> >popularity</option>
                 <option value="release" <?php if(strcmp($_GET['card_order'], "release") == 0)
                                         echo "selected='selected'"; ?> >release</option>
                 <option value="rarity" <?php if(strcmp($_GET['card_order'], "rarity") == 0)
@@ -385,6 +386,8 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                                         echo "selected='selected'"; ?> >toughness</option>
                 <option value="loyalty" <?php if(strcmp($_GET['card_order'], "loyalty") == 0)
                                         echo "selected='selected'"; ?> >loyalty</option>
+                <option value="random" <?php if(strcmp($_GET['card_order'], "random") == 0)
+                                        echo "selected='selected'"; ?> >random</option>
             </select>
             <select name="asc_dsc">
                 <option value="asc" <?php if(strcmp($_GET["asc_dsc"], "asc") == 0)

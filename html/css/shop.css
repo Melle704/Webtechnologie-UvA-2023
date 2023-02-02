@@ -8,6 +8,11 @@ table {
     font-variant-numeric: tabular-nums;
 }
 
+.info-table {
+    height: 380px;
+    padding: 0 0.5rem;
+}
+
 th {
     background-color: #3d3c3b;
 }
@@ -56,38 +61,97 @@ tr:nth-child(even) {
     text-align: right;
 }
 
+.collapsible-row {
+    padding: 0.5rem 0.75rem 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.collapsed-row {
+    display: none;
+}
+
+.collapsible-button {
+    width: 100%;
+    border: none;
+    padding: 0.5rem 0.75rem 0.5rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #3d3c3b;
+    text-decoration: none;
+    text-align: left;
+}
+
+.version-button {
+    border: 3px solid #373737;
+    background-color: #202020;
+    vertical-align: middle;
+    width: 100%;
+    font-size: medium;
+}
+
+.column {
+    display: flex;
+    padding: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.left-column {
+    flex-grow: 1;
+    flex-basis: 20%;
+    margin-bottom: 30px;
+}
+
+.right-column {
+    flex-grow: 1;
+    flex-basis: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.center {
+    text-align: center;
+}
+
+.center-img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .card-window {
     perspective: 1000px;
-    margin: 40px;
+    border: 4px solid #4F5459;
+    background-color: #202020;
 }
 
 .floating-card {
-    /* aspect-ratio ratio of 244 by 340 */
      --depth: 10px;
-     --height: 340px;
-     --width: 244px;
+     --height: 306px;
+     --width: 220px;
 
-    position: relative;
     height: var(--height);
     width: var(--width);
+    margin: 10% auto;
 
     transform-style: preserve-3d;
-    transform: translateZ(calc(var(--depth) / -2));
 }
 
 .floating-card > div {
+    background-color: #110F02;
     position: absolute;
-    touch-callout: none;
-    user-select: none;
 }
 
-/* card faces */
-.floating-card .card-face:nth-child(1), .floating-card .card-face:nth-child(2) {
+.card-face > img {
     border-radius: 5%;
-    border: solid 6px black;
-    background-size: contain;
-    height: calc(var(--height) * 1.03);
-    width: calc(var(--width) * 1.03);
+    height: var(--height);
+    width: var(--width);
+    touch-callout: none;
+    user-select: none;
 }
 
 .floating-card .card-face:nth-child(1) {
@@ -99,10 +163,9 @@ tr:nth-child(even) {
 }
 
 .floating-card .card-face:nth-child(3), .floating-card .card-face:nth-child(4) {
-    background-color: black;
     height: var(--height);
     width: var(--depth);
-    left: calc(var(--width) / 2);
+    left: calc(var(--width) / 2.1);
 }
 
 .floating-card .card-face:nth-child(3) {
@@ -114,7 +177,6 @@ tr:nth-child(even) {
 }
 
 .floating-card .card-face:nth-child(5), .floating-card .card-face:nth-child(6) {
-    background-color: black;
     height: var(--depth);
     width: var(--width);
     top: calc(var(--height) / 2);

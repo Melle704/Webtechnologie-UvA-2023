@@ -58,7 +58,7 @@ include_once "include/db.php";
         $sql = "SELECT * FROM cards
                 WHERE real_card='1' AND NOT layout='emblem'
                 AND NOT layout='art_series' AND NOT layout='token'
-                AND NOT name LIKE 'Substitute Card' AND NOT layout='planar'
+                AND NOT name LIKE '%Substitute Card%' AND NOT layout='planar'
                 AND NOT set_name='Jumpstart Front Cards' AND normal_price>'15'
                 ORDER BY RAND() LIMIT 7";
 
