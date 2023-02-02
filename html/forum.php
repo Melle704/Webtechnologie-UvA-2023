@@ -116,11 +116,6 @@ function grow_box(self) {
                 </select>
             </form>
         </div>
-        <form id="new-thread-form" class="form" method="post">
-            <textarea class="textarea-title" name="title" rows="1" maxlength="100" placeholder="Title"></textarea>
-            <textarea class="textarea-content" name="content" maxlength="4096" placeholder="Text (optional)"></textarea>
-            <input type="submit" name="submit" value="Create post">
-        </form>
     </div>
     <div class="box-row">
 <?php

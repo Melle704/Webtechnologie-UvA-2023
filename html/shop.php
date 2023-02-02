@@ -121,7 +121,7 @@ else if ($_GET["color_type"] == "exact") {
 }
 
 if (isset($_GET["legality"])) {
-    $sql_search = match ($_GET["legality"]) {
+    $sql_search .= match ($_GET["legality"]) {
         "standard" => " AND standard_legal='legal'",
         "pioneer" => " AND pioneer_legal='legal'",
         "modern" => " AND modern_legal='legal'",
