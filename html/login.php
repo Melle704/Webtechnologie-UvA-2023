@@ -11,7 +11,7 @@
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script type="text/javascript" src="/js/show_password.js"></script>
+    <script src="/js/show_password.js"></script>
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 

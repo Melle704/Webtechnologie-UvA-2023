@@ -149,7 +149,7 @@ function grow_box(self) {
 <div class="box">
     <div class="comment-header box-row">
         <a href="/profile?id=<?= $post_user_id ?>" class="username"><?= $post_user["uname"] ?></a>
-        <span class="comment-timestamp">
+        <div class="comment-timestamp">
             <?= format_datetime($post["date"]) ?>
 <?php if($is_admin): ?>
             <form method="post" class="form" style="display: inline;">
@@ -157,7 +157,7 @@ function grow_box(self) {
                 <input type="submit" name="remove-post" value="Remove comment">
             </form>
 <?php endif; ?>
-        </span>
+        </div>
     </div>
     <div class="box-row post">
         <div class="profile-pic">

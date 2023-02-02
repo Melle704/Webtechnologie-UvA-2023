@@ -19,7 +19,7 @@
             <b>Our rules</b>
         </div>
         <ol>
-            <li>Be respectfull to eachother, our forum is a place of community, not a place of hate.</li>
+            <li>Be respectful to eachother, our forum is a place of community, not a place of hate.</li>
             <li>No ban evasion, spamming or fraud.</li>
             <li>Respect the privacy of other users. No posting of personal information without consent.</li>
             <li>You don't have to use your real name, but don't impersonate other people.</li>

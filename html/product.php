@@ -190,10 +190,10 @@ if ($card["foil_price"] == 0) {
                 <div class="card-window">
                     <div class="floating-card">
                         <div class="card-face">
-                            <img draggable="false" src="<?= $card_front ?>"></img>
+                            <img draggable="false" src="<?= $card_front ?>" alt="Card front"></img>
                         </div>
                         <div class="card-face">
-                            <img draggable="false" src="<?= $card_back ?>"></img>
+                            <img draggable="false" src="<?= $card_back ?>" alt="Card back"></img>
                         </div>
                         <div class="card-face"></div>
                         <div class="card-face"></div>
@@ -329,7 +329,7 @@ foreach ($suggested_cards as $suggest_card):
 
 <?php include_once "footer.php"; ?>
 
-<script type="text/javascript" src="/js/card_display.js"></script>
+<script src="/js/card_display.js"></script>
 
 </body>
 

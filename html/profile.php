@@ -37,7 +37,7 @@ function grow_box(self) {
     <div class="box-row box-flex">
         <div class="showcase">
             <div class="img-showcase">
-                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
+                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Your profile picture">
             </div>
             <div class="text-showcase box-light">
                 <div class="box-row"><?= $profile_desc ?></div>
@@ -85,7 +85,8 @@ function grow_box(self) {
     <div class="box-row box-flex">
         <div class="showcase">
             <div class="img-showcase">
-                <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>">
+            <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" 
+                 alt="<?= $user["uname"] ?>'s profile picture">
             </div>
             <div class="text-showcase box-light">
                 <div class="box-row">
