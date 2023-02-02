@@ -29,7 +29,7 @@
         <form action="/register?action=register" method="post">
             <fieldset>
                 <legend>
-                    Enter your preferred username.
+                    A username between 1 and 25 characters
                 </legend>
                 <b>Username</b>
                 <label>
@@ -38,7 +38,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Your password must be at least 8 chatacters in length and contain 1 special symbol.
+                    Your password must be of at least 8 characters in length and contain a 1 special symbol
                 </legend>
                 <label>
                     <b>Password</b>
@@ -67,7 +67,7 @@
             </fieldset>
             <fieldset>
                 <legend>
-                    Please enter your date of birth.
+                    Please enter your date of birth (this will not show on your profile)
                 </legend>
                 <b>Date of Birth</b>
                 <label>

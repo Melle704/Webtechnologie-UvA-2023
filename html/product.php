@@ -128,7 +128,9 @@ $card_back  = $card["back_image"] ? $card["back_image"] : "/img/default_mtg_card
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 $card_name = str_replace(" ", "_", $card["name"]);
-$card_versions = "/card_versions?name={$card_name}";
+$card_versions = array("name" => $card_name);
+$card_versions = "/card_versions?" . http_build_query($card_versions);
+$formats = array("standard", "pioneer", "modern", "legacy", "vintage", "pauper", "commander");
 
 if ($card["normal_price"] == 0) {
     $card_price = "--";
@@ -149,16 +151,6 @@ foreach ($formats as $format) {
         $counter++;
     }
 }
-
-$formats = array("standard", "pioneer", "modern", "legacy",
-                             "vintage", "pauper", "commander");
-
-$card_price = $card["normal_price"];
-$foil_price = $card["foil_price"];
-$card_name = str_replace(" ", "_", $card["name"]);
-
-$card_versions = array("name" => $card_name);
-$card_versions = "/card_versions?" . http_build_query($card_versions);
 
 if ($card["normal_price"] == 0) {
     $card_price = "--";
@@ -219,47 +211,47 @@ if ($card["foil_price"] == 0) {
                     <table class="info-table">
 <?php if (isset($card["mana_cost"]) and $card["mana_cost"] != ""): ?>
                         <tr>
-                            <th>mana cost</th>
+                            <th>Mana cost</th>
                             <th><?= $card["mana_cost"] ?></th>
                         </tr>
 <?php endif ?>
                         <tr>
-                            <th>type line</th>
+                            <th>Type line</th>
                             <th><?= $card["type_line"] ?></th>
                         </tr>
 <?php if (isset($card["oracle_text"])): ?>
                         <tr>
-                            <th>oracle text</th>
+                            <th>Oracle text</th>
                             <th><?= nl2br($card["oracle_text"]) ?></th>
                         </tr>
 <?php endif ?>
 <?php if (isset($card["flavor_text"])): ?>
                         <tr>
-                            <th>flavor text</th>
+                            <th>Flavor text</th>
                             <th><?= nl2br($card["flavor_text"]) ?></th>
                         </tr>
 <?php endif ?>
 <?php if (isset($card["power"])): ?>
                         <tr>
-                            <th>power/toughness</th>
+                            <th>Power/Toughness</th>
                             <th><?= $card["power"] ?>/<?= $card["toughness"] ?></th>
                         </tr>
 <?php endif ?>
 <?php if (isset($card["loyalty"])): ?>
-                            <tr>
-                                <th>loyalty</th>
-                                <th><?= $card["loyalty"] ?></th>
-                            </tr>
+                        <tr>
+                            <th>Loyalty</th>
+                            <th><?= $card["loyalty"] ?></th>
+                        </tr>
 <?php endif ?>
                         <tr>
-                            <th>legal in</th>
+                            <th>Legal in</th>
                             <th><?= $legal_cards ?></th>
                         </tr>
-                            <th>set</th>
+                            <th>Set</th>
                             <th><?= $card["set_name"] ?></th>
                         </tr>
                         <tr>
-                            <th>artist</th>
+                            <th>Artist</th>
                             <th><?= $card["artist"] ?></th>
                         </tr>
                     </table>
