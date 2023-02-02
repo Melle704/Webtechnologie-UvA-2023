@@ -12,6 +12,15 @@
 	<link rel="stylesheet" type="text/css" href="/css/profile.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/css/form.css">
+    <script>
+// update's textarea size on text input
+function grow_box(self) {
+    if (self.scrollHeight > 84) {
+        self.style.height = "36px";
+        self.style.height = (self.scrollHeight + 4) + "px";
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -99,14 +108,6 @@ file_input.addEventListener("change", function() {
     let file = file_input.files[0];
     file_name.innerText = file.name;
 });
-
-// update's textarea size on text input
-function grow_box(self) {
-    if (self.scrollHeight > 84) {
-        self.style.height = "36px";
-        self.style.height = (self.scrollHeight + 4) + "px";
-    }
-}
 </script>
 <?php endif; ?>
 

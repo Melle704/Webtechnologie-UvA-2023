@@ -71,6 +71,15 @@ $threads = query_execute_unsafe($db, $query);
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/forum.css">
+    <script>
+// update's textarea size on text input
+function grow_box(self) {
+    if (self.scrollHeight > 84) {
+        self.style.height = "99px";
+        self.style.height = (self.scrollHeight + 4) + "px";
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -150,7 +159,13 @@ foreach ($threads as $thread):
     </div>
     <form id="new-thread-form" class="form" method="post">
         <textarea class="textarea-title" name="title" rows="1" maxlength="100" placeholder="Title"></textarea>
-        <textarea class="textarea-content" name="content" maxlength="4096" placeholder="Text (optional)"></textarea>
+        <textarea
+            class="textarea-content"
+            name="content"
+            maxlength="4096"
+            oninput="grow_box(this)"
+            placeholder="Text (optional)"
+        ></textarea>
         <input type="submit" name="submit" value="Create post">
     </form>
 </div>

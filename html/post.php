@@ -105,6 +105,15 @@ $posts = query_execute_unsafe($db, $sql);
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/forum.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <script>
+// update's textarea size on text input
+function grow_box(self) {
+    if (self.scrollHeight > 84) {
+        self.style.height = "99px";
+        self.style.height = (self.scrollHeight + 4) + "px";
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -150,15 +159,13 @@ $posts = query_execute_unsafe($db, $sql);
 <?php endif; ?>
         </span>
     </div>
-    <div class="box-row">
+    <div class="box-row post">
         <div class="profile-pic">
             <a href="/profile?id=<?= $post_user_id ?>">
                 <img src="<?= "data:$profile_pic_type;base64,$profile_pic" ?>" alt="Profile picture">
             </a>
         </div>
-        <div class="box-row box-light comment-content">
-            <?= $post["text"] ?>
-        </div>
+        <div class="box-row box-light comment-content"><?= $post["text"] ?></div>
     </div>
 </div>
 <?php endforeach ?>
@@ -166,7 +173,13 @@ $posts = query_execute_unsafe($db, $sql);
 
 <div class="box box-row">
     <form class="form" action="/post?id=<?= $thread_id ?>" method="post">
-        <textarea id="usermessage" name="text" style="margin-top: 0;"></textarea>
+        <textarea
+            name="text"
+            class="textarea-content"
+            maxlength="10000"
+            oninput="grow_box(this)"
+            placeholder="Write a message!"
+        ></textarea>
         <input type="submit" name="submit" value="Add comment">
     </form>
 </div>
