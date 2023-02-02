@@ -176,9 +176,9 @@ foreach ($formats as $format) {
                         <div class="card-face"></div>
                     </div>
                 </div>
-                <a href="<?= $card_versions ?>">
-                    <button class="version-button">all variations</button>
-                </a>
+                <div class="version-button">
+                    <a href="<?= $card_versions ?>">all variations</a>
+                </div>
             </div>
             <div class="flex-break"></div>
             <div class="right-product-column">

@@ -84,12 +84,15 @@ tr:nth-child(even) {
 }
 
 .version-button {
-    border: 3px solid #373737;
-    background-color: #202020;
-    vertical-align: middle;
-    width: 100%;
     font-size: medium;
+    text-align: center;
     margin-bottom: 3%;
+    padding: 1%;
+}
+
+.version-button a {
+    color: #CECECE;
+    text-decoration: none;
 }
 
 .shop-column {
@@ -148,6 +151,11 @@ tr:nth-child(even) {
     flex-basis: 20%;
 }
 
+.left-product-column > * {
+    border: 3px solid #373737;
+    background-color: #202020;
+}
+
 .right-product-column {
     flex-grow: 1;
     flex-basis: 50%;
@@ -164,8 +172,6 @@ tr:nth-child(even) {
 
 .card-window {
     perspective: 1000px;
-    border: 3px solid #373737;
-    background-color: #202020;
     position: relative;
     overflow: hidden;
     margin-bottom: 4px;
