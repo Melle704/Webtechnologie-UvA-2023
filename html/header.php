@@ -26,7 +26,7 @@ if (isset($_SESSION["cart"])) {
                 <a href="/index"><span>URZA'S</span> WEBSHOP</a>
             </div>
         </div>
-        <div class="box-row box-light">
+        <div class="box-row box-head-items box-light">
             <div class="box-left">
                 <ul>
                     <li><a href="/index">Index</a></li>
@@ -36,6 +36,7 @@ if (isset($_SESSION["cart"])) {
 <?php endif; ?>
                 </ul>
             </div>
+            <div class="flex-break"></div>
             <div class="box-right">
                 <ul>
 <?php if (isset($_SESSION["cart"])): ?>
@@ -57,7 +58,7 @@ if (isset($_SESSION["cart"])) {
             <div class="box-left">
                 Logged in as <b><?= $_SESSION["uname"] ?></b>
             </div>
-            <div class="box-right" id="datetime"></div>
+            <div class="box-right" id="datetime">
         </div>
 <?php endif; ?>
     </div>
