@@ -34,6 +34,7 @@ $sql = "SELECT * FROM cards
         AND NOT layout='planar'
         AND NOT type_line LIKE '%card%'";
 
+
 if (!empty($_GET["card_name"])) {
     $card_name = mysqli_real_escape_string($db, $_GET["card_name"]);
     $sql_search .= " AND name LIKE '%$card_name%'";
@@ -220,6 +221,7 @@ $sql_amount .= "WHERE real_card='1'
                 AND NOT layout='art_series'
                 AND NOT layout='token'
                 AND NOT layout='emblem'
+                AND NOT layout='planar'
                 AND NOT type_line LIKE '%card%'";
 $sql_amount .= $sql_search;
 
