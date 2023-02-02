@@ -463,3 +463,17 @@ textarea:focus {
         height: 0;
     }
 }
+
+.hcaptcha {
+    display: inline-block;
+    overflow: hidden;
+    width: 305px;
+    height: 78px;
+    border: 4px solid #4F5459;
+}
+
+.hcaptcha iframe {
+    position: relative;
+    left: -2px;
+    top: -2px;
+}

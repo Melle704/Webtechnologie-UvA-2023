@@ -53,10 +53,12 @@
                 <legend>
                     Verify your humanity
                 </legend>
-                <div
-                    class="h-captcha"
-                    data-theme="dark"
-                    data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                <div class="hcaptcha">
+                    <div
+                        class="h-captcha"
+                        data-theme="dark"
+                        data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                    </div>
                 </div>
             </fieldset>
             <input type="checkbox" name="stay_logged" value="1" tabindex="3">

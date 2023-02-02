@@ -129,10 +129,12 @@
                 <legend>
                     Verify your humanity
                 </legend>
-                <div
-                    class="h-captcha"
-                    data-theme="dark"
-                    data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                <div class="hcaptcha">
+                    <div
+                        class="h-captcha"
+                        data-theme="dark"
+                        data-sitekey="10000000-ffff-ffff-ffff-000000000001">
+                    </div>
                 </div>
             </fieldset>
             By registering, you agree to accept our <a href="/cookies">cookie policy</a>.
