@@ -601,7 +601,7 @@ function query_with_page($page_wat) {
     }
     ?>
 <?php if ($last_page != $page): ?>
-    <a href="/shop?page=<?= query_with_page($page + 1) ?>">
+    <a href="/shop?<?= query_with_page($page + 1) ?>">
         <i class="fa-solid fa-chevron-right"></i>
     </a>
 <?php endif; ?>
