@@ -121,15 +121,16 @@ else if ($_GET["color_type"] == "exact") {
 }
 
 if (isset($_GET["legality"])) {
-    switch ($_GET["legality"]) {
-        case "standard": $sql_search .= " AND standard_legal='legal'"; break;
-        case "pioneer": $sql_search .= " AND pioneer_legal='legal'"; break;
-        case "modern": $sql_search .= " AND modern_legal='legal'"; break;
-        case "legacy": $sql_search .= " AND legacy_legal='legal'"; break;
-        case "vintage": $sql_search .= " AND vintage_legal='legal'"; break;
-        case "pauper": $sql_search .= " AND pauper_legal='legal'"; break;
-        case "commander": $sql_search .= " AND commander_legal='legal'"; break;
-    }
+    $sql_search = match ($_GET["legality"]) {
+        "standard" => " AND standard_legal='legal'",
+        "pioneer" => " AND pioneer_legal='legal'",
+        "modern" => " AND modern_legal='legal'",
+        "legacy" => " AND legacy_legal='legal'",
+        "vintage" => " AND vintage_legal='legal'",
+        "pauper" => " AND pauper_legal='legal'",
+        "commander" => " AND commander_legal='legal'",
+        default => ""
+    };
 }
 
 if (isset($_GET["cmc"])) {
@@ -174,21 +175,25 @@ if (isset($_GET["price"])) {
 }
 
 if (isset($_GET["card_order"])) {
-    switch ($_GET["card_order"]) {
-        case "ID": $sql_search .= " ORDER BY id"; break;
-        case "name": $sql_search .= " ORDER BY name"; break;
-        case "n_price": $sql_search .= " AND NOT normal_price='0' ORDER BY normal_price"; break;
-        case "f_price": $sql_search .= " AND NOT foil_price='0' ORDER BY foil_price"; break;
-        case "random": $sql_search .= " ORDER BY RAND()"; break;
-        case "release": $sql_search .= " ORDER BY released_at"; break;
-        case "rarity": $sql_search .= " AND NOT rarity_num='0' ORDER BY rarity_num"; break;
-        case "set": $sql_search .= " ORDER BY set_code"; break;
-        case "power": $sql_search .= " AND NOT power='' AND NOT power LIKE '%*%'
-              AND NOT power LIKE '%-%' AND NOT power LIKE '%+%' AND NOT power LIKE '%?%' ORDER BY CAST(power as unsigned)"; break;
-        case "toughness": $sql_search .= " AND NOT toughness='' AND NOT toughness LIKE '%*%'
-              AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%' AND NOT toughness LIKE '%?%' ORDER BY CAST(toughness as unsigned)"; break;
-        case "loyalty": $sql_search .= "AND NOT loyalty='' ORDER BY CAST(loyalty as unsigned)"; break;
-    }
+    $sql_search .= match ($_GET["card_order"]) {
+        "ID" => " ORDER BY id",
+        "name" => " ORDER BY name",
+        "n_price" => " AND NOT normal_price='0' ORDER BY normal_price",
+        "f_price" => " AND NOT foil_price='0' ORDER BY foil_price",
+        "random" => " ORDER BY RAND()",
+        "release" => " ORDER BY released_at",
+        "rarity" => " AND NOT rarity_num='0' ORDER BY rarity_num",
+        "set" => " ORDER BY set_code",
+        "power" => " AND NOT power='' AND NOT power LIKE '%*%'
+                     AND NOT power LIKE '%-%'
+                     AND NOT power LIKE '%+%'
+                     AND NOT power LIKE '%?%' ORDER BY CAST(power as unsigned)",
+        "toughness" => " AND NOT toughness='' AND NOT toughness LIKE '%*%'
+                         AND NOT toughness LIKE '%-%' AND NOT toughness LIKE '%+%'
+                         AND NOT toughness LIKE '%?%' ORDER BY CAST(toughness as unsigned)",
+        "loyalty" => "AND NOT loyalty='' ORDER BY CAST(loyalty as unsigned)",
+        default => ""
+    };
 }
 
 if (isset($_GET["asc_dsc"])) {
