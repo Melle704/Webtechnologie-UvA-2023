@@ -554,6 +554,13 @@ foreach ($cards as $card):
 <?php endif; ?>
 </div>
 
+<?php
+function query_with_page($page_wat) {
+    $_GET["page"] = strval($page_wat);
+    return http_build_query($_GET);
+}
+?>
+
 <?php if ($card_amount > $cards_per_page): ?>
 <div class="pageinator">
 <?php if ($page > 2): ?>
@@ -563,7 +570,7 @@ foreach ($cards as $card):
     </a>
 <?php endif; ?>
 <?php if ($page > 1): ?>
-    <a href="/shop?page=<?= $page - 1 ?>">
+    <a href="/shop?<?= query_with_page($page - 1) ?>">
         <i class="fa-solid fa-chevron-left"></i>
     </a>
 <?php endif; ?>
@@ -588,18 +595,18 @@ foreach ($cards as $card):
         $tag .= strval($page_ref);
         $tag .= "</a>";
 
-        if (strval($page_ref) <= $last_page And strval($page_ref) > 0) {
+        if (strval($page_ref) <= $last_page and strval($page_ref) > 0) {
             echo "\t$tag\n";
         }
     }
     ?>
 <?php if ($last_page != $page): ?>
-    <a href="/shop?page=<?= $page + 1 ?>">
+    <a href="/shop?page=<?= query_with_page($page + 1) ?>">
         <i class="fa-solid fa-chevron-right"></i>
     </a>
 <?php endif; ?>
 <?php if ($last_page - $page > 1): ?>
-    <a class="last-page" href="/shop?page=<?= $last_page ?>">
+    <a class="last-page" href="/shop?<?= query_with_page($last_page) ?>">
         <i class="fa-solid fa-chevron-right"></i>
         <i class="fa-solid fa-chevron-right"></i>
     </a>
