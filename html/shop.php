@@ -564,7 +564,7 @@ function query_with_page($page_wat) {
 <?php if ($card_amount > $cards_per_page): ?>
 <div class="pageinator">
 <?php if ($page > 2): ?>
-    <a class="first-page" href="/shop?page=1";>
+    <a class="first-page" href="/shop?<?= query_with_page(1) ?>";>
         <i class="fa-solid fa-chevron-left"></i>
         <i class="fa-solid fa-chevron-left"></i>
     </a>
