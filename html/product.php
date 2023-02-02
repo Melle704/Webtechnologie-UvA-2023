@@ -75,8 +75,9 @@ if (!$card_front) {
     <div class="box-row box-light">
         <h1><?= $card["name"] ?></h1>
     </div>
-    <div class="box-row">
+    <div class="box-row" >
         <br>
+        <div class="box-left" style="border: 4px solid #4F5459;  background-color: #202020;">
             <div class="card-window">
                 <div class="floating-card">
                     <div class="card-face" style="background-image: url('<?= $card_front ?>')"></div>
@@ -91,6 +92,7 @@ if (!$card_front) {
                     <div class="card-face"></div>
                 </div>
             </div>
+        </div>
         <div id="product-purchase">
             <form method="post" action="/product?id=<?= $_GET["id"] ?>" class="form">
                 <fieldset>
@@ -121,6 +123,8 @@ if (!$card_front) {
 </div>
 
 <?php include_once "footer.php"; ?>
+
+<script type="text/javascript" src="/js/card_display.js"></script>
 
 </body>
 

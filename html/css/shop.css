@@ -57,8 +57,8 @@ tr:nth-child(even) {
 }
 
 .card-window {
-    width: 40%;
     perspective: 1000px;
+    margin: 40px;
 }
 
 .floating-card {
@@ -67,17 +67,18 @@ tr:nth-child(even) {
      --height: 340px;
      --width: 244px;
 
+    position: relative;
     height: var(--height);
     width: var(--width);
 
-    position: relative;
     transform-style: preserve-3d;
     transform: translateZ(calc(var(--depth) / -2));
-    animation: animate 5000ms linear infinite;
 }
 
 .floating-card > div {
     position: absolute;
+    touch-callout: none;
+    user-select: none;
 }
 
 /* card faces */
@@ -125,14 +126,4 @@ tr:nth-child(even) {
 
 .floating-card .card-face:nth-child(6) {
     transform: rotateX(-90deg) translateZ(calc(var(--height) / 2));
-}
-
-@keyframes animate {
-    from {
-        transform: rotateY(-180deg);
-    }
-
-    to {
-        transform: rotateY(180deg);
-    }
 }
