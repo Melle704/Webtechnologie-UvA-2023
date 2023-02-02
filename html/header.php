@@ -58,7 +58,7 @@ if (isset($_SESSION["cart"])) {
             <div class="box-left">
                 Logged in as <b><?= $_SESSION["uname"] ?></b>
             </div>
-            <div class="box-right" id="datetime">
+            <div class="box-right" id="datetime"></div>
         </div>
 <?php endif; ?>
     </div>

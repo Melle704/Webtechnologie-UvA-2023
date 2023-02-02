@@ -65,10 +65,8 @@ if (str_replace("\\'", "'",$card_name)) {
     $card_name = str_replace("\\'", "'",$card_name);
 }
 ?>
-
 <!doctype html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -76,7 +74,8 @@ if (str_replace("\\'", "'",$card_name)) {
     <title>MTG | Shop</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
@@ -85,29 +84,22 @@ if (str_replace("\\'", "'",$card_name)) {
 
 <?php include_once "header.php"; ?>
 
-<div class="box">
-    <div class="box-row box-light">
-        <h1><?= $card_name ?> Variants</h1>
-    </div>
-    <div class="box-row box-container">
+<div class="box box-row box-container">
 <?php
 foreach ($cards as $card):
-$card_front = $card["image"];
-$card_back = $card["back_image"];
-$card_price = $card["normal_price"];
-$card_page = "/product?id=" . $card["id"];
+    $card_front = $card["image"] ? $card["image"] : "/img/no_image_available.png";
+    $card_back = $card["back_image"];
+    $card_price = $card["normal_price"];
+    $card_page = "/product?id=" . $card["id"];
 
-if (!$card_front) {
-    $card_front = "/img/no_image_available.png";
-}
-if ($card["normal_price"] == 0) {
-    if ($card["foil_price"] == 0) {
-        $card_price = "--";
+    if ($card["normal_price"] == 0) {
+        if ($card["foil_price"] == 0) {
+            $card_price = "--";
+        }
+        else {
+            $card_price = $card["foil_price"];
+        }
     }
-    else {
-        $card_price = $card["foil_price"];
-    }
-}
 ?>
     <div class="box box-item">
         <div class="box-row item-header">
@@ -145,6 +137,12 @@ if ($card["normal_price"] == 0) {
         </div>
     </div>
 <?php endforeach; ?>
+<?php if ($card_amount == 0): ?>
+    <div class="center-img box-row box-card-small">
+            <img src="/img/no_cards_found.png" alt="no cards found">
+    </div>
+<?php endif; ?>
+</div>
 <?php if ($card_amount == 0): ?>
             <div class="center-img box-row box-card-small">
         <img src="/img/no_cards_found.png" alt="no cards found">

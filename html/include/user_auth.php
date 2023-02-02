@@ -68,10 +68,14 @@ if ($_GET["action"] == "register") {
 
     validate_predicates(
         ["Passwords don't match", $passwd1 == $passwd2],
+        ["Password is too short", strlen($passwd1) > 7],
         ["Password is too long", strlen($passwd1) < 500],
-        ["Password contains invalid characters", alphanumeric_plus_plus($passwd1)],
-        ["Confirmation password is too long", strlen($passwd2) < 500],
+        ["Password doesn't include special characters", preg_match("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/", $passwd1)],
+        ["Password contains invalid characters", alphanumeric_plus_plus($passwd2)],
+        ["Confirmation password is too short", strlen($passwd2) > 500],
+        ["Confirmation password is too long", strlen($passwd2) > 500],
         ["Confirmation Password contains invalid characters", alphanumeric_plus_plus($passwd2)],
+        ["Confirmation password doesn't include special characters", preg_match("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/", $passwd2)],
         ["Name is too long", strlen($username) < 25],
         ["Name must be alphanumeric", ctype_alnum($username)],
         ["Date format is incorrect", checkdate($month, $day, $year)],

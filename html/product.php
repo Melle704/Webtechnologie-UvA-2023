@@ -1,4 +1,5 @@
 <?php
+
 include_once "include/common.php";
 include_once "include/db.php";
 
@@ -19,6 +20,8 @@ else {
     $card_type = ltrim($card_type, '— ');
 }
 
+$card_type = mysqli_real_escape_string($db, $card_type);
+
 if (!strrchr($card_type, " ")) {
     $card_half_type = $card_type;
 }
@@ -27,42 +30,52 @@ else {
     $card_half_type = ltrim($card_half_type, ' ');
 }
 
-    // Suggested cards are determi  ned from multiple keywords.
-    // If 7 cards arent found, a broader search is used.
+$card_half_type = mysqli_real_escape_string($db, $card_half_type);
+$card_name = mysqli_real_escape_string($db, $card["name"]);
+
+// Suggested cards are determi  ned from multiple keywords.
+// If 7 cards arent found, a broader search is used.
 $base_sql = "SELECT * FROM cards
         WHERE real_card='1' AND NOT layout='emblem'
         AND NOT layout='art_series' AND NOT layout='token'
         AND NOT layout='planar' AND NOT type_line LIKE '%card%'
-        AND NOT name=\"{$card["name"]}\"";
+        AND NOT name='$card_name'";
+
+$type_line = mysqli_real_escape_string($db, $card["type_line"]);
+$color_identity = mysqli_real_escape_string($db, $card["color_identity"]);
 
 // Search for the exact type line, color identity and cmc.
 $suggest_sql = $base_sql;
-$suggest_sql .= "AND type_line LIKE '%{$card["type_line"]}%'
-                 AND color_identity='{$card["color_identity"]}'
+$suggest_sql .= "AND type_line LIKE '%$type_line%'
+                 AND color_identity='$color_identity'
                  AND cmc='{$card["cmc"]}'
                  ORDER BY id LIMIT 7";
+
 $suggested_cards = query_execute_unsafe($db, $suggest_sql);
+
 // Search for partial type line and exact color identity if not enough cards are
 // found.
 if (count($suggested_cards) < 7) {
     $suggest_sql = $base_sql;
-    $suggest_sql .= "AND type_line LIKE '%{$card_type}%'
-                     AND color_identity='{$card["color_identity"]}'
+    $suggest_sql .= "AND type_line LIKE '%$card_type%'
+                     AND color_identity='$color_identity'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+
 // Search for single type and partial color identity if not enough cards are found.
 if (count($suggested_cards) < 7) {
     $suggest_sql = $base_sql;
-    $suggest_sql .= "AND type_line LIKE '%{$card_half_type}%'
-                     AND color_identity LIKE '%{$card["color_identity"]}%'
+    $suggest_sql .= "AND type_line LIKE '%$card_half_type%'
+                     AND color_identity LIKE '%$color_identity%'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
+
 // Search for single type and color identity if not enough cards are found.
 if (count($suggested_cards) < 3) {
     $suggest_sql = $base_sql;
-    $suggest_sql .= "AND color_identity='{$card["color_identity"]}'
+    $suggest_sql .= "AND color_identity='$color_identity'
                      ORDER BY id LIMIT 7";
     $suggested_cards = query_execute_unsafe($db, $suggest_sql);
 }
@@ -90,6 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
         reload_err("Non-foil version of this card is not for sale");
     } elseif ($card["foil_price"] == 0 && $foil) {
         reload_err("Foil version of this card is not for sale");
+    }
+
+    if ($_SESSION["cart"][$card_id] + $amount > 50) {
+        reload_err("Purchasing more than 50 of one card is not possible");
     }
 
     if (!isset($_SESSION["cart"][$card_id])) {
@@ -136,16 +153,12 @@ foreach ($formats as $format) {
 $formats = array("standard", "pioneer", "modern", "legacy",
                              "vintage", "pauper", "commander");
 
-$card_front = $card["image"];
-$card_back  = $card["back_image"];
 $card_price = $card["normal_price"];
 $foil_price = $card["foil_price"];
 $card_name = str_replace(" ", "_", $card["name"]);
-$card_versions = "/card_versions.php?name={$card_name}";
 
-if (!$card_front) {
-    $card_front = "/img/no_image_available.png";
-}
+$card_versions = array("name" => $card_name);
+$card_versions = "/card_versions?" . http_build_query($card_versions);
 
 if ($card["normal_price"] == 0) {
     $card_price = "--";

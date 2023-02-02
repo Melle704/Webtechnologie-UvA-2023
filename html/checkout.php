@@ -18,7 +18,7 @@ if (!isset($_SESSION["id"]) || $cart_empty) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     $name = htmlspecialchars(trim($_POST["name"]));
     $address = htmlspecialchars(trim($_POST["address"]));
-    $postcode = htmlspecialchars(trim($_POST["postcode"]));
+    $postcode = strtoupper(htmlspecialchars(trim($_POST["postcode"])));
     $city = htmlspecialchars(trim($_POST["city"]));
 
     validate_not_empty(
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["id"])) {
     validate_predicates(
         ["Name is too long (max 80)", strlen($name) <= 80],
         ["Address is too long (max 80)", strlen($name) <= 80],
-        ["Postcode is invalid", preg_match("/^\d{4} [A-Z]{2}$/", $postcode) === 1],
+        ["Postcode is invalid", preg_match("/^\d{4}\s?[A-Z]{2}$/", $postcode) === 1],
         ["City name is too long (max 30)", strlen($name) <= 30],
     );
 

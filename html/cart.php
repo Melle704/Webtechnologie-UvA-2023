@@ -32,6 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($_POST["amount"] <= 0) {
             unset($_SESSION["cart"][$_POST["id"]]);
+        } elseif ($_POST["amount"] > 50) {
+            reload_err("Purchasing more than 50 of one card is not possible");
         } else {
             $_SESSION["cart"][$_POST["id"]] = $_POST["amount"];
         }
@@ -136,7 +138,7 @@ $_SESSION["cart_total"] = $total;
                     <td class="col-center">
                         <form method="post" class="form remove-form">
                             <input type="hidden" name="action" value="change-amount">
-                            <input type="number" name="amount" value="<?= $product["amount"] ?>" aria-label="amount">
+                            <input type="number" name="amount" max="50" value="<?= $product["amount"] ?>" aria-label="amount">
                             <?php if (str_contains($product["name"], "(foil)")): ?>
                             <input type="hidden" name="id" value="<?= $product["id"] . "f" ?>">
                             <?php else: ?>

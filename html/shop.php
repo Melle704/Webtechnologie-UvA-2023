@@ -3,9 +3,7 @@
 include_once "include/common.php";
 include_once "include/db.php";
 
-if (!isset($_SESSION)) {
-    session_start();
-}
+error_reporting(0);
 
 $cards_per_page = 60;
 $page_offset = 0;
@@ -229,7 +227,6 @@ $card_amount = mysqli_query($db, $sql_amount);
 $card_amount = mysqli_fetch_array($card_amount)[0];
 $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
 ?>
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -239,7 +236,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
     <title>MTG | Shop</title>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
@@ -453,7 +450,7 @@ $last_page = intdiv(intval($card_amount), $cards_per_page) + 1;
                         normal price
                     </option>
                     <option value="f_price" <?= ($_GET["card_order"] == "f_price") ? "selected" : "" ?>>
-                        normal price
+                        foil price
                     </option>
                     <option value="release" <?= ($_GET["card_order"] == "release") ? "selected" : "" ?>>
                         release
@@ -505,7 +502,6 @@ foreach ($cards as $card):
 
     if ($card["normal_price"] == 0) {
         if ($card["foil_price"] == 0) {
-            echo $card["normal_price"];
             $card_price = "--";
         }
         else {
@@ -583,7 +579,8 @@ foreach ($cards as $card):
     }
 
     foreach (window($page, $last_page) as $page_ref) {
-        $tag = '<a href="/shop?page=' . strval($page_ref). '"';
+        $_GET["page"] = strval($page_ref);
+        $tag = '<a href="/shop?' . http_build_query($_GET) . '"';
 
         $tag .= $page_ref == $page ? ' class="this-page-button">' : ">";
         $tag .= strval($page_ref);
@@ -620,17 +617,6 @@ function collapse() {
 </script>
 
 <?php include_once "footer.php"; ?>
-
-    <script>
-        function collapse() {
-            if (document.getElementById('search_bar').classList == "collapsible-row form") {
-                document.getElementById('search_bar').setAttribute("class", "collapsed-row");
-            }
-            else {
-                document.getElementById('search_bar').setAttribute("class", "collapsible-row form");
-            }
-        }
-    </script>
 
 </body>
 
