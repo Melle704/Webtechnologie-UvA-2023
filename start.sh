@@ -2,7 +2,7 @@
 
 # NOTE: have to be part of the `docker` group (relog on adding yourself to the group)
 
-git submodule update --remote --merge
+git submodule update --init --recursive
 docker build -t webtech .
 
 if [ $? -ne 0 ]; then
